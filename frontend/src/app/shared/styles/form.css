@@ -1,0 +1,28 @@
+.custom-form-group {
+    margin-top: 0.5rem; /* mt-2 */
+    border-bottom: 2px solid grey; /* border-bottom border-2 */
+    padding-bottom: 1rem; /* pb-3 */
+  }
+
+.custom-form-label {
+  font-weight: bold;
+}
+
+/* .form-check-input:checked {
+  background-color: palevioletred;
+  border-color: red;
+  transition: background-color 0.3s, border-color 0.3s;
+}
+
+.form-check-input {
+  background-color: limegreen;
+  border-color: darkgreen;
+}
+
+.form-check-input:checked:hover {
+  background-color: red;
+}
+
+.form-check-input:hover {
+  background-color: green;
+} */

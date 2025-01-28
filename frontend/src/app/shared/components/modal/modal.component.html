@@ -1,0 +1,13 @@
+<div class="modal fade" [id]="modal" tabindex="-1" [attr.aria-labelledby]="modalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title f-5" [id]="modalLabel">
+          {{header}}
+        </h1>
+        <button type="button" [id]="modalCloseBtn" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <ng-content></ng-content>
+    </div>
+  </div>
+</div>

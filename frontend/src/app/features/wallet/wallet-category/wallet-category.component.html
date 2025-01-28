@@ -1,0 +1,23 @@
+<app-wallet-chart
+[tableHeaders]="['Varlık Kodu', 'Mevcut Bakiye', 'Kar/Zarar', 'Kar/Zarar Yüzdesi', 'Kategori Adı']"
+[summaryHeader]="(categoryId === 'all' ? 'Cüzdan': category.name) + ' Özet'"
+[totalMarginTry]="totalMarginTry"
+[totalMarginUsd]="totalMarginUsd"
+[totalBalanceTry]="totalBalanceTry"
+[totalBalanceUsd]="totalBalanceUsd"
+[balanceTry]="balanceTry"
+[balanceUsd]="balanceUsd"
+[marginTryPerc]="marginTryPerc"
+[marginUsdPerc]="marginUsdPerc"
+[marginTry]="marginTry"
+[marginUsd]="marginUsd"
+[walletItems]="walletAssets"
+(currencySwitchFunc)="currencySwitchFunc($event)">
+<ng-template #customContent let-walletItem>
+  <td>{{walletItem.asset.code}}</td>
+  <td>{{(selectedCurrency === '₺' ? walletItem.currentValueTry : walletItem.currentValueUsd) | customNumber | currency2: selectedCurrency}}</td>
+  <td>{{(selectedCurrency === '₺' ? walletItem.marginTry : walletItem.marginUsd) | customNumber | currency2: selectedCurrency}}</td>
+  <td>{{(selectedCurrency === '₺' ? walletItem.marginTryPerc : walletItem.marginUsdPerc) | customNumber}} %</td>
+  <td>{{walletItem.asset.category.name}}</td>
+</ng-template>
+</app-wallet-chart>

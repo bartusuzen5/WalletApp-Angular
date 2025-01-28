@@ -1,0 +1,140 @@
+<div class="container">
+    <div class="row">
+      <div class="col">
+        <div class="card mt-2">
+            <h5 class="card-header">{{summaryHeader}}
+                <div class="form-check form-switch" style="float:right;">
+                  <input class="form-check-input" type="checkbox" id="exampleSwitch" (change)="handleSwitchChange()" style="cursor: pointer;">
+                  <label class="form-check-label" for="exampleSwitch">{{selectedCurrency}}</label>
+                </div>
+            </h5>
+          <div class="card-body">
+            <div class="row">
+              <div class="col">
+                <p class="card-text">Toplam Kar/Zarar: {{(selectedCurrency === '₺' ?  totalMarginTry : totalMarginUsd) | customNumber | currency2: selectedCurrency}}</p>
+              </div>
+              <div class="col">
+                <p class="card-text">Toplam Bakiye: {{(selectedCurrency === '₺' ?  totalBalanceTry : totalBalanceUsd) | customNumber | currency2: selectedCurrency}}</p>
+              </div>
+              <div class="col">
+                <a style="float: right; margin-left: 10px;" [routerLink]="['/wallet']"><- Cüzdan</a>
+                <a style="float: right;" [routerLink]="['/wallet-category', 'all']">Tüm Liste</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row mt-2">
+      <div class="col-md-6">
+        <div class="card mt-2">
+          <h5 class="card-header">Bakiye {{selectedCurrency}}</h5>
+          <div class="card-body">
+            <ngx-charts-pie-chart
+            [view]="[600, 300]"
+            [results]="selectedCurrency === '₺' ? balanceTry : balanceUsd"
+            [legend]="true"
+            [labels]="true"
+            [doughnut]="false"
+            [explodeSlices]="false"
+            [gradient]="false"
+            (select)="onSelect($event)">
+            </ngx-charts-pie-chart>
+          </div>
+          <div class="card-footer">
+            <p class="card-text" style="font-weight: bold; float: right;">
+              Toplam Bakiye: {{(selectedCurrency === '₺' ?  totalBalanceTry : totalBalanceUsd) | customNumber | currency2: selectedCurrency}}
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card mt-2">
+          <h5 class="card-header">Bakiye {{selectedCurrency}}</h5>
+          <div class="card-body">
+            <ngx-charts-pie-grid
+            [view]="[600, 300]"
+            [results]="selectedCurrency === '₺' ? balanceTry : balanceUsd"
+            [label]="'Değer'"
+            (select)="onSelect($event)">
+            </ngx-charts-pie-grid>
+          </div>
+          <div class="card-footer">
+            <p class="card-text" style="font-weight: bold; float: right;">
+              Toplam Bakiye: {{(selectedCurrency === '₺' ?  totalBalanceTry : totalBalanceUsd) | customNumber | currency2: selectedCurrency}}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row mt-2">
+      <div class="col-md-6">
+        <div class="card mt-2">
+          <h5 class="card-header">Kar/Zarar Yüzdeleri %</h5>
+          <div class="card-body">
+            <ngx-charts-bar-vertical
+            [view]="[600, 400]"
+            [barPadding]="100"
+            [results]="selectedCurrency === '₺' ? marginTryPerc : marginUsdPerc"
+            [legend]="true"
+            [xAxis]="true"
+            [yAxis]="true"
+            [showXAxisLabel]="true"
+            [showYAxisLabel]="true"
+            [showDataLabel]="true"
+            [xAxisLabel]="'Varlıklar'"
+            [yAxisLabel]="'Kar/Zarar Yüzdeleri'"
+            (select)="onSelect($event)">
+            </ngx-charts-bar-vertical>
+          </div>
+          <div class="card-footer">
+            <p class="card-text" style="font-weight: bold; float: right;"></p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card mt-2">
+          <h5 class="card-header">Kar/Zarar {{selectedCurrency}}</h5>
+          <div class="card-body">
+            <ngx-charts-bar-vertical
+            [view]="[600, 400]"
+            [barPadding]="100"
+            [results]="selectedCurrency === '₺' ? marginTry : marginUsd"
+            [legend]="true"
+            [xAxis]="true"
+            [yAxis]="true"
+            [showXAxisLabel]="true"
+            [showYAxisLabel]="true"
+            [showDataLabel]="true"
+            [xAxisLabel]="'Varlıklar'"
+            [yAxisLabel]="'Kar/Zarar'"
+            (select)="onSelect($event)">
+            </ngx-charts-bar-vertical>
+          </div>
+          <div class="card-footer">
+            <p class="card-text" style="font-weight: bold; float: right;">
+              Toplam Kar/Zarar: {{(selectedCurrency === '₺' ?  totalMarginTry : totalMarginUsd) | customNumber | currency2: selectedCurrency}}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <table class="table table-bordered table-hover table-striped mt-4">
+      <thead class="table-primary">
+        <tr>
+          <th>#</th>
+          <th *ngFor="let header of tableHeaders">{{header}}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let walletItem of walletItems let i = index">
+          <td>{{i + 1}}</td>
+          <ng-container *ngIf="customContent">
+            <ng-container *ngTemplateOutlet="customContent; context: { $implicit: walletItem }"></ng-container>
+          </ng-container>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
+  

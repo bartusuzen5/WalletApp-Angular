@@ -1,0 +1,172 @@
+<app-table
+[items]="paginatedTrades"
+[itemHeaders]="[
+  { header: 'Kategori Adı', key: 'asset.category.name' },
+  { header: 'Varlık Kodu', key: 'asset.code' },
+  { header: 'İşlem Türü', key: 'tradeType' },
+  { header: 'Fiyat', key: 'price' },
+  { header: 'Adet', key: 'quantity' },
+  { header: 'Toplam Tutar(USD)', key: 'paidUsd' },
+  { header: 'Toplam Tutar(TRY)', key: 'paidTry' },
+  { header: 'İşlem Tarihi', key: 'tradeDate' }
+]"
+[header]="'İşlemler'"
+[addModalId]="'#addModal'"
+[updateModalId]="'#updateModal'"
+[connectedAsset]="'asset'"
+(editAction)="copyUpdateTrade($event)"
+(deleteAction)="removeById($event)">
+<ng-template #customContent let-item>
+  <td>{{ item.asset?.category?.name}}</td>
+  <td>{{ item.asset?.code}}</td>
+  <td>{{ item.tradeType}}</td>
+  <td>{{ item.price | customNumber | currency2: item.asset?.category?.currency?.symbol}}</td>
+  <td>{{ item.quantity | customNumber}}</td>
+  <td>{{ item.paidUsd | customNumber | currency2: '$'}}</td>
+  <td>{{ item.paidTry | customNumber | currency2: '₺'}}</td>
+  <td>{{ item.tradeDate | date: 'yyyy-MM-dd' }}</td>
+</ng-template>
+</app-table>
+
+<app-pagination
+[totalItems]="trades.length"
+[currentPage]="currentPage"
+(pageChanged)="onPageChanged($event)">
+</app-pagination>
+
+
+<app-modal
+[header]="'İşlem Ekle'"
+[modal]="'addModal'"
+[modalLabel]="'addModalLabel'"
+[modalCloseBtn]="'addModalCloseBtn'">
+  <div class="modal-body">
+    <div class="form-group custom-form-group">
+      <label for="category" class="form-label custom-form-label">Kategori</label>
+      <select class="form-select" name="category" id="category" #category [(ngModel)]="selectedCategory" (change)="updateAddForm()" [appValidation] required>
+        <option *ngFor="let category of categories" [ngValue]="category">{{category.name}}</option>
+      </select>
+    </div>
+  </div>
+  <form #addForm ="ngForm" [hidden]="!selectedCategory" autocomplete="off" (ngSubmit)="add(addForm)">
+    <div class="modal-body">
+      <div class="form-group custom-form-group">
+        <label for="asset" class="form-label custom-form-label">Varlık</label>
+        <select class="form-select" name="asset" id="asset" #asset ngModel [appValidation] required>
+          <option *ngFor="let asset of assets" [ngValue]="asset">{{asset.name}}</option>
+        </select>
+      </div>
+      <div class="form-group custom-form-group">
+        <label for="tradeType" class="form-label custom-form-label">İşlem Tipi</label>
+        <div class="input-group">
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="tradeType" id="tradeTypeBuy" #tradeTypeBuy ngModel [value]="'buy'">
+            <label class="form-check-label" for="tradeTypeBuy">Alış</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="tradeType" id="tradeTypeSell" #tradeTypeSell ngModel [value]="'sell'">
+            <label class="form-check-label" for="tradeTypeSell">Satış</label>
+          </div>
+        </div>
+      </div>
+      <div class="form-group custom-form-group">
+        <label for="price" class="form-label custom-form-label">Fiyat</label>
+        <div class="input-group">
+          <div class="col-md-8">
+            <input type="number" class="form-control" name="price" id="price" #price [(ngModel)]="priceInput" (input)="getPaidValue()" [appValidation] required>
+          </div>    
+          <span class="input-group-text ms-1">{{selectedCategory?.currency?.symbol}}</span>
+        </div>
+      </div>
+      <div class="form-group custom-form-group">
+        <label for="quantity" class="form-label custom-form-label">Adet</label>
+        <input type="number" class="form-control" name="quantity" id="quantity" #quantity [(ngModel)]="quantityInput" (input)="getPaidValue()" [appValidation] required>
+      </div>
+      <div class="form-group custom-form-group">
+        <label for="paidUsd" class="form-label custom-form-label">Toplam Tutar (USD)</label>
+        <div class="input-group">
+          <div class="col-md-8">
+            <input type="number" class="form-control" name="paidUsd" id="paidUsd" #paidUsd [(ngModel)]="paidInputUsd" [readonly]="selectedCategory?.currency?.symbol == '$'" [appValidation] required>
+          </div>
+          <span class="input-group-text ms-1">$</span>
+        </div>
+      </div>
+      <div class="form-group custom-form-group">
+        <label for="paidTry" class="form-label custom-form-label">Toplam Tutar (TRY)</label>
+        <div class="input-group">
+          <div class="col-md-8">
+            <input type="number" class="form-control" name="paidTry" id="paidTry" #paidTry [(ngModel)]="paidInputTry" [readonly]="selectedCategory?.currency?.symbol == '₺'" [appValidation] required>
+          </div>
+          <span class="input-group-text ms-1">₺</span>
+        </div>
+      </div>
+      <div class="form-group custom-form-group">
+        <label for="tradeDate" class="form-label custom-form-label">İşlem Tarihi</label>
+        <input class="form-control" type="date" id="tradeDate" name="tradeDate" #tradeDate ngModel [max]="maxDate" [appValidation] required>
+      </div>
+    </div>
+    <app-modal-footer
+    [isDisabled]="addForm.invalid"
+    [form]="addForm">
+    </app-modal-footer>
+  </form>
+</app-modal>
+
+<app-modal
+[header]="'İşlem Güncelle'"
+[modal]="'updateModal'"
+[modalLabel]="'updateModalLabel'"
+[modalCloseBtn]="'updateModalCloseBtn'">
+  <form #updateForm="ngForm" autocomplete="off" (ngSubmit)="update(updateForm)">
+    <div class="modal-body">
+      <div class="form-group custom-form-group">
+        <label for="tradeType" class="form-label custom-form-label">İşlem Tipi</label>
+        <div class="input-group">
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="tradeType" id="tradeTypeBuy" #tradeTypeBuy [(ngModel)]="updateTrade.tradeType" [value]="'buy'">
+            <label class="form-check-label" for="tradeTypeBuy">Alış</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="tradeType" id="tradeTypeSell" #tradeTypeSell [(ngModel)]="updateTrade.tradeType" [value]="'sell'">
+            <label class="form-check-label" for="tradeTypeSell">Satış</label>
+          </div>
+        </div>
+      </div>
+      <div class="form-group custom-form-group">
+        <label for="price" class="form-label custom-form-label">Fiyat</label>
+        <div class="input-group">
+          <div class="col-md-8">
+            <input type="number" class="form-control" name="price" id="price" #price [(ngModel)]="updateTrade.price" (input)="getUpdatePaidValue()" [appValidation] required>
+          </div>
+          <span class="input-group-text ms-1">{{updateTrade.asset?.category?.currency?.symbol}}</span>
+        </div>
+      </div>
+      <div class="form-group custom-form-group">
+        <label for="quantity" class="form-label custom-form-label">Adet</label>
+        <input type="number" class="form-control" name="quantity" id="quantity" #quantity [(ngModel)]="updateTrade.quantity" (input)="getUpdatePaidValue()" [appValidation] required>
+      </div>
+      <div class="form-group custom-form-group">
+        <label for="paidUsd" class="form-label custom-form-label">Toplam Tutar (USD)</label>
+        <div class="input-group">
+          <div class="col-md-8">
+            <input type="number" class="form-control" name="paidUsd" id="paidUsd" #paidUsd [(ngModel)]="updateTrade.paidUsd" [readonly]="updateTrade.asset?.category?.currency?.symbol == '$'" [appValidation] required>
+          </div>
+          <span class="input-group-text ms-1">$</span>
+        </div>
+      </div>
+      <div class="form-group custom-form-group">
+        <label for="paidTry" class="form-label custom-form-label">Toplam Tutar (TRY)</label>
+        <div class="input-group">
+          <div class="col-md-8">
+            <input type="number" class="form-control" name="paidTry" id="paidTry" #paidTry [(ngModel)]="updateTrade.paidTry" [readonly]="updateTrade.asset?.category?.currency?.symbol == '₺'" [appValidation] required>
+          </div>
+          <span class="input-group-text ms-1">₺</span>
+        </div>
+      </div>
+    </div>
+    <app-modal-footer
+    [isDisabled]="updateForm.invalid"
+    [form]="updateForm">
+    </app-modal-footer>
+  </form>
+</app-modal>

@@ -1,0 +1,162 @@
+<app-table
+[items]="paginatedDividends"
+[itemHeaders]="[
+  { header: 'Varlık Kodu', key: 'asset.code' },
+  { header: 'Adet Başına Ödeme', key: 'paymentPerQuantity' },
+  { header: 'Adet', key: 'quantity' },
+  { header: 'Verim', key: 'yield' },
+  { header: 'Toplam Tutar(USD)', key: 'paidUsd' },
+  { header: 'Toplam Tutar(TRY)', key: 'paidTry' },
+  { header: 'Temettü Tarihi', key: 'dividendDate' }
+]"
+[header]="'Temettüler'"
+[addModalId]="'#addModal'"
+[updateModalId]="'#updateModal'"
+[connectedAsset]="'asset'"
+(editAction)="copyUpdateDividend($event)"
+(deleteAction)="removeById($event)">
+<ng-template #customContent let-item>
+  <td>{{ item.asset?.code}}</td>
+  <td>{{ item.paymentPerQuantity | customNumber | currency2: item.asset?.category?.currency?.symbol}}</td>
+  <td>{{ item.quantity | customNumber}}</td>
+  <td>{{ item.yield | percent}}</td>
+  <td>{{ item.paidUsd | customNumber | currency2: '$'}}</td>
+  <td>{{ item.paidTry | customNumber | currency2: '₺'}}</td>
+  <td>{{ item.dividendDate | date: 'yyyy-MM-dd' }}</td>
+</ng-template>
+</app-table>
+
+<app-pagination
+[totalItems]="dividends.length"
+[currentPage]="currentPage"
+(pageChanged)="onPageChanged($event)">
+</app-pagination>
+
+
+<app-modal
+[header]="'Temettü Ekle'"
+[modal]="'addModal'"
+[modalLabel]="'addModalLabel'"
+[modalCloseBtn]="'addModalCloseBtn'">
+  <div class="modal-body">
+    <div class="form-group custom-form-group">
+      <label for="category" class="form-label custom-form-label">Kategori</label>
+      <select class="form-select" name="category" id="category" #category [(ngModel)]="selectedCategory" (change)="updateAddForm()" [appValidation] required>
+        <option *ngFor="let category of categories" [ngValue]="category">{{category.name}}</option>
+      </select>
+    </div>
+  </div>
+  <form #addForm ="ngForm" [hidden]="!selectedCategory" autocomplete="off" (ngSubmit)="add(addForm)">
+    <div class="modal-body">
+      <div class="form-group custom-form-group">
+        <label for="asset" class="form-label custom-form-label">Varlık</label>
+        <select class="form-select" name="asset" id="asset" #asset ngModel [appValidation] required>
+          <option *ngFor="let asset of assets" [ngValue]="asset">{{asset.name}}</option>
+        </select>
+      </div>
+      <div class="form-group custom-form-group">
+        <label for="paymentPerQuantity" class="form-label custom-form-label">Lot Başı Ödeme</label>
+        <div class="input-group">
+          <div class="col-md-8">
+            <input type="number" class="form-control" name="paymentPerQuantity" id="paymentPerQuantity" #paymentPerQuantity [(ngModel)]="paymentPerQuantityInput" (input)="getPaidValue()" [appValidation] required>
+          </div>
+          <span class="input-group-text ms-1">{{selectedCategory?.currency?.symbol}}</span>
+        </div>
+      </div>
+      <div class="form-group custom-form-group">
+        <label for="quantity" class="form-label custom-form-label">Adet</label>
+        <input type="number" class="form-control" name="quantity" id="quantity" #quantity [(ngModel)]="quantityInput" (input)="getPaidValue()" [appValidation] required>
+      </div>
+      <div class="form-group custom-form-group">
+        <label for="yield" class="form-label custom-form-label">Verim</label>
+        <div class="input-group">
+          <div class="col-md-8">
+            <input type="number" class="form-control" name="yield" id="yield" #yield ngModel [appValidation] max="100" min="0.1">
+          </div>
+          <span class="input-group-text ms-1">%</span>
+        </div>
+      </div>
+      <div class="form-group custom-form-group">
+        <label for="paidUsd" class="form-label custom-form-label">Toplam Tutar (USD)</label>
+        <div class="input-group">
+          <div class="col-md-8">
+            <input type="number" class="form-control" name="paidUsd" id="paidUsd" #paidUsd [(ngModel)]="paidInputUsd" [readonly]="selectedCategory?.currency?.symbol == '$'" [appValidation] required>
+          </div>
+          <span class="input-group-text ms-1">$</span>
+        </div>
+      </div>
+      <div class="form-group custom-form-group">
+        <label for="paidTry" class="form-label custom-form-label">Toplam Tutar (TRY)</label>
+        <div class="input-group">
+          <div class="col-md-8">
+            <input type="number" class="form-control" name="paidTry" id="paidTry" #paidTry [(ngModel)]="paidInputTry" [readonly]="selectedCategory?.currency?.symbol == '₺'" [appValidation] required>
+          </div>
+          <span class="input-group-text ms-1">₺</span>
+        </div>
+      </div>
+      <div class="form-group custom-form-group">
+        <label for="dividendDate" class="form-label custom-form-label">Temettü Tarihi</label>
+        <input class="form-control" type="date" id="dividendDate" name="dividendDate" #dividendDate ngModel [max]="maxDate" [appValidation] required>
+      </div>
+    </div>
+    <app-modal-footer
+    [isDisabled]="addForm.invalid"
+    [form]="addForm">
+    </app-modal-footer>
+  </form>
+</app-modal>
+
+<app-modal
+[header]="'Temettü Güncelle'"
+[modal]="'updateModal'"
+[modalLabel]="'updateModalLabel'"
+[modalCloseBtn]="'updateModalCloseBtn'">
+  <form #updateForm="ngForm" autocomplete="off" (ngSubmit)="update(updateForm)">
+    <div class="modal-body">
+      <div class="form-group custom-form-group">
+        <label for="price" class="form-label custom-form-label">Adet Başına Ödeme</label>
+        <div class="input-group">
+          <div class="col-md-8">
+            <input type="number" class="form-control" name="paymentPerQuantity" id="paymentPerQuantity" #paymentPerQuantity [(ngModel)]="updateDividend.paymentPerQuantity" (input)="getUpdatePaidValue()" [appValidation] required>
+          </div>
+          <span class="input-group-text ms-1">{{updateDividend.asset?.category?.currency?.symbol}}</span>
+        </div>
+      </div>
+      <div class="form-group custom-form-group">
+        <label for="quantity" class="form-label custom-form-label">Adet</label>
+        <input type="number" class="form-control" name="quantity" id="quantity" #quantity [(ngModel)]="updateDividend.quantity" (input)="getUpdatePaidValue()" [appValidation] required>
+      </div>
+      <div class="form-group custom-form-group">
+        <label for="yield" class="form-label custom-form-label">Verim</label>
+        <div class="input-group">
+          <div class="col-md-8">
+            <input type="number" class="form-control" name="yield" id="yield" #yield [(ngModel)]="updateDividend.yield" [appValidation] required>
+          </div>
+          <span class="input-group-text ms-1">%</span>
+        </div>
+      </div>
+      <div class="form-group custom-form-group">
+        <label for="paidUsd" class="form-label custom-form-label">Toplam Tutar (USD)</label>
+        <div class="input-group">
+          <div class="col-md-8">
+            <input type="number" class="form-control" name="paidUsd" id="paidUsd" #paidUsd [(ngModel)]="updateDividend.paidUsd" [readonly]="updateDividend.asset?.category?.currency?.symbol == '$'" [appValidation] required>
+          </div>
+          <span class="input-group-text ms-1">$</span>
+        </div>
+      </div>
+      <div class="form-group custom-form-group">
+        <label for="paidTry" class="form-label custom-form-label">Toplam Tutar (TRY)</label>
+        <div class="input-group">
+          <div class="col-md-8">
+            <input type="number" class="form-control" name="paidTry" id="paidTry" #paidTry [(ngModel)]="updateDividend.paidTry" [readonly]="updateDividend.asset?.category?.currency?.symbol == '₺'" [appValidation] required>
+          </div>
+          <span class="input-group-text ms-1">₺</span>
+        </div>
+      </div>
+    </div>
+    <app-modal-footer
+    [isDisabled]="updateForm.invalid"
+    [form]="updateForm">
+    </app-modal-footer>
+  </form>
+</app-modal>

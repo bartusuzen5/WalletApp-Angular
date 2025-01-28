@@ -1,0 +1,90 @@
+<app-table
+[itemHeaders]="[
+    { header: 'Ad', key: 'name' },
+    { header: 'Sembol', key: 'symbol' },
+    { header: 'USD Değeri', key: 'valueUsd' },
+    { header: 'TRY Değeri', key: 'valueTry' }
+  ]"
+[header]="'Para Birimleri'"
+[items]="paginatedCurrencies"
+[addModalId]="'#addModal'"
+[updateModalId]="'#updateModal'"
+(editAction)="copyUpdateCurrency($event)"
+(deleteAction)="removeById($event)">
+<ng-template #customContent let-item>
+  <td>{{ item.name}}</td>
+  <td>{{ item.symbol}}</td>
+  <td>{{ item.valueUsd | customNumber}}</td>
+  <td>{{ item.valueTry | customNumber}}</td>
+</ng-template>
+</app-table>
+
+<app-pagination
+[totalItems]="currencies.length"
+[currentPage]="currentPage"
+(pageChanged)="onPageChanged($event)">
+</app-pagination>
+
+
+<app-modal
+[header]="'Para Birimi Ekle'"
+[modal]="'addModal'"
+[modalLabel]="'addModalLabel'"
+[modalCloseBtn]="'addModalCloseBtn'">
+  <form #addForm="ngForm" autocomplete="off" (ngSubmit)="add(addForm)">
+    <div class="modal-body">
+      <div class="form-group custom-form-group">
+        <label for="name" class="form-label" style="font-weight: bold;">İsim</label>
+        <input type="text" class="form-control" ngModel name="name" id="name" #name [appValidation] required [minlength]="3">
+      </div>
+      <div class="form-group custom-form-group">
+        <label for="symbol" class="form-label" style="font-weight: bold;">Sembol</label>
+        <input type="text" class="form-control" ngModel name="symbol" id="symbol" #symbol [appValidation] required>
+      </div>
+      <div class="form-group custom-form-group">
+        <label for="valueUsd" class="form-label custom-form-label">USD Değeri</label>
+        <input type="number" class="form-control" name="valueUsd" id="valueUsd" #valueUsd ngModel [appValidation] required>
+      </div>
+      <div class="form-group custom-form-group">
+        <label for="valueTry" class="form-label custom-form-label">TRY Değeri</label>
+        <input type="number" class="form-control" name="valueTry" id="valueTry" #valueTry ngModel [appValidation] required>
+      </div>
+    </div>
+    <app-modal-footer
+    [isDisabled]="addForm.invalid"
+    [form]="addForm">
+    </app-modal-footer>
+  </form>
+</app-modal>
+
+
+<app-modal
+[header]="'Para Birimi Güncelle'"
+[modal]="'updateModal'"
+[modalLabel]="'updateModalLabel'"
+[modalCloseBtn]="'updateModalCloseBtn'">
+  <form #updateForm="ngForm" autocomplete="off" (ngSubmit)="update(updateForm)">
+    <div class="modal-body">
+      <div class="form-group custom-form-group">
+        <label for="name" class="form-label custom-form-label">İsim</label>
+        <input type="text" class="form-control" [(ngModel)]="updateCurrency.name" name="updateName" id="updateName" #updateName [appValidation] required [minlength]="3">
+      </div>
+      <div class="form-group custom-form-group">
+        <label for="symbol" class="form-label custom-form-label">Sembol</label>
+        <input type="text" class="form-control" [(ngModel)]="updateCurrency.symbol" name="updateSymbol" id="updateSymbol" #updateSymbol [appValidation] required>
+      </div>
+      <div class="form-group custom-form-group">
+        <label for="valueUsd" class="form-label custom-form-label">USD Değeri</label>
+        <input type="number" class="form-control" name="valueUsd" id="valueUsd" #valueUsd [(ngModel)]="updateCurrency.valueUsd" [appValidation] required>
+      </div>
+      <div class="form-group custom-form-group">
+        <label for="valueTry" class="form-label custom-form-label">TRY Değeri</label>
+        <input type="number" class="form-control" name="valueTry" id="valueTry" #valueTry [(ngModel)]="updateCurrency.valueTry" [appValidation] required>
+      </div>
+    </div>
+    <app-modal-footer
+    [isDisabled]="updateForm.invalid"
+    [form]="updateForm">
+    </app-modal-footer>
+  </form>
+</app-modal>

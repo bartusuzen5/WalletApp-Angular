@@ -1,0 +1,126 @@
+<app-table
+[itemHeaders]="[
+  { header: 'Ad', key: 'name' },
+  { header: 'Kod', key: 'code' },
+  { header: 'Güncel Fiyat', key: 'currentPrice' },
+  { header: 'ATH Fiyat', key: 'athPrice' },
+  { header: 'Hacim', key: 'volume' },
+  { header: 'Kategori Adı', key: 'category.name' }
+]"
+[header]="'Varlıklar'"
+[items]="paginatedAssets"
+[addModalId]="'#addModal'"
+[updateModalId]="'#updateModal'"
+(editAction)="copyUpdateAsset($event)"
+(deleteAction)="removeById($event)">
+<ng-template #customContent let-item>
+  <td>{{ item.name}}</td>
+  <td>{{ item.code}}</td>
+  <td>{{ item.currentPrice | customNumber | currency2: item.category?.currency?.symbol}}</td>
+  <td>{{ item.athPrice | customNumber | currency2: item.category?.currency?.symbol}}</td>
+  <td>{{ item.volume | customNumber}}</td>
+  <td>{{ item.category?.name}}</td>
+</ng-template>
+</app-table>
+
+<app-pagination
+[totalItems]="assets.length"
+[currentPage]="currentPage"
+(pageChanged)="onPageChanged($event)">
+</app-pagination>
+
+
+<app-modal
+[header]="'Varlık Ekle'"
+[modal]="'addModal'"
+[modalLabel]="'addModalLabel'"
+[modalCloseBtn]="'addModalCloseBtn'">
+  <form #addForm="ngForm" autocomplete="off" (ngSubmit)="add(addForm)">
+    <div class="modal-body">
+      <div class="form-group custom-form-group">
+        <label for="name" class="form-label custom-form-label">İsim</label>
+        <input type="text" class="form-control" name="name" id="name" #name ngModel [appValidation] required [minlength]="3">
+      </div>
+      <div class="form-group custom-form-group">
+        <label for="code" class="form-label custom-form-label">Kod</label>
+        <input type="text" class="form-control" name="code" id="code" #code ngModel [appValidation] required [maxlength]="5">
+      </div>
+      <div class="form-group custom-form-group">
+        <label for="currentPrice" class="form-label custom-form-label">Mevcut Fiyat</label>
+        <div class="input-group">
+          <div class="col-md-8">
+            <input type="number" class="form-control" name="currentPrice" id="currentPrice" #currentPrice [appValidation] ngModel>
+          </div>
+          <span class="input-group-text ms-1">{{category.currency?.symbol}}</span>
+        </div>
+      </div>
+      <div class="form-group custom-form-group">
+        <label for="athPrice" class="form-label custom-form-label">ATH Fiyatı</label>
+        <div class="input-group">
+          <div class="col-md-8">
+            <input type="number" class="form-control" name="athPrice" id="athPrice" #athPrice [appValidation] ngModel>
+          </div>
+          <span class="input-group-text ms-1">{{category.currency?.symbol}}</span>
+        </div>
+      </div>
+      <div class="form-group custom-form-group">
+        <label for="volume" class="form-label custom-form-label">Hacim</label>
+        <div class="input-group">
+          <div class="col-md-8">
+            <input type="number" class="form-control" name="volume" id="volume" #volume [appValidation] ngModel>
+          </div>
+          <span class="input-group-text ms-1">{{category.currency?.symbol}}</span>
+        </div>
+      </div>
+    </div>
+    <app-modal-footer
+    [isDisabled]="addForm.invalid"
+    [form]="addForm">
+    </app-modal-footer>
+  </form>
+</app-modal>
+
+
+<app-modal
+[header]="'Varlık Güncelle'"
+[modal]="'updateModal'"
+[modalLabel]="'updateModalLabel'"
+[modalCloseBtn]="'updateModalCloseBtn'">
+  <form #updateForm="ngForm" autocomplete="off" (submit)="update(updateForm)">
+    <div class="modal-body">
+      <div class="form-group custom-form-group">
+        <label for="name" class="form-label custom-form-label">İsim</label>
+        <input [(ngModel)]="updateAsset.name" type="text" id="name" name="name" class="form-control mt-2" #name [appValidation] required [minlength]="3">
+      </div>
+      <div class="form-group custom-form-group">
+        <label for="code" class="form-label custom-form-label">Kod</label>
+        <input [(ngModel)]="updateAsset.code" type="text" id="code" name="code" class="form-control mt-2" #code [appValidation] required [maxlength]="5">
+      </div>
+      <div class="form-group custom-form-group">
+        <label for="currentPrice" class="form-label custom-form-label">Mevcut Fiyat</label>
+        <div class="input-group">
+          <input type="number" [(ngModel)]="updateAsset.currentPrice" class="form-control" name="currentPrice" id="currentPrice" #currentPrice [appValidation]>
+          <span class="input-group-text">{{category.currency?.symbol}}</span>
+        </div>
+      </div>
+      <div class="form-group custom-form-group">
+        <label for="athPrice" class="form-label custom-form-label">ATH Fiyatı</label>
+        <div class="input-group">
+          <input type="number" [(ngModel)]="updateAsset.athPrice" class="form-control" name="athPrice" id="athPrice" #athPrice [appValidation]>
+          <span class="input-group-text">{{category.currency?.symbol}}</span>
+        </div>
+      </div>
+      <div class="form-group custom-form-group">
+        <label for="volume" class="form-label custom-form-label">Hacim</label>
+        <div class="input-group">
+          <input type="number" [(ngModel)]="updateAsset.volume" class="form-control" name="volume" id="volume" #volume [appValidation]>
+          <span class="input-group-text">{{category.currency?.symbol}}</span>
+        </div>
+      </div>
+    </div>
+    <app-modal-footer
+    [isDisabled]="updateForm.invalid"
+    [form]="updateForm">
+    </app-modal-footer>
+  </form>
+</app-modal>

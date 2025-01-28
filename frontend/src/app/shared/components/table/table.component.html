@@ -1,0 +1,67 @@
+<div class="card mt-2 ms-2">
+  <div class="card-header">
+    <h4>{{header}}</h4>
+  </div>
+</div>
+<div class="form-group mx-auto mt-4" style="width: 90%">
+  <button class="btn btn-primary" data-bs-toggle="modal" [attr.data-bs-target]="addModalId">
+    Ekle
+  </button>
+  <table class="table table-bordered table-hover table-striped mt-2">
+    <thead class="table-primary">
+      <tr>
+        <th>#</th>
+        <th *ngFor="let itemHeader of itemHeaders let i = index">
+          <div class="d-flex justify-content-between align-items-center">
+            {{itemHeader.header}}
+            <span *ngIf="itemHeader.key === sortColumn && sortOrder === 'asc'">
+              <i class="bi bi-arrow-down"></i>
+            </span>
+            <span *ngIf="itemHeader.key === sortColumn && sortOrder === 'desc'">
+              <i class="bi bi-arrow-up"></i>
+            </span>
+            <div class="dropdown d-inline-block ms-2" style="float: right;">
+              <button class="btn btn-light btn-sm p-1" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-filter"></i>
+              </button>
+              <div class="dropdown-menu p-2">
+                <div class="mb-2">
+                  <input type="text" class="form-control mb-1" style="border-color: blue;" placeholder="Ara.." [(ngModel)]="this.filters[itemHeader.key]">
+                  <button type="submit" class="btn btn-danger w-50 btn-sm" (click)="reset(itemHeader.key)">Sıfırla</button>
+                  <button type="submit" class="btn btn-primary w-50 btn-sm" (click)="search()">Ara</button>
+                </div>
+                <div class="form-check mb-2">
+                  <input class="form-check-input" type="checkbox" value="" id="nullColumnCheckBox" (change)="addDropNullColumn(itemHeader.key)" checked>
+                  <label class="form-check-label" for="nullColumnCheckBox">
+                    Boş Değerler
+                  </label>
+                </div>
+                <div class="mb-1">
+                  <button class="btn btn-primary w-100 btn-sm" (click)="sort('asc', itemHeader.key)">Artan</button>
+                </div>
+                <div class="mb-1">
+                  <button class="btn btn-primary w-100 btn-sm" (click)="sort('desc', itemHeader.key)">Azalan</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </th>
+        <th *ngIf="!chartTable">Eklenme Tarihi</th>
+        <th *ngIf="!chartTable"></th>
+      </tr>
+    </thead>
+    <tbody class="table-group-divider">
+      <tr *ngFor="let item of items | genericNameFilter: filters: sortColumn: sortOrder: nullColumns let i = index">
+        <td>{{i + 1}}</td>
+        <ng-container *ngIf="customContent">
+          <ng-container *ngTemplateOutlet="customContent; context: { $implicit: item }"></ng-container>
+        </ng-container>
+        <td *ngIf="!chartTable">{{item.createdDateTime | date: 'yyyy-MM-dd HH:mm:ss'}}</td>  
+        <td *ngIf="!chartTable" style="text-align: center;">
+          <button class="btn btn-warning" data-bs-toggle="modal" [attr.data-bs-target]="updateModalId" (click)="onEdit(item)">Düzenle</button>
+          <button class="btn btn-danger ms-2" (click)="onDelete(item)">Sil</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
