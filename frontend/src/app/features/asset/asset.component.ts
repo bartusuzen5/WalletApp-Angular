@@ -22,6 +22,7 @@ import { PaginationUtils } from '../../shared/utilities/pagination.utils';
 
 export class AssetComponent implements OnInit {
   assets: AssetModel[] = [];
+  filteredAssets: AssetModel[] = [];
   paginatedAssets: AssetModel[] = [];
   search: string = "";
   updateAsset: AssetModel = new AssetModel();
@@ -78,6 +79,7 @@ export class AssetComponent implements OnInit {
       this._asset.getAssetsByCategory(this.categoryId),
       (response) => {
         this.assets = response
+        this.filteredAssets = this.assets
         this.updatePaginatedData();
       }
     )
@@ -128,6 +130,12 @@ export class AssetComponent implements OnInit {
     this.updateAsset = {...asset};
   };
 
+  
+  onFilteredItems(eventData: {filteredItems: any[]}){
+    this.filteredAssets = eventData.filteredItems
+    this.updatePaginatedData();
+  }
+
 
   onPageChanged(eventData: { currentPage: number, itemsPerPage: number }){
     this.currentPage = eventData.currentPage;
@@ -137,6 +145,6 @@ export class AssetComponent implements OnInit {
 
 
   updatePaginatedData(){
-    this.paginatedAssets = PaginationUtils.updatePaginatedData(this.currentPage, this.itemsPerPage, this.assets)
+    this.paginatedAssets = PaginationUtils.updatePaginatedData(this.currentPage, this.itemsPerPage, this.filteredAssets)
   };
 }

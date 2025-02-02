@@ -21,6 +21,7 @@ import { GenericUtils } from '../../shared/utilities/generic.utils';
 export class CategoryComponent implements OnInit {
 
   categories: CategoryModel[] = [];
+  filteredCategories: CategoryModel[] = [];
   paginatedCategories: CategoryModel[] = [];
   search: string = "";
   updateCategory: CategoryModel = new CategoryModel();
@@ -66,6 +67,7 @@ export class CategoryComponent implements OnInit {
       this._category.getAll(),
       (response) => {
         this.categories = response;
+        this.filteredCategories = this.categories
         this.updatePaginatedData();
       }
     )
@@ -122,6 +124,10 @@ export class CategoryComponent implements OnInit {
     this.updateCategory = {...category};
   };
 
+  onFilteredItems(eventData: {filteredItems: any[]}){
+    this.filteredCategories = eventData.filteredItems
+    this.updatePaginatedData();
+  }
 
   onPageChanged(eventData: { currentPage: number, itemsPerPage: number }){
     this.currentPage = eventData.currentPage;
@@ -131,7 +137,7 @@ export class CategoryComponent implements OnInit {
 
 
   updatePaginatedData(){
-    this.paginatedCategories = PaginationUtils.updatePaginatedData(this.currentPage, this.itemsPerPage, this.categories)
+    this.paginatedCategories = PaginationUtils.updatePaginatedData(this.currentPage, this.itemsPerPage, this.filteredCategories)
   };
 
 }

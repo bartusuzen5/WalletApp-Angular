@@ -46,18 +46,18 @@
             </div>
           </div>
         </th>
-        <th *ngIf="!chartTable">Eklenme Tarihi</th>
-        <th *ngIf="!chartTable"></th>
+        <th>Eklenme Tarihi</th>
+        <th></th>
       </tr>
     </thead>
     <tbody class="table-group-divider">
-      <tr *ngFor="let item of items | genericNameFilter: filters: sortColumn: sortOrder: nullColumns let i = index">
+      <tr *ngFor="let item of paginatedItems let i = index">
         <td>{{i + 1}}</td>
         <ng-container *ngIf="customContent">
           <ng-container *ngTemplateOutlet="customContent; context: { $implicit: item }"></ng-container>
         </ng-container>
-        <td *ngIf="!chartTable">{{item.createdDateTime | date: 'yyyy-MM-dd HH:mm:ss'}}</td>  
-        <td *ngIf="!chartTable" style="text-align: center;">
+        <td>{{item.createdDateTime | date: 'yyyy-MM-dd HH:mm:ss'}}</td>  
+        <td style="text-align: center;">
           <button class="btn btn-warning" data-bs-toggle="modal" [attr.data-bs-target]="updateModalId" (click)="onEdit(item)">Düzenle</button>
           <button class="btn btn-danger ms-2" (click)="onDelete(item)">Sil</button>
         </td>

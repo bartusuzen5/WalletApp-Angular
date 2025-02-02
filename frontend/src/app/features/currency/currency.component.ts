@@ -19,6 +19,7 @@ import { ModalComponent } from '../../shared/components/modal/modal.component';
 export class CurrencyComponent implements OnInit{
 
   currencies: CurrencyModel[] = [];
+  filteredCurrencies: CurrencyModel[] = [];
   paginatedCurrencies: CurrencyModel[] = [];
   updateCurrency: CurrencyModel = new CurrencyModel();
   search: string = "";
@@ -49,6 +50,7 @@ export class CurrencyComponent implements OnInit{
       this._currency.getAll(),
       (response) => {
         this.currencies = response;
+        this.filteredCurrencies = this.currencies
         this.updatePaginatedData();
       }
     )
@@ -93,11 +95,14 @@ export class CurrencyComponent implements OnInit{
     })
   };
 
-
   copyUpdateCurrency(model: CurrencyModel){
     this.updateCurrency = {...model};
   };
 
+  onFilteredItems(eventData: {filteredItems: any[]}){
+    this.filteredCurrencies = eventData.filteredItems
+    this.updatePaginatedData();
+  }
 
   onPageChanged(eventData: { currentPage: number, itemsPerPage: number }){
     this.currentPage = eventData.currentPage;
@@ -105,9 +110,8 @@ export class CurrencyComponent implements OnInit{
     this.updatePaginatedData();
   };
 
-
   updatePaginatedData(){
-    this.paginatedCurrencies = PaginationUtils.updatePaginatedData(this.currentPage, this.itemsPerPage, this.currencies)
+    this.paginatedCurrencies = PaginationUtils.updatePaginatedData(this.currentPage, this.itemsPerPage, this.filteredCurrencies)
   };
 
 

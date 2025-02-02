@@ -15,7 +15,7 @@ import { TableComponent } from '../table/table.component';
   styleUrl: './wallet-chart.component.css'
 })
 export class WalletChartComponent {
-  @Input() tableHeaders: string[]
+
   @Input() summaryHeader: string
   @Input() totalMarginTry: number
   @Input() totalMarginUsd: number
@@ -27,7 +27,6 @@ export class WalletChartComponent {
   @Input() marginUsdPerc: any[]
   @Input() marginTry: any[]
   @Input() marginUsd: any[]
-  @Input() walletItems: any[]
   @Output() selectFunc = new EventEmitter<any>()
   @Output() currencySwitchFunc = new EventEmitter<any>()
 

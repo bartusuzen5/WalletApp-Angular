@@ -1,5 +1,4 @@
 <app-wallet-chart
-[tableHeaders]="['Kategori Adı', 'Mevcut Bakiye', 'Kar/Zarar', 'Kar/Zarar Yüzdesi']"
 [summaryHeader]="'Cüzdan Özet'"
 [totalMarginTry]="totalMarginTry"
 [totalMarginUsd]="totalMarginUsd"
@@ -11,13 +10,26 @@
 [marginUsdPerc]="categoryMarginUsdPerc"
 [marginTry]="categoryMarginTry"
 [marginUsd]="categoryMarginUsd"
-[walletItems]="walletCategory"
 (selectFunc)="onSelect($event)"
 (currencySwitchFunc)="currencySwitchFunc($event)">
-<ng-template #customContent let-walletItem>
-  <td>{{walletItem.category.name}}</td>
-  <td>{{(selectedCurrency === '₺' ? walletItem.categoryCurrentValueTry : walletItem.categoryCurrentValueUsd) | customNumber | currency2: selectedCurrency}}</td>
-  <td>{{(selectedCurrency === '₺' ? walletItem.marginTry : walletItem.marginUsd) | customNumber | currency2: selectedCurrency}}</td>
-  <td>{{(selectedCurrency === '₺' ? walletItem.marginTryPerc : walletItem.marginUsdPerc) | customNumber}} %</td>
-</ng-template>
 </app-wallet-chart>
+
+<div class="container">
+  <table class="table table-bordered table-hover table-striped mt-4">
+    <thead class="table-primary">
+      <tr>
+        <th>#</th>
+        <th *ngFor="let header of ['Kategori Adı', 'Mevcut Bakiye', 'Kar/Zarar', 'Kar/Zarar Yüzdesi']">{{header}}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let walletItem of walletCategory let i = index">
+        <td>{{i + 1}}</td>
+        <td>{{walletItem.category.name}}</td>
+        <td>{{(selectedCurrency === '₺' ? walletItem.categoryCurrentValueTry : walletItem.categoryCurrentValueUsd) | customNumber | currency2: selectedCurrency}}</td>
+        <td>{{(selectedCurrency === '₺' ? walletItem.marginTry : walletItem.marginUsd) | customNumber | currency2: selectedCurrency}}</td>
+        <td>{{(selectedCurrency === '₺' ? walletItem.marginTryPerc : walletItem.marginUsdPerc) | customNumber}} %</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

@@ -1,5 +1,4 @@
 <app-table
-[items]="paginatedDividends"
 [itemHeaders]="[
   { header: 'Varlık Kodu', key: 'asset.code' },
   { header: 'Adet Başına Ödeme', key: 'paymentPerQuantity' },
@@ -9,12 +8,16 @@
   { header: 'Toplam Tutar(TRY)', key: 'paidTry' },
   { header: 'Temettü Tarihi', key: 'dividendDate' }
 ]"
+[items]="dividends"
+[filteredItems]="filteredDividends"
+[paginatedItems]="paginatedDividends"
 [header]="'Temettüler'"
 [addModalId]="'#addModal'"
 [updateModalId]="'#updateModal'"
 [connectedAsset]="'asset'"
 (editAction)="copyUpdateDividend($event)"
-(deleteAction)="removeById($event)">
+(deleteAction)="removeById($event)"
+(filterAction)="onFilteredItems($event)">
 <ng-template #customContent let-item>
   <td>{{ item.asset?.code}}</td>
   <td>{{ item.paymentPerQuantity | customNumber | currency2: item.asset?.category?.currency?.symbol}}</td>

@@ -1,5 +1,4 @@
 <app-table
-[items]="paginatedTrades"
 [itemHeaders]="[
   { header: 'Kategori Adı', key: 'asset.category.name' },
   { header: 'Varlık Kodu', key: 'asset.code' },
@@ -10,12 +9,16 @@
   { header: 'Toplam Tutar(TRY)', key: 'paidTry' },
   { header: 'İşlem Tarihi', key: 'tradeDate' }
 ]"
+[items]="trades"
+[filteredItems]="filteredTrades"
+[paginatedItems]="paginatedTrades"
 [header]="'İşlemler'"
 [addModalId]="'#addModal'"
 [updateModalId]="'#updateModal'"
 [connectedAsset]="'asset'"
 (editAction)="copyUpdateTrade($event)"
-(deleteAction)="removeById($event)">
+(deleteAction)="removeById($event)"
+(filterAction)="onFilteredItems($event)">
 <ng-template #customContent let-item>
   <td>{{ item.asset?.category?.name}}</td>
   <td>{{ item.asset?.code}}</td>

@@ -22,6 +22,7 @@ import { GenericUtils } from '../../shared/utilities/generic.utils';
 export class TradeComponent implements OnInit{
 
   trades: TradeModel[] = []
+  filteredTrades: TradeModel[] = []
   paginatedTrades: TradeModel[] = [];
   updateTrade: TradeModel = new TradeModel()
   addModalCloseBtn: any
@@ -88,6 +89,7 @@ export class TradeComponent implements OnInit{
       this._trade.getAll(),
       (response) => {
         this.trades = response
+        this.filteredTrades = this.trades
         this.updatePaginatedData()
       }
     )
@@ -172,6 +174,11 @@ export class TradeComponent implements OnInit{
     this.updateTrade = {...trade}
   };
 
+  onFilteredItems(eventData: {filteredItems: any[]}){
+    this.filteredTrades = eventData.filteredItems
+    this.updatePaginatedData();
+  }
+
 
   onPageChanged(eventData: { currentPage: number, itemsPerPage: number }){
     this.currentPage = eventData.currentPage
@@ -181,7 +188,7 @@ export class TradeComponent implements OnInit{
 
 
   updatePaginatedData(){
-    this.paginatedTrades = PaginationUtils.updatePaginatedData(this.currentPage, this.itemsPerPage, this.trades)
+    this.paginatedTrades = PaginationUtils.updatePaginatedData(this.currentPage, this.itemsPerPage, this.filteredTrades)
   };
 
 }

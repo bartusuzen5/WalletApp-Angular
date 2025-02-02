@@ -4,11 +4,14 @@
   { header: 'Ana Para Birimi', key: 'currency.name' }
 ]"
 [header]="'Kategoriler'"
-[items]="paginatedCategories"
+[items]="categories"
+[filteredItems]="filteredCategories"
+[paginatedItems]="paginatedCategories"
 [addModalId]="'#addModal'"
 [updateModalId]="'#updateModal'"
 (editAction)="copyUpdateCategory($event)"
-(deleteAction)="removeById($event)">
+(deleteAction)="removeById($event)"
+(filterAction)="onFilteredItems($event)">
 <ng-template #customContent let-item>
   <td>{{item.name}}</td>
   <td>{{item.currency?.name}}</td>

@@ -22,6 +22,7 @@ import { GenericUtils } from '../../shared/utilities/generic.utils';
 export class DividendComponent implements OnInit{
 
   dividends: DividendModel[] = []
+  filteredDividends: DividendModel[] = []
   paginatedDividends: DividendModel[] = []
   search: string = ''
   updateDividend: DividendModel = new DividendModel()
@@ -89,6 +90,7 @@ export class DividendComponent implements OnInit{
       this._dividend.getAll(),
       (response) => {
         this.dividends = response
+        this.filteredDividends = this.dividends
         this.updatePaginatedData()
       }
     )
@@ -170,6 +172,11 @@ export class DividendComponent implements OnInit{
     }
   };
 
+  onFilteredItems(eventData: {filteredItems: any[]}){
+    this.filteredDividends = eventData.filteredItems
+    this.updatePaginatedData();
+  }
+
 
   onPageChanged(eventData: { currentPage: number, itemsPerPage: number }){
     this.currentPage = eventData.currentPage
@@ -179,7 +186,7 @@ export class DividendComponent implements OnInit{
 
 
   updatePaginatedData(){
-    this.paginatedDividends = PaginationUtils.updatePaginatedData(this.currentPage, this.itemsPerPage, this.dividends)
+    this.paginatedDividends = PaginationUtils.updatePaginatedData(this.currentPage, this.itemsPerPage, this.filteredDividends)
   };
 
 }
