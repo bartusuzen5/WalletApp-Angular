@@ -16,7 +16,7 @@
 (editAction)="copyUpdateAsset($event)"
 (deleteAction)="removeById($event)"
 (filterAction)="onFilteredItems($event)">
-<ng-template #customContent let-item>
+<ng-template #mainRowsTemplate let-item>
   <td>{{ item.name}}</td>
   <td>{{ item.code}}</td>
   <td>{{ item.currentPrice | customNumber | currency2: item.category?.currency?.symbol}}</td>

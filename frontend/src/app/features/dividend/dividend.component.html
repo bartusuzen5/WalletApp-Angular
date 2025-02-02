@@ -14,18 +14,17 @@
 [header]="'Temettüler'"
 [addModalId]="'#addModal'"
 [updateModalId]="'#updateModal'"
-[connectedAsset]="'asset'"
 (editAction)="copyUpdateDividend($event)"
 (deleteAction)="removeById($event)"
 (filterAction)="onFilteredItems($event)">
-<ng-template #customContent let-item>
+<ng-template #mainRowsTemplate let-item>
   <td>{{ item.asset?.code}}</td>
   <td>{{ item.paymentPerQuantity | customNumber | currency2: item.asset?.category?.currency?.symbol}}</td>
   <td>{{ item.quantity | customNumber}}</td>
   <td>{{ item.yield | percent}}</td>
   <td>{{ item.paidUsd | customNumber | currency2: '$'}}</td>
   <td>{{ item.paidTry | customNumber | currency2: '₺'}}</td>
-  <td>{{ item.dividendDate | date: 'yyyy-MM-dd' }}</td>
+  <td>{{ item.dividendDate | date: 'dd-MM-yyyy' }}</td>
 </ng-template>
 </app-table>
 

@@ -66,4 +66,9 @@ export class PaginationComponent implements OnInit{
     this.calculatePagination();
     this.goToPage(this.currentPage);
   }
+
+  onFilteredItems(eventData: { totalFilteredItems: number}){
+    this.totalItems = eventData.totalFilteredItems
+    this.calculatePagination()
+  }
 }

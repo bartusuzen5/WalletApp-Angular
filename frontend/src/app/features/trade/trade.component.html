@@ -15,11 +15,10 @@
 [header]="'İşlemler'"
 [addModalId]="'#addModal'"
 [updateModalId]="'#updateModal'"
-[connectedAsset]="'asset'"
 (editAction)="copyUpdateTrade($event)"
 (deleteAction)="removeById($event)"
 (filterAction)="onFilteredItems($event)">
-<ng-template #customContent let-item>
+<ng-template #mainRowsTemplate let-item>
   <td>{{ item.asset?.category?.name}}</td>
   <td>{{ item.asset?.code}}</td>
   <td>{{ item.tradeType}}</td>
@@ -27,7 +26,7 @@
   <td>{{ item.quantity | customNumber}}</td>
   <td>{{ item.paidUsd | customNumber | currency2: '$'}}</td>
   <td>{{ item.paidTry | customNumber | currency2: '₺'}}</td>
-  <td>{{ item.tradeDate | date: 'yyyy-MM-dd' }}</td>
+  <td>{{ item.tradeDate | date: 'dd-MM-yyyy' }}</td>
 </ng-template>
 </app-table>
 

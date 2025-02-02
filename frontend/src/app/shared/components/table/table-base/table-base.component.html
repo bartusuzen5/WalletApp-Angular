@@ -1,0 +1,63 @@
+<div class="card mt-2 ms-2">
+    <div class="card-header">
+      <h4>{{header}}</h4>
+    </div>
+  </div>
+  <div class="form-group mx-auto mt-4" style="width: 90%">
+    <ng-content select="[header-content]"></ng-content>
+    <table class="table table-bordered table-hover table-striped mt-2">
+      <thead class="table-primary">
+        <tr>
+          <th>#</th>
+          <th *ngFor="let itemHeader of itemHeaders let i = index">
+            <div class="d-flex justify-content-between align-items-center">
+              {{itemHeader.header}}
+              <span *ngIf="itemHeader.key === sortColumn && sortOrder === 'asc'">
+                <i class="bi bi-arrow-down"></i>
+              </span>
+              <span *ngIf="itemHeader.key === sortColumn && sortOrder === 'desc'">
+                <i class="bi bi-arrow-up"></i>
+              </span>
+              <div class="dropdown d-inline-block ms-2" style="float: right;">
+                <button class="btn btn-light btn-sm p-1" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  <i class="bi bi-filter"></i>
+                </button>
+                <div class="dropdown-menu p-2">
+                  <div class="mb-2">
+                    <input type="text" class="form-control mb-1" style="border-color: blue;" placeholder="Ara.." [(ngModel)]="this.filters[itemHeader.key]">
+                    <button type="submit" class="btn btn-danger w-50 btn-sm" (click)="reset(itemHeader.key)">Sıfırla</button>
+                    <button type="submit" class="btn btn-primary w-50 btn-sm" (click)="search()">Ara</button>
+                  </div>
+                  <div class="form-check mb-2">
+                    <input class="form-check-input" type="checkbox" value="" id="nullColumnCheckBox" (change)="addDropNullColumn(itemHeader.key)" checked>
+                    <label class="form-check-label" for="nullColumnCheckBox">
+                      Boş Değerler
+                    </label>
+                  </div>
+                  <div class="mb-1">
+                    <button class="btn btn-primary w-100 btn-sm" (click)="sort('asc', itemHeader.key)">Artan</button>
+                  </div>
+                  <div class="mb-1">
+                    <button class="btn btn-primary w-100 btn-sm" (click)="sort('desc', itemHeader.key)">Azalan</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </th>
+          <ng-content select="[extra-header-content]"></ng-content>
+        </tr>
+      </thead>
+      <tbody class="table-group-divider">
+        <tr *ngFor="let item of paginatedItems let i = index">
+          <td>{{i + 1}}</td>
+          <ng-container *ngIf="mainRowsTemplate">
+            <ng-container *ngTemplateOutlet="mainRowsTemplate; context: { $implicit: item }"></ng-container>
+          </ng-container>
+          <ng-container *ngIf="extraRowsTemplate">
+            <ng-container *ngTemplateOutlet="extraRowsTemplate; context: { $implicit: item }"></ng-container>
+          </ng-container>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  

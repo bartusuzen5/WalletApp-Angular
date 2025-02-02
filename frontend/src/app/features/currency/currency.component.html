@@ -14,7 +14,7 @@
 (editAction)="copyUpdateCurrency($event)"
 (deleteAction)="removeById($event)"
 (filterAction)="onFilteredItems($event)">
-<ng-template #customContent let-item>
+<ng-template #mainRowsTemplate let-item>
   <td>{{ item.name}}</td>
   <td>{{ item.symbol}}</td>
   <td>{{ item.valueUsd | customNumber}}</td>

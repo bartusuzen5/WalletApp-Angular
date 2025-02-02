@@ -12,7 +12,7 @@
 (editAction)="copyUpdateCategory($event)"
 (deleteAction)="removeById($event)"
 (filterAction)="onFilteredItems($event)">
-<ng-template #customContent let-item>
+<ng-template #mainRowsTemplate let-item>
   <td>{{item.name}}</td>
   <td>{{item.currency?.name}}</td>
 </ng-template>
