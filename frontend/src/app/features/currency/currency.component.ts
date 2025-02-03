@@ -59,7 +59,7 @@ export class CurrencyComponent implements OnInit{
 
   add(form: NgForm){
     if(form.valid){
-      let newCurrency = form.value
+      const newCurrency = form.value
       this._apiSubscriber.postApi(
         this._currency.add(newCurrency),
         () => {

@@ -13,6 +13,7 @@ import { PaginationComponent } from './components/pagination/pagination.componen
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { CustomNumberPipe } from './pipes/custom-number.pipe';
 import { WalletChartComponent } from './components/wallet-chart/wallet-chart.component';
+import { TableChartComponent } from './components/table/table-chart/table-chart.component';
 
 @NgModule({
   declarations: [],
@@ -30,7 +31,8 @@ import { WalletChartComponent } from './components/wallet-chart/wallet-chart.com
     PaginationComponent,
     NgxChartsModule,
     CustomNumberPipe,
-    WalletChartComponent
+    WalletChartComponent,
+    TableChartComponent
   ],
   exports: [
     CommonModule,
@@ -46,7 +48,8 @@ import { WalletChartComponent } from './components/wallet-chart/wallet-chart.com
     PaginationComponent,
     NgxChartsModule,
     CustomNumberPipe,
-    WalletChartComponent
+    WalletChartComponent,
+    TableChartComponent
   ],
   providers: [
     DatePipe

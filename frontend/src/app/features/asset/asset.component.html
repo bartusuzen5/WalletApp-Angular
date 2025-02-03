@@ -27,7 +27,7 @@
 </app-table>
 
 <app-pagination
-[totalItems]="assets.length"
+[totalItems]="filteredAssets.length"
 [currentPage]="currentPage"
 (pageChanged)="onPageChanged($event)">
 </app-pagination>

@@ -28,7 +28,7 @@ export class GenericHttpService {
         }
       })
     );
-  }
+  };
 
 
   public post<T>(api: string, body: any): Observable<T> {
@@ -42,5 +42,5 @@ export class GenericHttpService {
         }
       })
     );
-  }
+  };
 }

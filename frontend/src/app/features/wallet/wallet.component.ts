@@ -7,6 +7,7 @@ import { WalletService } from './services/wallet.service';
 import { Router } from '@angular/router';
 import { CurrencyModel } from '../currency/models/currency.model';
 import { TradeModel } from '../trade/models/trade.model';
+import { PaginationUtils } from '../../shared/utilities/pagination.utils';
 
 @Component({
   selector: 'app-wallet',
@@ -17,7 +18,10 @@ import { TradeModel } from '../trade/models/trade.model';
 })
 export class WalletComponent implements OnInit{
 
-  walletCategory: any[] = []
+  walletCategories: any[] = []
+  filteredWalletCategories: any[] = []
+  paginatedWalletCategories: any[] = []
+  
 
   categoryBalanceTry: any[] = []
   categoryBalanceUsd: any[] = []
@@ -33,6 +37,9 @@ export class WalletComponent implements OnInit{
 
   selectedCurrency: string = '₺'
 
+  itemsPerPage: number;
+  currentPage: number = 1;
+
   constructor(
     private _apiSubscriber: ApiSubscriberService,
     private _router: Router,
@@ -44,7 +51,7 @@ export class WalletComponent implements OnInit{
   }
 
   onSelect(selectedCategory: any){
-    let category = this.walletCategory.find(c => c.category.name === selectedCategory.name);
+    let category = this.walletCategories.find(c => c.category.name === selectedCategory.name);
     this._router.navigate(['/wallet-category', category._id])
   }
 
@@ -56,25 +63,27 @@ export class WalletComponent implements OnInit{
     this._apiSubscriber.getApi(
       this._wallet.getAllCategory(),
       (response) => {
-        this.walletCategory = response;
-        console.log(this.walletCategory)
+        this.walletCategories = response;
+        console.log(this.walletCategories)
+        this.filteredWalletCategories = this.walletCategories
+        this.updatePaginatedData()
         this.loadPieChartData();
       }
     )
   }
 
   loadPieChartData(){
-    this.totalBalanceUsd = 0
-    this.totalBalanceTry = 0
-    this.totalMarginUsd = 0
-    this.totalMarginTry = 0
-    this.categoryBalanceUsd = []
-    this.categoryBalanceTry = []
-    this.categoryMarginUsd = []
-    this.categoryMarginTry = []
-    this.categoryMarginUsdPerc = []
-    this.categoryMarginTryPerc = []
-    this.walletCategory.forEach(trade => {
+    // this.totalBalanceUsd = 0
+    // this.totalBalanceTry = 0
+    // this.totalMarginUsd = 0
+    // this.totalMarginTry = 0
+    // this.categoryBalanceUsd = []
+    // this.categoryBalanceTry = []
+    // this.categoryMarginUsd = []
+    // this.categoryMarginTry = []
+    // this.categoryMarginUsdPerc = []
+    // this.categoryMarginTryPerc = []
+    this.walletCategories.forEach(trade => {
       this.categoryBalanceUsd.push({
         "name": trade.category.name,
         "value": trade.categoryCurrentValueUsd
@@ -111,5 +120,20 @@ export class WalletComponent implements OnInit{
     this.categoryMarginTry = [...this.categoryMarginTry]
     this.categoryMarginUsdPerc = [...this.categoryMarginUsdPerc]
     this.categoryMarginTryPerc = [...this.categoryMarginTryPerc]
-  }
+  };
+
+  onFilteredItems(eventData: {filteredItems: any[]}){
+    this.filteredWalletCategories = eventData.filteredItems
+    this.updatePaginatedData();
+  };
+  
+  onPageChanged(eventData: { currentPage: number, itemsPerPage: number }){
+    this.currentPage = eventData.currentPage
+    this.itemsPerPage = eventData.itemsPerPage
+    this.updatePaginatedData()
+  };
+
+  updatePaginatedData(){
+    this.paginatedWalletCategories = PaginationUtils.updatePaginatedData(this.currentPage, this.itemsPerPage, this.filteredWalletCategories)
+  };
 }

@@ -31,7 +31,7 @@
 </app-table>
 
 <app-pagination
-[totalItems]="trades.length"
+[totalItems]="filteredTrades.length"
 [currentPage]="currentPage"
 (pageChanged)="onPageChanged($event)">
 </app-pagination>

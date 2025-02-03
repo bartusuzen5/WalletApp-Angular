@@ -14,22 +14,30 @@
 (currencySwitchFunc)="currencySwitchFunc($event)">
 </app-wallet-chart>
 
-<div class="container">
-  <table class="table table-bordered table-hover table-striped mt-4">
-    <thead class="table-primary">
-      <tr>
-        <th>#</th>
-        <th *ngFor="let header of ['Kategori Adı', 'Mevcut Bakiye', 'Kar/Zarar', 'Kar/Zarar Yüzdesi']">{{header}}</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let walletItem of walletCategory let i = index">
-        <td>{{i + 1}}</td>
-        <td>{{walletItem.category.name}}</td>
-        <td>{{(selectedCurrency === '₺' ? walletItem.categoryCurrentValueTry : walletItem.categoryCurrentValueUsd) | customNumber | currency2: selectedCurrency}}</td>
-        <td>{{(selectedCurrency === '₺' ? walletItem.marginTry : walletItem.marginUsd) | customNumber | currency2: selectedCurrency}}</td>
-        <td>{{(selectedCurrency === '₺' ? walletItem.marginTryPerc : walletItem.marginUsdPerc) | customNumber}} %</td>
-      </tr>
-    </tbody>
-  </table>
-</div>
+<app-table-chart
+[itemHeaders]="[
+{ header: 'Kategori Adı', key: 'category.name'},
+{ header: 'Mevcut Bakiye', key: selectedCurrency === '₺' ? 'categoryCurrentValueTry' : 'categoryCurrentValueUsd'  },
+{ header: 'Kar/Zarar', key: selectedCurrency === '₺' ? 'marginTry' : 'marginUsd'},
+{ header: 'Kar/Zarar Yüzdesi', key: selectedCurrency === '₺' ? 'marginTryPerc' : 'marginUsdPerc'}
+]"
+[items]="walletCategories"
+[filteredItems]="filteredWalletCategories"
+[paginatedItems]="paginatedWalletCategories"
+[header]="'Cüzdan'"
+(filterAction)="onFilteredItems($event)"
+>
+<ng-template #mainRowsTemplate let-item>
+  <td>{{item.category.name}}</td>
+  <td>{{(selectedCurrency === '₺' ? item.categoryCurrentValueTry : item.categoryCurrentValueUsd) | customNumber | currency2: selectedCurrency}}</td>
+  <td>{{(selectedCurrency === '₺' ? item.marginTry : item.marginUsd) | customNumber | currency2: selectedCurrency}}</td>
+  <td>{{(selectedCurrency === '₺' ? item.marginTryPerc : item.marginUsdPerc) | customNumber}} %</td>
+</ng-template>
+</app-table-chart>
+
+<app-pagination
+[totalItems]="filteredWalletCategories.length"
+[currentPage]="currentPage"
+(pageChanged)="onPageChanged($event)">
+</app-pagination>
+

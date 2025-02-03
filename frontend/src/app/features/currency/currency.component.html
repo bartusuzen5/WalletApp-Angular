@@ -23,7 +23,7 @@
 </app-table>
 
 <app-pagination
-[totalItems]="currencies.length"
+[totalItems]="filteredCurrencies.length"
 [currentPage]="currentPage"
 (pageChanged)="onPageChanged($event)">
 </app-pagination>

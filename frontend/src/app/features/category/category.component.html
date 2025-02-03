@@ -19,11 +19,11 @@
 </app-table>
 
 <app-pagination
-[totalItems]="categories.length"
+[totalItems]="filteredCategories.length"
 [currentPage]="currentPage"
 (pageChanged)="onPageChanged($event)">
 </app-pagination>
- 
+
 
 <app-modal
 [header]="'Kategori Ekle'"
