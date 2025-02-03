@@ -25,6 +25,7 @@ export class CurrencyComponent implements OnInit{
   search: string = "";
   addModalCloseBtn: any
   updateModalCloseBtn: any
+  test: any
 
   itemsPerPage: number;
   currentPage: number = 1;
