@@ -1,34 +1,25 @@
 <app-wallet-chart
-[summaryHeader]="(categoryId === 'all' ? 'Cüzdan': category.name) + ' Özet'"
-[totalMarginTry]="totalMarginTry"
-[totalMarginUsd]="totalMarginUsd"
-[totalBalanceTry]="totalBalanceTry"
-[totalBalanceUsd]="totalBalanceUsd"
-[balanceTry]="balanceTry"
-[balanceUsd]="balanceUsd"
-[marginTryPerc]="marginTryPerc"
-[marginUsdPerc]="marginUsdPerc"
-[marginTry]="marginTry"
-[marginUsd]="marginUsd"
+[summaryHeader]="(categoryId === 'all' ? 'Tüm Varlıklar' : category.name) + ' Özet'"
+[items]="walletAssets"
 (currencySwitchFunc)="currencySwitchFunc($event)">
 </app-wallet-chart>
 
 <app-table-chart
 [itemHeaders]="[
-{ header: 'Varlık Kodu', key: 'category.name'},
-{ header: 'Mevcut Bakiye', key: selectedCurrency === '₺' ? 'categoryCurrentValueTry' : 'categoryCurrentValueUsd'  },
+{ header: 'Varlık Kodu', key: 'item.code'},
+{ header: 'Mevcut Bakiye', key: selectedCurrency === '₺' ? 'currentValueTry' : 'currentValueUsd'},
 { header: 'Kar/Zarar', key: selectedCurrency === '₺' ? 'marginTry' : 'marginUsd'},
 { header: 'Kar/Zarar Yüzdesi', key: selectedCurrency === '₺' ? 'marginTryPerc' : 'marginUsdPerc'},
-{ header: 'Kategori Adı', key: 'asset.category.name'}
+{ header: 'Kategori Adı', key: 'item.category.name'}
 ]"
 [items]="walletAssets"
 [header]="categoryId === 'all' ? 'Tüm Varlıklar' : category.name"
 >
 <ng-template #mainRowsTemplate let-item>
-    <td>{{item.asset.code}}</td>
+    <td>{{item.item.code}}</td>
     <td>{{(selectedCurrency === '₺' ? item.currentValueTry : item.currentValueUsd) | customNumber | currency2: selectedCurrency}}</td>
     <td>{{(selectedCurrency === '₺' ? item.marginTry : item.marginUsd) | customNumber | currency2: selectedCurrency}}</td>
     <td>{{(selectedCurrency === '₺' ? item.marginTryPerc : item.marginUsdPerc) | customNumber}} %</td>
-    <td>{{item.asset.category.name}}</td>
+    <td>{{item.item.category.name}}</td>
 </ng-template>
 </app-table-chart>

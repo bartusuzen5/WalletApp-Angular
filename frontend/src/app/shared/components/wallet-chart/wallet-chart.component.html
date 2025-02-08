@@ -18,7 +18,7 @@
               </div>
               <div class="col">
                 <a style="float: right; margin-left: 10px;" [routerLink]="['/wallet']"><- Cüzdan</a>
-                <a style="float: right;" [routerLink]="['/wallet-category', 'all']">Tüm Liste</a>
+                <ng-content #allItems select="[all-items-content]"></ng-content>
               </div>
             </div>
           </div>

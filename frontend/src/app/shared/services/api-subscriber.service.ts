@@ -25,10 +25,10 @@ export class ApiSubscriberService {
     observable.subscribe({
       next: (response) => {
         onSuccess(response);
-        this._spinner.hide();
         if (requestType === 'post'){
           this._toastr.success(response.message)
         }
+        this._spinner.hide();
       },
       error: (err) => {
         onError(err);        

@@ -6,6 +6,9 @@
   </div>
   <div class="form-group mx-auto mt-4">
     <ng-content select="[header-content]"></ng-content>
+    <button class="btn btn-secondary mb-2" (click)="resetFilters()" style="float: right;">
+      Tüm Filtreleri Sıfırla
+    </button>
     <table class="table table-bordered table-hover table-striped mt-2">
       <thead class="table-primary">
         <tr>

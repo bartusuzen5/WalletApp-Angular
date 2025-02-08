@@ -1,23 +1,15 @@
 <app-wallet-chart
 [summaryHeader]="'Cüzdan Özet'"
-[totalMarginTry]="totalMarginTry"
-[totalMarginUsd]="totalMarginUsd"
-[totalBalanceTry]="totalBalanceTry"
-[totalBalanceUsd]="totalBalanceUsd"
-[balanceTry]="categoryBalanceTry"
-[balanceUsd]="categoryBalanceUsd"
-[marginTryPerc]="categoryMarginTryPerc"
-[marginUsdPerc]="categoryMarginUsdPerc"
-[marginTry]="categoryMarginTry"
-[marginUsd]="categoryMarginUsd"
+[items]="walletCategories"
 (selectFunc)="onSelect($event)"
 (currencySwitchFunc)="currencySwitch($event)">
+<a all-items-content style="float: right;" [routerLink]="['/wallet-category', 'all']">Tüm Liste</a>
 </app-wallet-chart>
 
 <app-table-chart
 [itemHeaders]="[
-{ header: 'Kategori Adı', key: 'category.name'},
-{ header: 'Mevcut Bakiye', key: selectedCurrency === '₺' ? 'categoryCurrentValueTry' : 'categoryCurrentValueUsd'  },
+{ header: 'Kategori Adı', key: 'item.name'},
+{ header: 'Mevcut Bakiye', key: selectedCurrency === '₺' ? 'currentValueTry' : 'currentValueUsd'},
 { header: 'Kar/Zarar', key: selectedCurrency === '₺' ? 'marginTry' : 'marginUsd'},
 { header: 'Kar/Zarar Yüzdesi', key: selectedCurrency === '₺' ? 'marginTryPerc' : 'marginUsdPerc'}
 ]"
@@ -25,8 +17,8 @@
 [header]="'Cüzdan'"
 >
 <ng-template #mainRowsTemplate let-item>
-  <td>{{item.category.name}}</td>
-  <td>{{(selectedCurrency === '₺' ? item.categoryCurrentValueTry : item.categoryCurrentValueUsd) | customNumber | currency2: selectedCurrency}}</td>
+  <td>{{item.item.name}}</td>
+  <td>{{(selectedCurrency === '₺' ? item.currentValueTry : item.currentValueUsd) | customNumber | currency2: selectedCurrency}}</td>
   <td>{{(selectedCurrency === '₺' ? item.marginTry : item.marginUsd) | customNumber | currency2: selectedCurrency}}</td>
   <td>{{(selectedCurrency === '₺' ? item.marginTryPerc : item.marginUsdPerc) | customNumber}} %</td>
 </ng-template>

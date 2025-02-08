@@ -32,7 +32,9 @@ export class TableBaseComponent implements OnInit, OnChanges{
   itemsPerPage: number;
   currentPage: number = 1;
 
-  constructor() {}
+  constructor(
+    private _genericPipe: GenericPipe
+  ){}
 
   ngOnInit(): void {
     this.createFilters();
@@ -45,9 +47,8 @@ export class TableBaseComponent implements OnInit, OnChanges{
     }
   }
 
-  onFilter(){
-    const pipe = new GenericPipe()
-    this.filteredItems = pipe.transform(this.items, this.filters, this.sortColumn, this.sortOrder, this.nullColumns)
+  search(){
+    this.filteredItems = this._genericPipe.transform(this.items, this.filters, this.sortColumn, this.sortOrder, this.nullColumns)
     this.updatePaginatedData();
   };
 
@@ -60,17 +61,18 @@ export class TableBaseComponent implements OnInit, OnChanges{
   sort(order: 'asc' | 'desc', key: string){
     this.sortOrder = order;
     this.sortColumn = key;
-    this.onFilter();
-  };
-
-  search(){
-    this.onFilter();
+    this.search();
   };
 
   reset(key: string){
     this.filters[key] = ''
-    this.onFilter();
+    this.search();
   };
+
+  resetFilters(){
+    Object.keys(this.filters).forEach(key => this.filters[key] = '');
+    this.search();
+  }
 
   addDropNullColumn(key: string){
     const index = this.nullColumns.indexOf(key);
@@ -79,7 +81,7 @@ export class TableBaseComponent implements OnInit, OnChanges{
     } else {
       this.nullColumns.push(key);
     }
-    this.onFilter()
+    this.search()
   };
 
   onPageChanged(eventData: { currentPage: number, itemsPerPage: number }){

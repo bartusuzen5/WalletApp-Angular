@@ -1,11 +1,9 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ContentChild, EventEmitter, Input, OnChanges, Output, SimpleChanges, TemplateRef } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, TemplateRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GenericPipe } from '../../pipes/generic.pipe';
 import { CustomNumberPipe } from '../../pipes/custom-number.pipe';
 import { Currency2Pipe } from '../../pipes/currency.pipe';
 import { RouterModule } from '@angular/router';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
-import { TableComponent } from '../table/table.component';
 
 @Component({
   selector: 'app-wallet-chart',
@@ -13,29 +11,34 @@ import { TableComponent } from '../table/table.component';
   imports: [CommonModule, CustomNumberPipe, Currency2Pipe, RouterModule, NgxChartsModule],
   templateUrl: './wallet-chart.component.html',
   styleUrl: './wallet-chart.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class WalletChartComponent{
+export class WalletChartComponent implements OnChanges{
 
+  totalMarginTry: number = 0
+  totalMarginUsd: number = 0
+  totalBalanceTry: number = 0
+  totalBalanceUsd: number = 0
+  balanceTry: any[] = []
+  balanceUsd: any[] = []
+  marginTryPerc: any[] = []
+  marginUsdPerc: any[] = []
+  marginTry: any[] = []
+  marginUsd: any[] = []
+  selectedCurrency: string = '₺'
+
+  @Input() items: any[];
   @Input() summaryHeader: string
-  @Input() totalMarginTry: number
-  @Input() totalMarginUsd: number
-  @Input() totalBalanceTry: number
-  @Input() totalBalanceUsd: number
-  @Input() balanceTry: any[]
-  @Input() balanceUsd: any[]
-  @Input() marginTryPerc: any[]
-  @Input() marginUsdPerc: any[]
-  @Input() marginTry: any[]
-  @Input() marginUsd: any[]
+
   @Output() selectFunc = new EventEmitter<any>()
   @Output() currencySwitchFunc = new EventEmitter<any>()
-
-  @ContentChild(TemplateRef) customContent?: TemplateRef<any>;
-
-  selectedCurrency: string = '₺'
   
   constructor(){}
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['items'] && changes['items'].currentValue){
+      this.loadPieChartData();
+    } 
+  }
 
   handleSwitchChange(){
     if (this.selectedCurrency === '₺'){
@@ -51,4 +54,43 @@ export class WalletChartComponent{
       this.selectFunc.emit(item)
     }
   }
+
+  loadPieChartData(){
+    this.items.forEach(item => {
+      this.balanceUsd.push({
+        "name": item.item.name,
+        "value": item.currentValueUsd
+      })
+      this.balanceTry.push({
+        "name": item.item.name,
+        "value": item.currentValueTry
+      })
+      this.marginUsd.push({
+        "name": item.item.name,
+        "value": item.marginUsd
+      })
+      this.marginTry.push({
+        "name": item.item.name,
+        "value": item.marginTry
+      })
+      this.marginUsdPerc.push({
+        "name": item.item.name,
+        "value": item.marginUsdPerc
+      })
+      this.marginTryPerc.push({
+        "name": item.item.name,
+        "value": item.marginTryPerc
+      })
+      this.totalBalanceUsd += item.currentValueUsd
+      this.totalBalanceTry += item.currentValueTry
+      this.totalMarginUsd += item.marginUsd
+      this.totalMarginTry += item.marginTry
+    });
+    this.balanceUsd = [...this.balanceUsd]
+    this.balanceTry = [...this.balanceTry]
+    this.marginUsd = [...this.marginUsd]
+    this.marginTry = [...this.marginTry]
+    this.marginUsdPerc = [...this.marginUsdPerc]
+    this.marginTryPerc = [...this.marginTryPerc]
+  };
 }

@@ -75,47 +75,8 @@ export class WalletCategoryComponent implements OnInit{
       this._wallet.getAssetsByCategory(this.categoryId),
       (response) => {
         this.walletAssets = response
-        this.loadPieChartData();
+        console.log(this.walletAssets)
       }
     )
   };
-
-  loadPieChartData(){
-    this.walletAssets.forEach(trade => {
-      this.balanceUsd.push({
-        "name": trade.asset.name,
-        "value": trade.currentValueUsd
-      })
-      this.balanceTry.push({
-        "name": trade.asset.code,
-        "value": trade.currentValueTry
-      })
-      this.marginUsd.push({
-        "name": trade.asset.code,
-        "value": trade.marginUsd
-      })
-      this.marginTry.push({
-        "name": trade.asset.code,
-        "value": trade.marginTry
-      })
-      this.marginUsdPerc.push({
-        "name": trade.asset.code,
-        "value": trade.marginUsdPerc
-      })
-      this.marginTryPerc.push({
-        "name": trade.asset.code,
-        "value": trade.marginTryPerc
-      })
-      this.totalBalanceUsd += trade.currentValueUsd
-      this.totalBalanceTry += trade.currentValueTry
-      this.totalMarginUsd += trade.marginUsd
-      this.totalMarginTry += trade.marginTry
-    });
-    this.balanceUsd = [...this.balanceUsd]
-    this.balanceTry = [...this.balanceTry]
-    this.marginUsd = [...this.marginUsd]
-    this.marginTry = [...this.marginTry]
-    this.marginUsdPerc = [...this.marginUsdPerc]
-    this.marginTryPerc = [...this.marginTryPerc]
-  }
 }

@@ -143,7 +143,7 @@ const {v4:uuidv4} = require("uuid");
         },
         {
           $project: {
-            asset: 1,
+            item: "$asset",
             currentValueUsd: 1,
             currentValueTry: 1,
             marginUsd: 1,
@@ -153,10 +153,9 @@ const {v4:uuidv4} = require("uuid");
           }
           },
           {
-            $sort: { assetCurrentValueUsd: -1 },
+            $sort: { currentValueUsd: -1 },
           },
       ]);
-      console.log(trades)
       res.json(trades);
     } catch (error) {
       res.status(500).json({ message: error.message });
@@ -269,21 +268,21 @@ const {v4:uuidv4} = require("uuid");
           categoryPaidUsd: { $sum: "$paidUsd" },
           categoryCostTry: { $sum: "$costTry" },
           categoryPaidTry: { $sum: "$paidTry" },
-          categoryCurrentValueUsd: { $sum: "$currentValueUsd" },
-          categoryCurrentValueTry: { $sum: "$currentValueTry" },
+          currentValueUsd: { $sum: "$currentValueUsd" },
+          currentValueTry: { $sum: "$currentValueTry" },
           }
         },
         {
           $addFields: {
             marginUsd: {
               $subtract: [
-                { $add: ["$categoryCurrentValueUsd", "$categoryPaidUsd"]},
+                { $add: ["$currentValueUsd", "$categoryPaidUsd"]},
                 "$categoryCostUsd",
               ],
             },
             marginTry: {
               $subtract: [
-                { $add: ["$categoryCurrentValueTry", "$categoryPaidTry"]},
+                { $add: ["$currentValueTry", "$categoryPaidTry"]},
                 "$categoryCostTry",
               ],
             },
@@ -307,9 +306,9 @@ const {v4:uuidv4} = require("uuid");
         },
         {
           $project: {
-            category: 1,
-            categoryCurrentValueUsd: 1,
-            categoryCurrentValueTry: 1,
+            item: "$category",
+            currentValueUsd: 1,
+            currentValueTry: 1,
             marginUsd: 1,
             marginTry: 1,
             marginUsdPerc: 1,
@@ -317,7 +316,7 @@ const {v4:uuidv4} = require("uuid");
           }
           },
           {
-            $sort: { categoryCurrentValueUsd: -1 },
+            $sort: { currentValueUsd: -1 },
           },
       ]);
       res.json(trades);

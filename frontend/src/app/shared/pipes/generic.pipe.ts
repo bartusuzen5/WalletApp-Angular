@@ -1,9 +1,12 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import { Injectable, Pipe, PipeTransform } from '@angular/core';
 import { GenericUtils } from '../utilities/generic.utils';
 
 @Pipe({
   name: 'genericNameFilter',
   standalone: true
+})
+@Injectable({
+  providedIn: 'root' // Servis olarak enjekte edilebilir hale getir
 })
 export class GenericPipe implements PipeTransform {
 

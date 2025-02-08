@@ -18,7 +18,6 @@ export class GenericHttpService {
 
 
   public get<T>(api: string): Observable<T> {
-    this._spinner.show();
     return this._http.get<T>(`${this.api}/${api}`, { observe: 'response' }).pipe(
       map((response) => {
         if (response) {
@@ -32,7 +31,6 @@ export class GenericHttpService {
 
 
   public post<T>(api: string, body: any): Observable<T> {
-    this._spinner.show();
     return this._http.post<T>(`${this.api}/${api}`, body, { observe: 'response' }).pipe(
       map((response) => {
         if (response) {
