@@ -29,6 +29,13 @@ export class WalletComponent implements OnInit{
 
   selectedCurrency: string = '₺'
 
+  itemHeaders = [
+    { header: 'Kategori Adı', key: 'item.name'},
+    { header: 'Mevcut Bakiye', key: this.selectedCurrency === '₺' ? 'currentValueTry' : 'currentValueUsd'},
+    { header: 'Kar/Zarar', key: this.selectedCurrency === '₺' ? 'marginTry' : 'marginUsd'},
+    { header: 'Kar/Zarar Yüzdesi', key: this.selectedCurrency === '₺' ? 'marginTryPerc' : 'marginUsdPerc'}
+    ]
+
   constructor(
     private _apiSubscriber: ApiSubscriberService,
     private _router: Router,

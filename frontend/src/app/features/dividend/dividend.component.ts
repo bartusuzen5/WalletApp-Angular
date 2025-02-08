@@ -39,6 +39,16 @@ export class DividendComponent implements OnInit{
   yieldInput: number;
   @ViewChild('addForm') addForm: NgForm;
 
+  itemHeaders = [
+    { header: 'Varlık Kodu', key: 'asset.code' },
+    { header: 'Adet Başına Ödeme', key: 'paymentPerQuantity' },
+    { header: 'Adet', key: 'quantity' },
+    { header: 'Verim', key: 'yield' },
+    { header: 'Toplam Tutar(USD)', key: 'paidUsd' },
+    { header: 'Toplam Tutar(TRY)', key: 'paidTry' },
+    { header: 'Temettü Tarihi', key: 'dividendDate' }
+  ]
+
   constructor(
     private _apiSubscriber: ApiSubscriberService,
     private _swal: SwalService,

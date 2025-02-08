@@ -3,7 +3,6 @@ import { TradeService } from './services/trade.service';
 import { ApiSubscriberService } from '../../shared/services/api-subscriber.service';
 import { SharedModule } from '../../shared/shared.module';
 import { TradeModel } from './models/trade.model';
-import { PaginationUtils } from '../../shared/utilities/pagination.utils';
 import { NgForm } from '@angular/forms';
 import { AssetModel } from '../asset/models/asset.model';
 import { AssetService } from '../asset/services/asset.service';
@@ -37,6 +36,17 @@ export class TradeComponent implements OnInit{
   paidInputTry: number = 0;
   maxDate: string = new Date().toISOString().split('T')[0];
   @ViewChild('addForm') addForm: NgForm;
+
+  itemHeaders = [
+    { header: 'Kategori Adı', key: 'asset.category.name' },
+    { header: 'Varlık Kodu', key: 'asset.code' },
+    { header: 'İşlem Türü', key: 'tradeType' },
+    { header: 'Fiyat', key: 'price' },
+    { header: 'Adet', key: 'quantity' },
+    { header: 'Toplam Tutar(USD)', key: 'paidUsd' },
+    { header: 'Toplam Tutar(TRY)', key: 'paidTry' },
+    { header: 'İşlem Tarihi', key: 'tradeDate' }
+  ]
 
   constructor(
     private _apiSubscriber: ApiSubscriberService,

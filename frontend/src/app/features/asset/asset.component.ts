@@ -31,13 +31,22 @@ export class AssetComponent implements OnInit {
   category: CategoryModel = new CategoryModel();
   categories: CategoryModel[] = [];
 
+  itemHeaders = [
+    { header: 'Ad', key: 'name' },
+    { header: 'Kod', key: 'code' },
+    { header: 'Güncel Fiyat', key: 'currentPrice' },
+    { header: 'ATH Fiyat', key: 'athPrice' },
+    { header: 'Hacim', key: 'volume' },
+    { header: 'Kategori Adı', key: 'category.name' }
+  ]
+
   constructor(
     private _apiSubscriber: ApiSubscriberService,
     private _swal: SwalService,
     private _asset: AssetService,
     private _category: CategoryService,
-    private _route: ActivatedRoute,
-  ) {}
+    private _route: ActivatedRoute
+  ){}
 
   ngOnInit() {
     this.getCategories();

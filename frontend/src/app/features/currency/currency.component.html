@@ -1,10 +1,5 @@
 <app-table
-[itemHeaders]="[
-    { header: 'Ad', key: 'name' },
-    { header: 'Sembol', key: 'symbol' },
-    { header: 'USD Değeri', key: 'valueUsd' },
-    { header: 'TRY Değeri', key: 'valueTry' }
-  ]"
+[itemHeaders]="itemHeaders"
 [header]="'Para Birimleri'"
 [items]="currencies"
 [addModalId]="'#addModal'"

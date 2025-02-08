@@ -1,14 +1,5 @@
 <app-table
-[itemHeaders]="[
-  { header: 'Kategori Adı', key: 'asset.category.name' },
-  { header: 'Varlık Kodu', key: 'asset.code' },
-  { header: 'İşlem Türü', key: 'tradeType' },
-  { header: 'Fiyat', key: 'price' },
-  { header: 'Adet', key: 'quantity' },
-  { header: 'Toplam Tutar(USD)', key: 'paidUsd' },
-  { header: 'Toplam Tutar(TRY)', key: 'paidTry' },
-  { header: 'İşlem Tarihi', key: 'tradeDate' }
-]"
+[itemHeaders]="itemHeaders"
 [items]="trades"
 [header]="'İşlemler'"
 [addModalId]="'#addModal'"

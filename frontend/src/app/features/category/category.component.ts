@@ -28,6 +28,11 @@ export class CategoryComponent implements OnInit {
 
   currencies: CurrencyModel[] = [];
 
+  itemHeaders = [
+    { header: 'Ad', key: 'name' },
+    { header: 'Ana Para Birimi', key: 'currency.name' }
+  ];
+
   constructor(
     private _apiSubscriber: ApiSubscriberService,
     private _swal: SwalService,

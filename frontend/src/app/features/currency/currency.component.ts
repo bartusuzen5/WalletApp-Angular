@@ -25,6 +25,13 @@ export class CurrencyComponent implements OnInit{
   updateModalCloseBtn: any
   test: any
 
+  itemHeaders = [
+    { header: 'Ad', key: 'name' },
+    { header: 'Sembol', key: 'symbol' },
+    { header: 'USD Değeri', key: 'valueUsd' },
+    { header: 'TRY Değeri', key: 'valueTry' }
+  ]
+
   constructor(
     private _apiSubscriber: ApiSubscriberService,
     private _swal: SwalService,

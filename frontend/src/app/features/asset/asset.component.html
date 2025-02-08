@@ -1,12 +1,5 @@
 <app-table
-[itemHeaders]="[
-  { header: 'Ad', key: 'name' },
-  { header: 'Kod', key: 'code' },
-  { header: 'Güncel Fiyat', key: 'currentPrice' },
-  { header: 'ATH Fiyat', key: 'athPrice' },
-  { header: 'Hacim', key: 'volume' },
-  { header: 'Kategori Adı', key: 'category.name' }
-]"
+[itemHeaders]="itemHeaders"
 [header]="'Varlıklar'"
 [items]="assets"
 [addModalId]="'#addModal'"

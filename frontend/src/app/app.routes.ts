@@ -1,5 +1,4 @@
 import { Routes } from '@angular/router';
-import { TradeComponent } from './features/trade/trade.component';
 
 export const routes: Routes = [
     {
@@ -25,6 +24,10 @@ export const routes: Routes = [
             {
                 path: "dividend",
                 loadComponent: () => import("./features/dividend/dividend.component").then(c => c.DividendComponent)
+            },
+            {
+                path: "",
+                loadComponent: () => import("./features/wallet/wallet.component").then(c => c.WalletComponent),
             },
             {
                 path: "wallet",
