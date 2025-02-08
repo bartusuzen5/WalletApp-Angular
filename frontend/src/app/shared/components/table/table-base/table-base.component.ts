@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ContentChild, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, TemplateRef, ViewChild, viewChild } from '@angular/core';
+import { Component, ContentChild, Input, OnChanges, OnInit, SimpleChanges, TemplateRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GenericPipe } from '../../../pipes/generic.pipe';
 import { FormsModule } from '@angular/forms';

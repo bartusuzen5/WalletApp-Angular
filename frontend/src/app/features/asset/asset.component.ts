@@ -9,7 +9,6 @@ import { NgForm } from '@angular/forms';
 import { CategoryService } from '../category/services/category.service';
 import { SwalService } from '../../core/services/swal.service';
 import { GenericUtils } from '../../shared/utilities/generic.utils';
-import { PaginationUtils } from '../../shared/utilities/pagination.utils';
 
 
 @Component({

@@ -9,7 +9,6 @@ import { TableComponent } from './components/table/table.component';
 import { ModalComponent } from './components/modal/modal.component';
 import { ValidationDirective } from './directives/form-validation.directive';
 import { ModalFooterComponent } from './components/modal-footer/modal-footer.component';
-import { PaginationComponent } from './components/pagination/pagination.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { CustomNumberPipe } from './pipes/custom-number.pipe';
 import { WalletChartComponent } from './components/wallet-chart/wallet-chart.component';
@@ -22,15 +21,14 @@ import { TableChartComponent } from './components/table/table-chart/table-chart.
     RouterModule,
     FormsModule,
     NavbarComponent,
-    GenericPipe,
     Currency2Pipe,
+    CustomNumberPipe,
+    GenericPipe,
     TableComponent,
     ModalComponent,
     ValidationDirective,
     ModalFooterComponent,
-    PaginationComponent,
     NgxChartsModule,
-    CustomNumberPipe,
     WalletChartComponent,
     TableChartComponent
   ],
@@ -39,15 +37,14 @@ import { TableChartComponent } from './components/table/table-chart/table-chart.
     RouterModule,
     FormsModule,
     NavbarComponent,
-    GenericPipe,
     Currency2Pipe,
+    CustomNumberPipe,
+    GenericPipe,
     TableComponent,
     ModalComponent,
     ValidationDirective,
     ModalFooterComponent,
-    PaginationComponent,
     NgxChartsModule,
-    CustomNumberPipe,
     WalletChartComponent,
     TableChartComponent
   ],

@@ -1,9 +1,8 @@
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { TradeService } from './services/trade.service';
 import { ApiSubscriberService } from '../../shared/services/api-subscriber.service';
 import { SharedModule } from '../../shared/shared.module';
 import { TradeModel } from './models/trade.model';
-import { PaginationUtils } from '../../shared/utilities/pagination.utils';
 import { NgForm } from '@angular/forms';
 import { AssetModel } from '../asset/models/asset.model';
 import { AssetService } from '../asset/services/asset.service';

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, TemplateRef } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CustomNumberPipe } from '../../pipes/custom-number.pipe';
 import { Currency2Pipe } from '../../pipes/currency.pipe';

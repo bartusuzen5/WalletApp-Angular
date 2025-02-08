@@ -5,9 +5,7 @@ import { NgForm } from '@angular/forms';
 import { SharedModule } from '../../shared/shared.module';
 import { SwalService } from '../../core/services/swal.service';
 import { ApiSubscriberService } from '../../shared/services/api-subscriber.service';
-import { PaginationUtils } from '../../shared/utilities/pagination.utils';
 import { GenericUtils } from '../../shared/utilities/generic.utils';
-import { ModalComponent } from '../../shared/components/modal/modal.component';
 
 @Component({
   selector: 'app-currency',

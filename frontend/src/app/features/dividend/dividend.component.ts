@@ -4,7 +4,6 @@ import { DividendService } from './services/dividend.service';
 import { ApiSubscriberService } from '../../shared/services/api-subscriber.service';
 import { DividendModel } from './models/dividend.model';
 import { NgForm } from '@angular/forms';
-import { PaginationUtils } from '../../shared/utilities/pagination.utils';
 import { CategoryModel } from '../category/models/category.model';
 import { AssetModel } from '../asset/models/asset.model';
 import { CategoryService } from '../category/services/category.service';

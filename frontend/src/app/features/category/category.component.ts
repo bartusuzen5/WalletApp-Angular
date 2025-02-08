@@ -8,7 +8,6 @@ import { CurrencyService } from '../currency/services/currency.service';
 import { SwalService } from '../../core/services/swal.service';
 import { ApiSubscriberService } from '../../shared/services/api-subscriber.service';
 import { NavbarService } from '../../core/components/navbar/services/navbar.service';
-import { PaginationUtils } from '../../shared/utilities/pagination.utils';
 import { GenericUtils } from '../../shared/utilities/generic.utils';
 
 @Component({

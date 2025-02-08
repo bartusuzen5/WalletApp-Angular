@@ -1,8 +1,6 @@
-import { AfterViewInit, Component, ContentChild, EventEmitter, Input, OnInit, Output, TemplateRef } from '@angular/core';
+import { Component, ContentChild, EventEmitter, Input, Output, TemplateRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GenericPipe } from '../../pipes/generic.pipe';
 import { FormsModule } from '@angular/forms';
-import { SharedModule } from '../../shared.module';
 import { TableBaseComponent } from './table-base/table-base.component';
 
 

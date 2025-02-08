@@ -3,8 +3,6 @@ import { SharedModule } from '../../../shared/shared.module';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CategoryModel } from '../../category/models/category.model';
 import { ApiSubscriberService } from '../../../shared/services/api-subscriber.service';
-import { AssetService } from '../../asset/services/asset.service';
-import { AssetModel } from '../../asset/models/asset.model';
 import { WalletService } from '../services/wallet.service';
 import { CategoryService } from '../../category/services/category.service';
 
