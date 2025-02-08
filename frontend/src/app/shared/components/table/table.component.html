@@ -1,11 +1,8 @@
 <app-table-base
 [itemHeaders]="itemHeaders"
 [items]="items"
-[filteredItems]="filteredItems"
-[paginatedItems]="paginatedItems"
 [header]="header"
-[mainRowsTemplate]="mainRowsTemplate"
-(filterAction)="onFilteredItems($event)">
+[mainRowsTemplate]="mainRowsTemplate">
 
   <div header-content>
     <button class="btn btn-primary" data-bs-toggle="modal" [attr.data-bs-target]="addModalId">

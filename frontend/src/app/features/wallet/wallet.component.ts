@@ -18,11 +18,8 @@ import { PaginationUtils } from '../../shared/utilities/pagination.utils';
 })
 export class WalletComponent implements OnInit{
 
-  walletCategories: any[] = []
-  filteredWalletCategories: any[] = []
-  paginatedWalletCategories: any[] = []
-  
-
+  walletCategories: any[] = [];
+ 
   categoryBalanceTry: any[] = []
   categoryBalanceUsd: any[] = []
   categoryMarginTry: any[] = []
@@ -37,13 +34,10 @@ export class WalletComponent implements OnInit{
 
   selectedCurrency: string = '₺'
 
-  itemsPerPage: number;
-  currentPage: number = 1;
-
   constructor(
     private _apiSubscriber: ApiSubscriberService,
     private _router: Router,
-    private _wallet: WalletService,
+    private _wallet: WalletService
   ) {}
 
   ngOnInit(): void {
@@ -55,34 +49,21 @@ export class WalletComponent implements OnInit{
     this._router.navigate(['/wallet-category', category._id])
   }
 
-  currencySwitchFunc(currency: any){
+  currencySwitch(currency: any){
     this.selectedCurrency = currency
   }
 
   getCategoryWallet(){
-    this._apiSubscriber.getApi(
+    this._apiSubscriber.Api('get',
       this._wallet.getAllCategory(),
       (response) => {
         this.walletCategories = response;
-        console.log(this.walletCategories)
-        this.filteredWalletCategories = this.walletCategories
-        this.updatePaginatedData()
         this.loadPieChartData();
       }
     )
   }
 
   loadPieChartData(){
-    // this.totalBalanceUsd = 0
-    // this.totalBalanceTry = 0
-    // this.totalMarginUsd = 0
-    // this.totalMarginTry = 0
-    // this.categoryBalanceUsd = []
-    // this.categoryBalanceTry = []
-    // this.categoryMarginUsd = []
-    // this.categoryMarginTry = []
-    // this.categoryMarginUsdPerc = []
-    // this.categoryMarginTryPerc = []
     this.walletCategories.forEach(trade => {
       this.categoryBalanceUsd.push({
         "name": trade.category.name,
@@ -108,7 +89,6 @@ export class WalletComponent implements OnInit{
         "name": trade.category.name,
         "value": trade.marginTryPerc
       })
-
       this.totalBalanceUsd += trade.categoryCurrentValueUsd
       this.totalBalanceTry += trade.categoryCurrentValueTry
       this.totalMarginUsd += trade.marginUsd
@@ -120,20 +100,5 @@ export class WalletComponent implements OnInit{
     this.categoryMarginTry = [...this.categoryMarginTry]
     this.categoryMarginUsdPerc = [...this.categoryMarginUsdPerc]
     this.categoryMarginTryPerc = [...this.categoryMarginTryPerc]
-  };
-
-  onFilteredItems(eventData: {filteredItems: any[]}){
-    this.filteredWalletCategories = eventData.filteredItems
-    this.updatePaginatedData();
-  };
-  
-  onPageChanged(eventData: { currentPage: number, itemsPerPage: number }){
-    this.currentPage = eventData.currentPage
-    this.itemsPerPage = eventData.itemsPerPage
-    this.updatePaginatedData()
-  };
-
-  updatePaginatedData(){
-    this.paginatedWalletCategories = PaginationUtils.updatePaginatedData(this.currentPage, this.itemsPerPage, this.filteredWalletCategories)
   };
 }

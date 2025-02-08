@@ -10,14 +10,11 @@
   { header: 'İşlem Tarihi', key: 'tradeDate' }
 ]"
 [items]="trades"
-[filteredItems]="filteredTrades"
-[paginatedItems]="paginatedTrades"
 [header]="'İşlemler'"
 [addModalId]="'#addModal'"
 [updateModalId]="'#updateModal'"
 (editAction)="copyUpdateTrade($event)"
-(deleteAction)="removeById($event)"
-(filterAction)="onFilteredItems($event)">
+(deleteAction)="removeById($event)">
 <ng-template #mainRowsTemplate let-item>
   <td>{{ item.asset?.category?.name}}</td>
   <td>{{ item.asset?.code}}</td>
@@ -29,12 +26,6 @@
   <td>{{ item.tradeDate | date: 'dd-MM-yyyy' }}</td>
 </ng-template>
 </app-table>
-
-<app-pagination
-[totalItems]="filteredTrades.length"
-[currentPage]="currentPage"
-(pageChanged)="onPageChanged($event)">
-</app-pagination>
 
 
 <app-modal

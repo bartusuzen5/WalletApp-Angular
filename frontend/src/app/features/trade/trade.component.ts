@@ -21,9 +21,7 @@ import { GenericUtils } from '../../shared/utilities/generic.utils';
 })
 export class TradeComponent implements OnInit{
 
-  trades: TradeModel[] = []
-  filteredTrades: TradeModel[] = []
-  paginatedTrades: TradeModel[] = [];
+  trades: TradeModel[] = [];
   updateTrade: TradeModel = new TradeModel()
   addModalCloseBtn: any
   updateModalCloseBtn: any
@@ -39,10 +37,6 @@ export class TradeComponent implements OnInit{
   paidInputTry: number = 0;
   maxDate: string = new Date().toISOString().split('T')[0];
   @ViewChild('addForm') addForm: NgForm;
-
-  itemsPerPage: number;
-  currentPage: number = 1;
-
 
   constructor(
     private _apiSubscriber: ApiSubscriberService,
@@ -65,7 +59,7 @@ export class TradeComponent implements OnInit{
 
 
   getCategories(){
-    this._apiSubscriber.getApi(
+    this._apiSubscriber.Api('get',
       this._category.getAll(),
       (response) => {
         this.categories = response
@@ -75,7 +69,7 @@ export class TradeComponent implements OnInit{
 
 
   getAssetsByCategory(){
-    this._apiSubscriber.getApi(
+    this._apiSubscriber.Api('get',
       this._asset.getAssetsByCategory(this.selectedCategory._id),
       (response) => {
         this.assets = response
@@ -85,12 +79,10 @@ export class TradeComponent implements OnInit{
 
 
   getAll(){
-    this._apiSubscriber.getApi(
+    this._apiSubscriber.Api('get',
       this._trade.getAll(),
       (response) => {
         this.trades = response
-        this.filteredTrades = this.trades
-        this.updatePaginatedData()
       }
     )
   };
@@ -99,7 +91,7 @@ export class TradeComponent implements OnInit{
   add(form: NgForm){
     if(form.valid){
       let newTrade = form.value;
-      this._apiSubscriber.postApi(
+      this._apiSubscriber.Api('post',
         this._trade.add(newTrade),
         () => {
           this.getAll();
@@ -113,7 +105,7 @@ export class TradeComponent implements OnInit{
 
   update(form: NgForm){
     if (form.valid){
-      this._apiSubscriber.postApi(
+      this._apiSubscriber.Api('post',
         this._trade.update(this.updateTrade),
         () => {
           this.getAll()
@@ -127,7 +119,7 @@ export class TradeComponent implements OnInit{
 
   removeById(trade: TradeModel){
     this._swal.callSwal("Silme işlemini onaylıyor musunuz?", "İşlem", "Sil", () => {
-      this._apiSubscriber.postApi(
+      this._apiSubscriber.Api('post',
         this._trade.removeById(trade),
         () => {
           this.getAll()
@@ -173,22 +165,4 @@ export class TradeComponent implements OnInit{
   copyUpdateTrade(trade: TradeModel){
     this.updateTrade = {...trade}
   };
-
-  onFilteredItems(eventData: {filteredItems: any[]}){
-    this.filteredTrades = eventData.filteredItems
-    this.updatePaginatedData();
-  }
-
-
-  onPageChanged(eventData: { currentPage: number, itemsPerPage: number }){
-    this.currentPage = eventData.currentPage
-    this.itemsPerPage = eventData.itemsPerPage
-    this.updatePaginatedData()
-  };
-
-
-  updatePaginatedData(){
-    this.paginatedTrades = PaginationUtils.updatePaginatedData(this.currentPage, this.itemsPerPage, this.filteredTrades)
-  };
-
 }

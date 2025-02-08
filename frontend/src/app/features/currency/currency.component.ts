@@ -19,16 +19,11 @@ import { ModalComponent } from '../../shared/components/modal/modal.component';
 export class CurrencyComponent implements OnInit{
 
   currencies: CurrencyModel[] = [];
-  filteredCurrencies: CurrencyModel[] = [];
-  paginatedCurrencies: CurrencyModel[] = [];
   updateCurrency: CurrencyModel = new CurrencyModel();
   search: string = "";
   addModalCloseBtn: any
   updateModalCloseBtn: any
   test: any
-
-  itemsPerPage: number;
-  currentPage: number = 1;
 
   constructor(
     private _apiSubscriber: ApiSubscriberService,
@@ -47,12 +42,10 @@ export class CurrencyComponent implements OnInit{
 
 
   getAll(){
-    this._apiSubscriber.getApi(
+    this._apiSubscriber.Api('get',
       this._currency.getAll(),
       (response) => {
         this.currencies = response;
-        this.filteredCurrencies = this.currencies
-        this.updatePaginatedData();
       }
     )
   };
@@ -61,7 +54,7 @@ export class CurrencyComponent implements OnInit{
   add(form: NgForm){
     if(form.valid){
       const newCurrency = form.value
-      this._apiSubscriber.postApi(
+      this._apiSubscriber.Api('post',
         this._currency.add(newCurrency),
         () => {
           this.getAll();
@@ -74,7 +67,7 @@ export class CurrencyComponent implements OnInit{
 
   update(form: NgForm){
     if(form.valid){
-      this._apiSubscriber.postApi(
+      this._apiSubscriber.Api('post',
         this._currency.update(this.updateCurrency),
         () => {
           this.getAll();
@@ -87,7 +80,7 @@ export class CurrencyComponent implements OnInit{
 
   removeById(model: CurrencyModel){
     this._swal.callSwal("Silme işlemini onaylıyor musunuz?", `${model.name}`, "Sil", ()=>{
-      this._apiSubscriber.postApi(
+      this._apiSubscriber.Api('post',
         this._currency.removeById(model),
         () => {
           this.getAll();
@@ -99,21 +92,4 @@ export class CurrencyComponent implements OnInit{
   copyUpdateCurrency(model: CurrencyModel){
     this.updateCurrency = {...model};
   };
-
-  onFilteredItems(eventData: {filteredItems: any[]}){
-    this.filteredCurrencies = eventData.filteredItems
-    this.updatePaginatedData();
-  }
-
-  onPageChanged(eventData: { currentPage: number, itemsPerPage: number }){
-    this.currentPage = eventData.currentPage;
-    this.itemsPerPage = eventData.itemsPerPage;
-    this.updatePaginatedData();
-  };
-
-  updatePaginatedData(){
-    this.paginatedCurrencies = PaginationUtils.updatePaginatedData(this.currentPage, this.itemsPerPage, this.filteredCurrencies)
-  };
-
-
 }

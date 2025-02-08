@@ -21,9 +21,7 @@ import { GenericUtils } from '../../shared/utilities/generic.utils';
 })
 export class DividendComponent implements OnInit{
 
-  dividends: DividendModel[] = []
-  filteredDividends: DividendModel[] = []
-  paginatedDividends: DividendModel[] = []
+  dividends: DividendModel[] = [];
   search: string = ''
   updateDividend: DividendModel = new DividendModel()
   addModalCloseBtn: any
@@ -40,10 +38,6 @@ export class DividendComponent implements OnInit{
   maxDate: string = new Date().toISOString().split('T')[0];
   yieldInput: number;
   @ViewChild('addForm') addForm: NgForm;
-
-  itemsPerPage: number;
-  currentPage: number = 1;
-
 
   constructor(
     private _apiSubscriber: ApiSubscriberService,
@@ -66,7 +60,7 @@ export class DividendComponent implements OnInit{
 
 
   getCategories(){
-    this._apiSubscriber.getApi(
+    this._apiSubscriber.Api('get',
       this._category.getAll(),
       (response) => {
         this.categories = response
@@ -76,7 +70,7 @@ export class DividendComponent implements OnInit{
 
 
   getAssetsByCategory(){
-    this._apiSubscriber.getApi(
+    this._apiSubscriber.Api('get',
       this._asset.getAssetsByCategory(this.selectedCategory._id),
       (response) => {
         this.assets = response
@@ -86,12 +80,10 @@ export class DividendComponent implements OnInit{
 
 
   getAll(){
-    this._apiSubscriber.getApi(
+    this._apiSubscriber.Api('get',
       this._dividend.getAll(),
       (response) => {
         this.dividends = response
-        this.filteredDividends = this.dividends
-        this.updatePaginatedData()
       }
     )
   };
@@ -101,7 +93,7 @@ export class DividendComponent implements OnInit{
     if (form.valid){
       let newDividend = form.value
       console.log(newDividend)
-      this._apiSubscriber.postApi(
+      this._apiSubscriber.Api('post',
         this._dividend.add(newDividend),
         () => {
           this.getAll()
@@ -115,7 +107,7 @@ export class DividendComponent implements OnInit{
 
   update(form: NgForm){
     if (form.valid){
-      this._apiSubscriber.postApi(
+      this._apiSubscriber.Api('post',
         this._dividend.update(this.updateDividend),
         () => {
           this.getAll()
@@ -129,7 +121,7 @@ export class DividendComponent implements OnInit{
 
   removeById(dividend: DividendModel){
     this._swal.callSwal("Silme işlemini onaylıyor musunuz?", "Temettü", "Sil", () => {
-      this._apiSubscriber.postApi(
+      this._apiSubscriber.Api('post',
         this._dividend.removeById(dividend),
         () => {
           this.getAll()
@@ -171,22 +163,4 @@ export class DividendComponent implements OnInit{
       }
     }
   };
-
-  onFilteredItems(eventData: {filteredItems: any[]}){
-    this.filteredDividends = eventData.filteredItems
-    this.updatePaginatedData();
-  }
-
-
-  onPageChanged(eventData: { currentPage: number, itemsPerPage: number }){
-    this.currentPage = eventData.currentPage
-    this.itemsPerPage = eventData.itemsPerPage
-    this.updatePaginatedData()
-  };
-
-
-  updatePaginatedData(){
-    this.paginatedDividends = PaginationUtils.updatePaginatedData(this.currentPage, this.itemsPerPage, this.filteredDividends)
-  };
-
 }

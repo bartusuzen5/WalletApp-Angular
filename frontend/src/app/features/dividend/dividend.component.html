@@ -9,14 +9,11 @@
   { header: 'Temettü Tarihi', key: 'dividendDate' }
 ]"
 [items]="dividends"
-[filteredItems]="filteredDividends"
-[paginatedItems]="paginatedDividends"
 [header]="'Temettüler'"
 [addModalId]="'#addModal'"
 [updateModalId]="'#updateModal'"
 (editAction)="copyUpdateDividend($event)"
-(deleteAction)="removeById($event)"
-(filterAction)="onFilteredItems($event)">
+(deleteAction)="removeById($event)">
 <ng-template #mainRowsTemplate let-item>
   <td>{{ item.asset?.code}}</td>
   <td>{{ item.paymentPerQuantity | customNumber | currency2: item.asset?.category?.currency?.symbol}}</td>
@@ -27,12 +24,6 @@
   <td>{{ item.dividendDate | date: 'dd-MM-yyyy' }}</td>
 </ng-template>
 </app-table>
-
-<app-pagination
-[totalItems]="filteredDividends.length"
-[currentPage]="currentPage"
-(pageChanged)="onPageChanged($event)">
-</app-pagination>
 
 
 <app-modal
@@ -107,6 +98,7 @@
     </app-modal-footer>
   </form>
 </app-modal>
+
 
 <app-modal
 [header]="'Temettü Güncelle'"

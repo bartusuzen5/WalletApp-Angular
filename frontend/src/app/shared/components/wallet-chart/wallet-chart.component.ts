@@ -1,4 +1,4 @@
-import { Component, ContentChild, EventEmitter, Input, Output, TemplateRef } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ContentChild, EventEmitter, Input, OnChanges, Output, SimpleChanges, TemplateRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GenericPipe } from '../../pipes/generic.pipe';
 import { CustomNumberPipe } from '../../pipes/custom-number.pipe';
@@ -12,9 +12,10 @@ import { TableComponent } from '../table/table.component';
   standalone: true,
   imports: [CommonModule, CustomNumberPipe, Currency2Pipe, RouterModule, NgxChartsModule],
   templateUrl: './wallet-chart.component.html',
-  styleUrl: './wallet-chart.component.css'
+  styleUrl: './wallet-chart.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class WalletChartComponent {
+export class WalletChartComponent{
 
   @Input() summaryHeader: string
   @Input() totalMarginTry: number
@@ -33,7 +34,8 @@ export class WalletChartComponent {
   @ContentChild(TemplateRef) customContent?: TemplateRef<any>;
 
   selectedCurrency: string = '₺'
-
+  
+  constructor(){}
 
   handleSwitchChange(){
     if (this.selectedCurrency === '₺'){

@@ -22,8 +22,6 @@ import { PaginationUtils } from '../../shared/utilities/pagination.utils';
 
 export class AssetComponent implements OnInit {
   assets: AssetModel[] = [];
-  filteredAssets: AssetModel[] = [];
-  paginatedAssets: AssetModel[] = [];
   search: string = "";
   updateAsset: AssetModel = new AssetModel();
   addModalCloseBtn: any
@@ -32,9 +30,6 @@ export class AssetComponent implements OnInit {
   categoryId: string = "";
   category: CategoryModel = new CategoryModel();
   categories: CategoryModel[] = [];
-    
-  itemsPerPage: number;
-  currentPage: number = 1;
 
   constructor(
     private _apiSubscriber: ApiSubscriberService,
@@ -55,7 +50,7 @@ export class AssetComponent implements OnInit {
 
 
   getCategories(){
-    this._apiSubscriber.getApi(
+    this._apiSubscriber.Api('get',
       this._category.getAll(),
       (response) => {
         this.categories = response;
@@ -75,12 +70,10 @@ export class AssetComponent implements OnInit {
 
 
   getAssetsByCategory(){
-    this._apiSubscriber.getApi(
+    this._apiSubscriber.Api('get',
       this._asset.getAssetsByCategory(this.categoryId),
       (response) => {
         this.assets = response
-        this.filteredAssets = this.assets
-        this.updatePaginatedData();
       }
     )
   };
@@ -90,7 +83,7 @@ export class AssetComponent implements OnInit {
     if(form.valid){
       let newAsset = form.value;
       newAsset.category = this.category
-      this._apiSubscriber.postApi(
+      this._apiSubscriber.Api('post',
         this._asset.add(newAsset),
         () => {
           this.getAssetsByCategory();
@@ -103,7 +96,7 @@ export class AssetComponent implements OnInit {
 
   update(form: NgForm){
     if(form.valid){
-      this._apiSubscriber.postApi(
+      this._apiSubscriber.Api('post',
         this._asset.update(this.updateAsset),
         () => {
           this.getAssetsByCategory();
@@ -116,7 +109,7 @@ export class AssetComponent implements OnInit {
 
   removeById(asset: AssetModel){
     this._swal.callSwal("Silme işlemini onaylıyor musunuz?", `${asset.name}`, "Sil", ()=>{
-      this._apiSubscriber.postApi(
+      this._apiSubscriber.Api('post',
         this._asset.removeById(asset),
         () => {
           this.getAssetsByCategory()
@@ -128,23 +121,5 @@ export class AssetComponent implements OnInit {
 
   copyUpdateAsset(asset: AssetModel){
     this.updateAsset = {...asset};
-  };
-
-  
-  onFilteredItems(eventData: {filteredItems: any[]}){
-    this.filteredAssets = eventData.filteredItems
-    this.updatePaginatedData();
-  }
-
-
-  onPageChanged(eventData: { currentPage: number, itemsPerPage: number }){
-    this.currentPage = eventData.currentPage;
-    this.itemsPerPage = eventData.itemsPerPage;
-    this.updatePaginatedData();
-  };
-
-
-  updatePaginatedData(){
-    this.paginatedAssets = PaginationUtils.updatePaginatedData(this.currentPage, this.itemsPerPage, this.filteredAssets)
   };
 }

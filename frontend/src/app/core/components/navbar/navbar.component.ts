@@ -32,7 +32,7 @@ export class NavbarComponent implements OnInit {
   }
 
   getCategories(){
-    this._apiSubscriber.getApi(
+    this._apiSubscriber.Api('get',
       this._category.getAll(),
       (response) => {
         this.categories = response;

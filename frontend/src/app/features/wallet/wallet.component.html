@@ -11,7 +11,7 @@
 [marginTry]="categoryMarginTry"
 [marginUsd]="categoryMarginUsd"
 (selectFunc)="onSelect($event)"
-(currencySwitchFunc)="currencySwitchFunc($event)">
+(currencySwitchFunc)="currencySwitch($event)">
 </app-wallet-chart>
 
 <app-table-chart
@@ -22,10 +22,7 @@
 { header: 'Kar/Zarar Yüzdesi', key: selectedCurrency === '₺' ? 'marginTryPerc' : 'marginUsdPerc'}
 ]"
 [items]="walletCategories"
-[filteredItems]="filteredWalletCategories"
-[paginatedItems]="paginatedWalletCategories"
 [header]="'Cüzdan'"
-(filterAction)="onFilteredItems($event)"
 >
 <ng-template #mainRowsTemplate let-item>
   <td>{{item.category.name}}</td>
@@ -34,10 +31,4 @@
   <td>{{(selectedCurrency === '₺' ? item.marginTryPerc : item.marginUsdPerc) | customNumber}} %</td>
 </ng-template>
 </app-table-chart>
-
-<app-pagination
-[totalItems]="filteredWalletCategories.length"
-[currentPage]="currentPage"
-(pageChanged)="onPageChanged($event)">
-</app-pagination>
 

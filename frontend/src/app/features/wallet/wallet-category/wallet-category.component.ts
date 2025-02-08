@@ -62,17 +62,16 @@ export class WalletCategoryComponent implements OnInit{
   };
 
   getCategoryById(){
-    this._apiSubscriber.getApi(
+    this._apiSubscriber.Api('get',
       this._category.getById(this.categoryId),
       (response) => {
-        console.log(response)
         this.category = response
       }
     )
   };
 
   getAssetsByCategory(){
-    this._apiSubscriber.getApi(
+    this._apiSubscriber.Api('get',
       this._wallet.getAssetsByCategory(this.categoryId),
       (response) => {
         this.walletAssets = response
@@ -82,16 +81,6 @@ export class WalletCategoryComponent implements OnInit{
   };
 
   loadPieChartData(){
-    this.totalBalanceUsd = 0
-    this.totalBalanceTry = 0
-    this.totalMarginUsd = 0
-    this.totalMarginTry = 0
-    this.balanceUsd = []
-    this.balanceTry = []
-    this.marginUsd = []
-    this.marginTry = []
-    this.marginUsdPerc = []
-    this.marginTryPerc = []
     this.walletAssets.forEach(trade => {
       this.balanceUsd.push({
         "name": trade.asset.name,
@@ -128,13 +117,5 @@ export class WalletCategoryComponent implements OnInit{
     this.marginTry = [...this.marginTry]
     this.marginUsdPerc = [...this.marginUsdPerc]
     this.marginTryPerc = [...this.marginTryPerc]
-  }
-
-  handleSwitchChange(){
-    if (this.selectedCurrency === '₺'){
-      this.selectedCurrency = '$'
-    } else {
-      this.selectedCurrency = '₺'
-    }
   }
 }

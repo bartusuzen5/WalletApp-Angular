@@ -21,17 +21,12 @@ import { GenericUtils } from '../../shared/utilities/generic.utils';
 export class CategoryComponent implements OnInit {
 
   categories: CategoryModel[] = [];
-  filteredCategories: CategoryModel[] = [];
-  paginatedCategories: CategoryModel[] = [];
   search: string = "";
   updateCategory: CategoryModel = new CategoryModel();
   addModalCloseBtn: any
   updateModalCloseBtn: any
 
   currencies: CurrencyModel[] = [];
-  
-  itemsPerPage: number;
-  currentPage: number = 1;
 
   constructor(
     private _apiSubscriber: ApiSubscriberService,
@@ -53,7 +48,7 @@ export class CategoryComponent implements OnInit {
 
 
   getCurrencies(){
-    this._apiSubscriber.getApi(
+    this._apiSubscriber.Api('get',
       this._currency.getAll(),
       (response) => {
         this.currencies = response;
@@ -63,12 +58,10 @@ export class CategoryComponent implements OnInit {
 
 
   getAll(){
-    this._apiSubscriber.getApi(
+    this._apiSubscriber.Api('get',
       this._category.getAll(),
       (response) => {
         this.categories = response;
-        this.filteredCategories = this.categories
-        this.updatePaginatedData();
       }
     )
    };
@@ -77,7 +70,7 @@ export class CategoryComponent implements OnInit {
   add(form: NgForm){
     if (form.valid){
       let newCategory = form.value
-      this._apiSubscriber.postApi(
+      this._apiSubscriber.Api('post',
         this._category.add(newCategory),
         () => {
           this.getAll();
@@ -95,7 +88,7 @@ export class CategoryComponent implements OnInit {
       let updateCurrency = this.currencies.find(c=> c._id = updateCurrencyId);
       this.updateCategory.currency = updateCurrency;
 
-      this._apiSubscriber.postApi(
+      this._apiSubscriber.Api('post',
         this._category.update(this.updateCategory),
         () => {
           this.getAll();
@@ -106,10 +99,9 @@ export class CategoryComponent implements OnInit {
     }
   };
 
-
   removeById(model: CategoryModel){
     this._swal.callSwal("Silme işlemini onaylıyor musunuz?", `${model.name}`, "Sil", ()=>{
-      this._apiSubscriber.postApi(
+      this._apiSubscriber.Api('post',
         this._category.removeById(model),
         () => {
           this.getAll();
@@ -119,25 +111,7 @@ export class CategoryComponent implements OnInit {
     })
   };
 
-
   copyUpdateCategory(category: CategoryModel){
     this.updateCategory = {...category};
   };
-
-  onFilteredItems(eventData: {filteredItems: any[]}){
-    this.filteredCategories = eventData.filteredItems
-    this.updatePaginatedData();
-  }
-
-  onPageChanged(eventData: { currentPage: number, itemsPerPage: number }){
-    this.currentPage = eventData.currentPage;
-    this.itemsPerPage = eventData.itemsPerPage;
-    this.updatePaginatedData();
-  };
-
-
-  updatePaginatedData(){
-    this.paginatedCategories = PaginationUtils.updatePaginatedData(this.currentPage, this.itemsPerPage, this.filteredCategories)
-  };
-
 }

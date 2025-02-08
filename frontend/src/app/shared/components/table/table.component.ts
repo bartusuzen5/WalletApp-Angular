@@ -16,8 +16,6 @@ import { TableBaseComponent } from './table-base/table-base.component';
 export class TableComponent{
    
   @Input() items: any[] = [];
-  @Input() filteredItems: any[] = [];
-  @Input() paginatedItems: any[] = [];
   @Input() itemHeaders: { header: string, key: string }[] = [];
   @Input() header: string = '';
   @Input() addModalId: string = 'addModalId';
@@ -26,13 +24,8 @@ export class TableComponent{
 
   @Output() editAction = new EventEmitter<any>();
   @Output() deleteAction = new EventEmitter<any>();
-  @Output() filterAction = new EventEmitter<{ filteredItems: any[] }>();
 
   constructor() {}
-
-  onFilteredItems(eventData: {filteredItems: any[]}){
-    this.filterAction.emit({filteredItems: eventData.filteredItems})
-  }
 
   onEdit(item: any) {
     this.editAction.emit(item);

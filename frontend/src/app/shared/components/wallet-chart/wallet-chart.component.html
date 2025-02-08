@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container-fluid">
     <div class="row">
       <div class="col">
         <div class="card mt-2">
@@ -73,6 +73,7 @@
           <h5 class="card-header">Kar/Zarar Yüzdeleri %</h5>
           <div class="card-body">
             <ngx-charts-bar-vertical
+            [animations]="false"
             [view]="[600, 400]"
             [barPadding]="100"
             [results]="selectedCurrency === '₺' ? marginTryPerc : marginUsdPerc"
@@ -97,6 +98,7 @@
           <h5 class="card-header">Kar/Zarar {{selectedCurrency}}</h5>
           <div class="card-body">
             <ngx-charts-bar-vertical
+            [animations]="false"
             [view]="[600, 400]"
             [barPadding]="100"
             [results]="selectedCurrency === '₺' ? marginTry : marginUsd"

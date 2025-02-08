@@ -1,9 +1,10 @@
-<div class="card ms-2 mt-2">
+<div class="container-fluid">
+  <div class="card mt-2">
     <div class="card-header">
       <h4>{{header}}</h4>
     </div>
   </div>
-  <div class="form-group mx-auto mt-4" style="width: 90%">
+  <div class="form-group mx-auto mt-4">
     <ng-content select="[header-content]"></ng-content>
     <table class="table table-bordered table-hover table-striped mt-2">
       <thead class="table-primary">
@@ -59,5 +60,12 @@
         </tr>
       </tbody>
     </table>
+    <app-pagination
+      [totalItems]="filteredItems.length"
+      [currentPage]="currentPage"
+      (pageChanged)="onPageChanged($event)">
+    </app-pagination>
   </div>
+</div>
+
   
