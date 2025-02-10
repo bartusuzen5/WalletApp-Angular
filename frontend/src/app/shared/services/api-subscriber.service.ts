@@ -31,7 +31,7 @@ export class ApiSubscriberService {
         this._spinner.hide();
       },
       error: (err) => {
-        onError(err);        
+        onError(err);  
         this._toastr.error(err.error.message);
         this._spinner.hide();
       }

@@ -7,7 +7,6 @@ const {v4:uuidv4} = require("uuid");
   router.post("/asset", async (req, res) => {
       try {
         let {categoryId} = req.body
-        console.log(categoryId)
         let matchStage = {};
         if (categoryId !== "all") {
           matchStage = { "asset.categoryId" : categoryId };

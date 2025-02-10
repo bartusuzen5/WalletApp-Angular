@@ -3,6 +3,14 @@ import { TradeComponent } from './features/trade/trade.component';
 
 export const routes: Routes = [
     {
+        path:"login",
+        loadComponent: () => import("./core/components/user/login/login.component").then(c => c.LoginComponent)
+    },
+    {
+        path:"register",
+        loadComponent: () => import("./core/components/user/register/register.component").then(c => c.RegisterComponent)
+    },
+    {
         path:"",
         loadComponent: () => import("./core/components/layout/layout.component").then(c => c.LayoutComponent),
         children: [

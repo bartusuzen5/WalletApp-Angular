@@ -9,11 +9,15 @@ export class ValidationDirective implements OnInit {
   @Input() minlength: number;
   @Input() maxlength: number;
   @Input() appValidation: boolean;
+  @Input() pattern: string;
+  @Input() email: boolean;
 
   private defaultMessages = {
     minlength: 'Bu alan en az {{minLength}} karakter olmalıdır!',
     maxlength: 'Bu alan en fazla {{maxLength}} karakter olmalıdır!',
-    required: 'Bu alan zorunludur!'
+    required: 'Bu alan zorunludur!',
+    email: 'Uygun email formatı giriniz',
+    pattern: 'En az 8 karakter, 1 büyük harf ve 1 rakam içermeli',
   };
 
   private isFocused = false;
@@ -25,7 +29,7 @@ export class ValidationDirective implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.control.statusChanges?.subscribe(() => {
+    this.control.valueChanges?.subscribe(() => {
       if (this.isFocused) {
         this.showValidationMessages();
       }
@@ -44,28 +48,35 @@ export class ValidationDirective implements OnInit {
 
   private showValidationMessages(): void {
     const control = this.control.control;
-    const errorMessages = this.getErrorMessages(control.errors);
+    const errorMessages = this.getErrorMessages(control.errors, this.control.value);
     this.updateErrorMessages(errorMessages);
   }
 
-  private getErrorMessages(errors: any): string[] {
+  private getErrorMessages(errors: any, value:any): string[] {
     if (!errors) return [];
 
     const messages: string[] = [];
 
     if (errors?.minlength) {
-      let message = this.defaultMessages.minlength.replace('{{minLength}}', this.minlength.toString());
+      const message = this.defaultMessages.minlength.replace('{{minLength}}', this.minlength.toString());
       messages.push(message);
     }
 
     if (errors?.maxlength) {
-      let message = this.defaultMessages.maxlength.replace('{{maxLength}}', this.maxlength.toString());
+      const message = this.defaultMessages.maxlength.replace('{{maxLength}}', this.maxlength.toString());
       messages.push(message);
     }
 
     if (errors?.required) {
-      let message = this.defaultMessages.required;
-      messages.push(message);
+      messages.push(this.defaultMessages.required);
+    }
+
+    if (errors?.pattern && !this.email) {
+      messages.push(this.defaultMessages.pattern);
+    }
+
+    if (errors?.email && this.email) {
+      messages.push(this.defaultMessages.email);
     }
 
     return messages;

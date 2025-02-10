@@ -1,0 +1,43 @@
+<div class="container-fluid min-vh-100">
+    <div class="row">
+      <div class="col-6 d-flex align-items-center justify-content-center min-vh-100" style="background-color: lightblue;">
+        <div class="position-absolute top-0 start-0 m-3 d-flex align-items-center">
+          <img src="/assets/app_icon.png" alt="Logo" width="50" height="50" class="me-3">
+          <span class="fw-bold fs-3">Bullseye Wallet Portal</span>
+        </div>
+        <form #loginForm="ngForm" class="w-50" autocomplete="on" (ngSubmit)="register(loginForm)">
+          <div class="form-group mt-2">
+            <label class="form-label" for="name" style="font-weight: bold;">Ad</label>
+            <input class="form-control" type="text" name="name" id="name" #name ngModel [appValidation] required [minlength]="3">
+          </div>
+          <div class="form-group mt-2">
+            <label class="form-label" for="surname" style="font-weight: bold;">Soyad</label>
+            <input class="form-control" type="text" name="surname" id="surname" #surname ngModel [appValidation] required [minlength]="3">
+          </div>
+          <div class="form-group mt-2">
+            <label class="form-label" for="email" style="font-weight: bold;">Email</label>
+            <input class="form-control" type="email" name="email" id="email" #email ngModel [appValidation] required [email]="true">
+          </div>
+          <div class="form-group mt-2">
+            <label class="form-label" for="password" style="font-weight: bold;">Şifre</label>
+            <input class="form-control" type="password" name="password" id="password" #password ngModel [appValidation] required pattern="^(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$">
+          </div>
+          <div class="form-group mt-2">
+            <label class="form-label" for="password-repeat" style="font-weight: bold;">Şifre Tekrar</label>
+            <input class="form-control" type="password" name="password-repeat" id="password-repeat" #passwordRepeat ngModel (ngModelChange)="checkPwMatch($event)">
+            <div *ngIf="!isPasswordsMatch" class="text-danger">
+              <small>Şifreler uyuşmuyor!</small>
+            </div>
+          </div>
+          <button class="btn btn-primary mt-4 w-100" type="submit">Kayıt Ol</button>
+          <div class="text-center mt-4">
+            Hesabınız var mı?
+            <a routerLink="/login">Giriş Yap</a>
+          </div>
+        </form>
+      </div>
+      <div class="col-6 p-0">
+        <img src="/assets/giris_resim_5.jpg" class="img-fluid w-100 h-100">
+      </div>
+    </div>
+  </div>

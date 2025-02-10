@@ -13,6 +13,7 @@ const assetRouter = require("./routers/asset.router");
 const tradeRouter = require("./routers/trade.router");
 const dividendRouter = require("./routers/dividend.router");
 const walletRouter = require("./routers/wallet.router");
+const userRouter = require("./routers/user.router");
 
 app.use("/api/currency", currencyRouter);
 app.use("/api/category", categoryRouter);
@@ -20,6 +21,7 @@ app.use("/api/asset", assetRouter);
 app.use("/api/trade", tradeRouter);
 app.use("/api/dividend", dividendRouter);
 app.use("/api/wallet", walletRouter);
+app.use("/api/user", userRouter);
 
 connection();
 
