@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { TradeComponent } from './features/trade/trade.component';
+import { authGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
     {
@@ -13,9 +14,11 @@ export const routes: Routes = [
     {
         path:"",
         loadComponent: () => import("./core/components/layout/layout.component").then(c => c.LayoutComponent),
+        canActivate: [authGuard],
         children: [
             {
                 path: "category",
+                canActivate: [authGuard],
                 loadComponent: () => import("./features/category/category.component").then(c => c.CategoryComponent)
             },
             {
@@ -44,4 +47,8 @@ export const routes: Routes = [
             }
         ]
     },
+    {
+        path:"**",
+        redirectTo:"login"
+    }
 ];

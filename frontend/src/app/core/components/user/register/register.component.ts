@@ -35,12 +35,11 @@ export class RegisterComponent {
     }
   }
 
-  checkPwMatch(password_repeat: any){
-    if(password_repeat != this.password.nativeElement.value){
+  checkPwMatch(passwordRepeat: any){
+    if(passwordRepeat != this.password.nativeElement.value){
       this.isPasswordsMatch = false
     } else {
       this.isPasswordsMatch = true
     }
-
   }
 }

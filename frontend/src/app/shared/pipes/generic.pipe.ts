@@ -6,7 +6,7 @@ import { GenericUtils } from '../utilities/generic.utils';
   standalone: true
 })
 @Injectable({
-  providedIn: 'root' // Servis olarak enjekte edilebilir hale getir
+  providedIn: 'root'
 })
 export class GenericPipe implements PipeTransform {
 

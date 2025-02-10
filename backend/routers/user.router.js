@@ -4,6 +4,12 @@ const User = require("../models/user");
 const {v4:uuidv4} = require("uuid");
 const jwt = require("jsonwebtoken");
 
+const secretKey = "Bullseye Wallet Secret Key";
+const options = {
+    expiresIn: "1d"
+};
+
+
 
 router.post("/register/add", async (req, res) => {
   try{
@@ -37,7 +43,7 @@ router.post("/login", async (req, res) => {
     if(checkUser == null || checkUser.password != model.password){
       res.status(403).json({message: "Email veya şifre hatalı!"});
     }else{
-      const token = jwt.sign({}, secretKey, options)
+      const token = jwt.sign({id: checkUser._id, role: checkUser.role}, secretKey, options)
       const model = {message: "Giriş başarılı!", token: token, user: checkUser}
       res.json(model);
     }

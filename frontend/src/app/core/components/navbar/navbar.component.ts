@@ -3,8 +3,8 @@ import { SharedModule } from '../../../shared/shared.module';
 import { CategoryModel } from '../../../features/category/models/category.model';
 import { ApiSubscriberService } from '../../../shared/services/api-subscriber.service';
 import { CategoryService } from '../../../features/category/services/category.service';
-import { Router } from '@angular/router';
 import { NavbarService } from './services/navbar.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
@@ -20,8 +20,8 @@ export class NavbarComponent implements OnInit {
   constructor(
     private _category: CategoryService,
     private _apiSubscriber: ApiSubscriberService,
-    private _router: Router,
-    private _navbar: NavbarService
+    private _navbar: NavbarService,
+    private _router: Router
   ){}
 
   ngOnInit(): void {
@@ -38,6 +38,12 @@ export class NavbarComponent implements OnInit {
         this.categories = response;
       }
     )
+  }
+
+  logout(){
+    localStorage.removeItem('token')
+    localStorage.removeItem('user')
+    this._router.navigateByUrl("/login")
   }
 
 }
