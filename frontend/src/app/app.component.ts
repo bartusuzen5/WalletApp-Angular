@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterModule, RouterOutlet } from '@angular/router';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { LayoutComponent } from './core/components/layout/layout.component';
 
 @Component({
   selector: 'app-root',

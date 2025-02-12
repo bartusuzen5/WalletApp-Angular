@@ -1,5 +1,4 @@
 import { Routes } from '@angular/router';
-import { TradeComponent } from './features/trade/trade.component';
 import { authGuard } from './core/guards/auth.guard';
 import { adminGuard } from './core/guards/admin.guard';
 
@@ -11,6 +10,11 @@ export const routes: Routes = [
     {
         path:"register",
         loadComponent: () => import("./core/components/user/register/register.component").then(c => c.RegisterComponent)
+    },
+    {
+        path: "",
+        redirectTo: "wallet",
+        pathMatch: "full"
     },
     {
         path:"",
@@ -52,6 +56,6 @@ export const routes: Routes = [
     },
     {
         path:"**",
-        redirectTo:"login"
+        redirectTo:"wallet"
     }
 ];

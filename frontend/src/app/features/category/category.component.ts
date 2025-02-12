@@ -7,8 +7,8 @@ import { CurrencyModel } from '../currency/models/currency.model';
 import { CurrencyService } from '../currency/services/currency.service';
 import { SwalService } from '../../core/services/swal.service';
 import { ApiSubscriberService } from '../../shared/services/api-subscriber.service';
-import { NavbarService } from '../../core/components/navbar/services/navbar.service';
 import { GenericUtils } from '../../shared/utilities/generic.utils';
+import { SidebarService } from '../../core/components/sidebar/services/sidebar.service';
 
 @Component({
   selector: 'app-category',
@@ -32,7 +32,7 @@ export class CategoryComponent implements OnInit {
     private _swal: SwalService,
     private _category: CategoryService,
     private _currency: CurrencyService,
-    private _navbar: NavbarService
+    private _sidebar: SidebarService
   ){}
 
   ngOnInit(): void {
@@ -73,7 +73,7 @@ export class CategoryComponent implements OnInit {
         this._category.add(newCategory),
         () => {
           this.getAll();
-          this._navbar.triggerUpdate();
+          this._sidebar.triggerUpdate();
           GenericUtils.resetForm(form, this.addModalCloseBtn);
         }
       )
@@ -91,7 +91,7 @@ export class CategoryComponent implements OnInit {
         this._category.update(this.updateCategory),
         () => {
           this.getAll();
-          this._navbar.triggerUpdate();
+          this._sidebar.triggerUpdate();
           GenericUtils.resetForm(form, this.updateModalCloseBtn);
         }
       )
@@ -104,7 +104,7 @@ export class CategoryComponent implements OnInit {
         this._category.removeById(model),
         () => {
           this.getAll();
-          this._navbar.triggerUpdate();
+          this._sidebar.triggerUpdate();
         }
       )
     })

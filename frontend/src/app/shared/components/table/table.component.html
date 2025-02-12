@@ -5,7 +5,7 @@
 [mainRowsTemplate]="mainRowsTemplate">
 
   <button header-content class="btn btn-primary" data-bs-toggle="modal" [attr.data-bs-target]="addModalId">
-    Ekle
+    <i class="bi bi-plus-lg"></i>
   </button>
 
   <th extra-header-content>Eklenme Tarihi</th>
@@ -15,10 +15,10 @@
     <td>{{ item.createdDateTime | date: 'dd-MM-yyyy HH:mm:ss' }}</td>
     <td style="text-align: center;">
       <button class="btn btn-warning" data-bs-toggle="modal" [attr.data-bs-target]="updateModalId" (click)="onEdit(item)">
-        Düzenle
+        <i class="bi bi-pencil"></i>
       </button>
       <button class="btn btn-danger ms-2" (click)="onDelete(item)">
-        Sil
+        <i class="bi bi-trash3"></i>
       </button>
     </td>
   </ng-template>

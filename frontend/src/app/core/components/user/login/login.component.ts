@@ -27,8 +27,8 @@ export class LoginComponent {
         this._login.getUser(form.value),
         (response) => {
           localStorage.setItem("token", response.token)
-          localStorage.setItem("user", response.user)
-          this._router.navigateByUrl("/")
+          localStorage.setItem("user", JSON.stringify(response.user))
+          this._router.navigateByUrl("/wallet")
         }
       )
     }
