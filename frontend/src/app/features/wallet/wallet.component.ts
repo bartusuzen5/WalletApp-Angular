@@ -3,11 +3,13 @@ import { SharedModule } from '../../shared/shared.module';
 import { ApiSubscriberService } from '../../shared/services/api-subscriber.service';
 import { WalletService } from './services/wallet.service';
 import { Router } from '@angular/router';
+import { WalletChartComponent } from '../../shared/components/wallet-chart/wallet-chart.component';
+import { TableChartComponent } from '../../shared/components/table/table-chart/table-chart.component';
 
 @Component({
   selector: 'app-wallet',
   standalone: true,
-  imports: [SharedModule],
+  imports: [SharedModule, WalletChartComponent, TableChartComponent],
   templateUrl: './wallet.component.html',
   styleUrl: './wallet.component.css'
 })

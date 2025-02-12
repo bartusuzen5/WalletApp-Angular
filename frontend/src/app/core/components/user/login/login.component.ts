@@ -4,11 +4,13 @@ import { NgForm } from '@angular/forms';
 import { LoginService } from '../services/login.service';
 import { ApiSubscriberService } from '../../../../shared/services/api-subscriber.service';
 import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { UserBaseComponent } from '../user-base/user-base.component';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [SharedModule],
+  imports: [SharedModule, UserBaseComponent],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })

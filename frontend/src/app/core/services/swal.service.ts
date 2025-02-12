@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
 import Swal from 'sweetalert2';
 
 @Injectable({

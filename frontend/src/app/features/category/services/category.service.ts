@@ -1,9 +1,6 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { GenericHttpService } from '../../../shared/services/generic-http.service';
 import { CategoryModel } from '../models/category.model';
-import { CurrencyModel } from '../../currency/models/currency.model';
-import { MessageResponseModel } from '../../../shared/models/message-response.model';
 import { Observable } from 'rxjs';
 
 @Injectable({

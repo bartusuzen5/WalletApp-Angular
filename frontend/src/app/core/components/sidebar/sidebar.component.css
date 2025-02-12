@@ -1,0 +1,12 @@
+.custom-dropend {
+    margin-top: 3rem; 
+}
+
+.custom-sidebar-button {
+    background-color: #f8f9fa; /* btn-light arka plan rengi */
+    color: #212529; /* btn-light metin rengi */
+    border: 1px solid #f8f9fa;
+    padding: 0.5rem 1rem; /* btn-lg padding */
+    font-size: 1.5rem; /* btn-lg font-size */
+    border-radius: 0.6rem; 
+  }

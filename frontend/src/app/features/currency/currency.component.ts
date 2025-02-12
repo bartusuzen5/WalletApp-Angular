@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CurrencyService } from './services/currency.service';
 import { CurrencyModel } from './models/currency.model';
 import { NgForm } from '@angular/forms';

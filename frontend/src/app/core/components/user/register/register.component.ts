@@ -4,17 +4,18 @@ import { NgForm } from '@angular/forms';
 import { ApiSubscriberService } from '../../../../shared/services/api-subscriber.service';
 import { RegisterService } from '../services/register.service';
 import { Router } from '@angular/router';
+import { UserBaseComponent } from '../user-base/user-base.component';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [SharedModule],
+  imports: [SharedModule, UserBaseComponent],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
 })
 export class RegisterComponent {
 
-  isPasswordsMatch: boolean = false
+  isPasswordsMatch: boolean = true
   @ViewChild('password') password!: ElementRef;
 
   constructor(

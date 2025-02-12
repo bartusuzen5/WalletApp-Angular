@@ -1,8 +1,8 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col d-flex flex-column align-items-center min-vh-100" style="background-color: lightsteelblue;">
-      <div class="dropend d-inline-block mt-5">
-        <button class="btn btn-light btn-lg" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+      <div class="dropend d-inline-block custom-dropend">
+        <button class="btn custom-sidebar-button" type="button" data-bs-toggle="dropdown" aria-expanded="false">
           <i class="bi bi-wallet2"></i>
         </button>
         <ul class="dropdown-menu">
@@ -14,8 +14,8 @@
           </li>
         </ul>
       </div>
-      <div class="dropend d-inline-block mt-5">
-        <button class="btn btn-light btn-lg" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+      <div class="dropend d-inline-block custom-dropend">
+        <button class="btn custom-sidebar-button" type="button" data-bs-toggle="dropdown" aria-expanded="false">
           <i class="bi bi-arrow-down-up"></i>
         </button>
         <ul class="dropdown-menu">
@@ -27,8 +27,8 @@
           </li>
         </ul>
       </div>
-      <div class="dropend d-inline-block mt-5">
-        <button class="btn btn-light btn-lg" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+      <div class="dropend d-inline-block custom-dropend" *appIfAdmin>
+        <button class="btn custom-sidebar-button" type="button" data-bs-toggle="dropdown" aria-expanded="false">
           <i class="bi bi-currency-exchange"></i>
         </button>
         <ul class="dropdown-menu">
@@ -40,8 +40,8 @@
           </li>
         </ul>
       </div>
-      <div class="dropend d-inline-block mt-5">
-        <button class="btn btn-light btn-lg" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+      <div class="dropend d-inline-block custom-dropend" *appIfAdmin>
+        <button class="btn custom-sidebar-button" type="button" data-bs-toggle="dropdown" aria-expanded="false">
           <i class="bi bi-bank"></i>
         </button>
         <ul class="dropdown-menu">

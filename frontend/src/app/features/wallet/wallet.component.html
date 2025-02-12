@@ -3,7 +3,7 @@
 [items]="walletCategories"
 (selectFunc)="onSelect($event)"
 (currencySwitchFunc)="currencySwitch($event)">
-<a all-items-content style="float: right;" [routerLink]="['/wallet-category', 'all']">Tüm Liste</a>
+<button all-items-content class="btn btn-outline-primary" style="float: right;" [routerLink]="['/wallet-category', 'all']">Tüm Liste</button>
 </app-wallet-chart>
 
 <app-table-chart

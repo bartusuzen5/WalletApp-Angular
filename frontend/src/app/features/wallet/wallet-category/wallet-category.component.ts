@@ -1,15 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { SharedModule } from '../../../shared/shared.module';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { CategoryModel } from '../../category/models/category.model';
 import { ApiSubscriberService } from '../../../shared/services/api-subscriber.service';
 import { WalletService } from '../services/wallet.service';
 import { CategoryService } from '../../category/services/category.service';
+import { WalletChartComponent } from '../../../shared/components/wallet-chart/wallet-chart.component';
+import { TableChartComponent } from '../../../shared/components/table/table-chart/table-chart.component';
 
 @Component({
   selector: 'app-wallet-category',
   standalone: true,
-  imports: [SharedModule],
+  imports: [SharedModule, WalletChartComponent, TableChartComponent],
   templateUrl: './wallet-category.component.html',
   styleUrl: './wallet-category.component.css'
 })

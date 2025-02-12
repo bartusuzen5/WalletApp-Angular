@@ -17,7 +17,7 @@
                 <p class="card-text">Toplam Bakiye: {{(selectedCurrency === '₺' ?  totalBalanceTry : totalBalanceUsd) | customNumber | currency2: selectedCurrency}}</p>
               </div>
               <div class="col">
-                <a style="float: right; margin-left: 10px;" [routerLink]="['/wallet']"><- Cüzdan</a>
+                <button class="btn btn-outline-primary" style="float: right; margin-left: 10px;" [routerLink]="['/wallet']"><- Cüzdan</button>
                 <ng-content #allItems select="[all-items-content]"></ng-content>
               </div>
             </div>

@@ -1,14 +1,11 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { CustomNumberPipe } from '../../pipes/custom-number.pipe';
-import { Currency2Pipe } from '../../pipes/currency.pipe';
-import { RouterModule } from '@angular/router';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { SharedModule } from '../../shared.module';
 
 @Component({
   selector: 'app-wallet-chart',
   standalone: true,
-  imports: [CommonModule, CustomNumberPipe, Currency2Pipe, RouterModule, NgxChartsModule],
+  imports: [SharedModule, NgxChartsModule],
   templateUrl: './wallet-chart.component.html',
   styleUrl: './wallet-chart.component.css',
 })

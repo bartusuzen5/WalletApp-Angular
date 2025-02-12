@@ -6,11 +6,12 @@ import { ApiSubscriberService } from '../../../shared/services/api-subscriber.se
 import { Router, RouterModule } from '@angular/router';
 import { CategoryModel } from '../../../features/category/models/category.model';
 import { SidebarService } from './services/sidebar.service';
+import { IfAdminDirective } from '../../../shared/directives/if-admin.directive';
 
 @Component({
   selector: 'app-sidebar',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, IfAdminDirective],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.css'
 })
