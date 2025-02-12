@@ -30,7 +30,6 @@ export class CategoryService {
   }
 
   public removeById(removeModel: CategoryModel): Observable<any>{
-    let model = {_id: removeModel._id};
-    return this._http.post<any>("category/removeById", model);
+    return this._http.delete<any>("category/removeById", removeModel._id);
   }
 }

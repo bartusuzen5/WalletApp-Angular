@@ -41,4 +41,30 @@ export class GenericHttpService {
       })
     );
   };
+
+
+  public put<T>(api: string, id: string, model: any): Observable<T>{
+    return this._http.put<T>(`${this.api}/${api}/${id}`, model, { observe: 'response' }).pipe(
+      map((response) => {
+        if (response) {
+          return response.body;
+        } else {
+          throw new Error('No body in response');
+        }
+      })
+    );
+  }
+
+
+  public delete<T>(api: string, id: string): Observable<T>{
+    return this._http.delete<T>(`${this.api}/${api}/${id}`, { observe: 'response' }).pipe(
+      map((response) => {
+        if (response) {
+          return response.body;
+        } else {
+          throw new Error('No body in response');
+        }
+      })
+    );
+  }
 }

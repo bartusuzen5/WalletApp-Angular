@@ -30,7 +30,6 @@ export class AssetService {
   }
 
   removeById(asset: AssetModel): Observable<any>{
-    let model = {_id: asset._id};
-    return this._http.post("asset/removeById", model)
+    return this._http.delete("asset/removeById", asset._id)
   }
 }

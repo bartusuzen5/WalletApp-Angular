@@ -25,6 +25,6 @@ export class TradeService {
   }
 
   public removeById(model: TradeModel): Observable<any>{
-    return this._http.post<any>("trade/removeById", model)
+    return this._http.delete<any>("trade/removeById", model._id)
   }
 }

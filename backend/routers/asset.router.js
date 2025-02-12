@@ -165,11 +165,15 @@ router.get("/", async (req, res) => {
   });
 
 
-  router.post("/removeById", async(req, res) => {
+  router.delete("/removeById/:id", async(req, res) => {
     try{
-      const id = req.body;
-      await Asset.findByIdAndDelete(id);
+      const id = req.params.id;
+      const asset = Asset.findById(id)
+      if (!asset) {
+        return res.status(404).json({ message: "Varlık bulunamadı" });
+      }
       await Trade.deleteMany({ assetId: id });
+      await asset.deleteOne();
       res.json({message: "Varlık başarıyla silindi!"});
     }catch (error) {
       res.status(500).json({message: error.message});

@@ -21,8 +21,7 @@ export class CurrencyService {
   }
 
   public removeById(model: CurrencyModel): Observable<any>{
-    let id = {_id: model._id};
-    return this._http.post<any>("currency/removeById", id);
+    return this._http.delete<any>("currency/removeById", model._id);
   }
 
   public update(model: CurrencyModel): Observable<any>{

@@ -25,6 +25,6 @@ export class DividendService {
   }
 
   removeById(model: DividendModel): Observable<any>{
-    return this._http.post<any>("dividend/removeById", model)
+    return this._http.delete<any>("dividend/removeById", model._id)
   }
 }

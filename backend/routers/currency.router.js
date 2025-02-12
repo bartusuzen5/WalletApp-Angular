@@ -38,14 +38,18 @@ router.post("/add", async (req, res) => {
 });
 
 
-router.post("/removeById", async (req, res) => {
+router.delete("/removeById/:id", async (req, res) => {
     try {
-        const id = req.body;
-        await Currency.findByIdAndDelete(id);
+        const id = req.params.id;
+        const currency = await Currency.findById(id);
+        if (!currency) {
+            return res.status(404).json({ message: "Para birimi bulunamadı" });
+        }
         await Category.updateMany(
             { currencyId: id},
             { $set: {currencyId: null}}
         );
+        await currency.deleteOne();
         res.json({message: "Para birimi başarıyla silindi!"});
     } catch (error) {
         res.status(500).json({message: error.message});

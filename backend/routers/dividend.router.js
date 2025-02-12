@@ -94,10 +94,14 @@ router.post("/update", async (req, res) => {
   }
 })
 
-router.post("/removeById", async (req, res) => {
+router.delete("/removeById/:id", async (req, res) => {
   try{
-    const removeDividend = req.body
-    await Dividend.findByIdAndDelete(removeDividend._id)
+    const id = req.params.id
+    const dividend = await Dividend.findById(id)
+    if (!dividend) {
+      return res.status(404).json({ message: "Temettü işlemi bulunamadı" });
+    }
+    await dividend.deleteOne();
     res.json({message: "Temettü başarıyla silindi!"})
   }catch (error){
     res.status(500).json({message: error.message})

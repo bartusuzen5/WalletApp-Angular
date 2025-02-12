@@ -98,15 +98,15 @@ router.post("/update", async (req, res) => {
 })
 
 
-router.post("/removeById", async(req, res) => {
+router.delete("/removeById/:id", async(req, res) => {
   try{
-    const id = req.body;
-    await Category.findByIdAndDelete(id);
-    // await Category.updateMany(
-    //     { categoryId: id},
-    //     { $set: {categoryId: null}}
-    // );
+    const id = req.params.id;
+    const category = await Category.findById(id);
+    if (!category) {
+        return res.status(404).json({ message: "Kategori bulunamadı" });
+    }
     await Asset.deleteMany({ categoryId: id });
+    await category.deleteOne();
     res.json({message: "Kategori başarıyla silindi!"});
   }catch (error) {
     res.status(500).json({message: error.message});

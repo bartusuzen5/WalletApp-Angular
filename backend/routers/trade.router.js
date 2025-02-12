@@ -98,10 +98,14 @@ router.post("/update", async (req, res) => {
   }
 })
 
-router.post("/removeById", async (req, res) => {
+router.delete("/removeById/:id", async (req, res) => {
   try{
-    const removeTrade = req.body
-    await Trade.findByIdAndDelete(removeTrade._id)
+    const id = req.params.id
+    const trade = await Trade.findById(id)
+    if (!trade) {
+      return res.status(404).json({ message: "İşlem bulunamadı" });
+    }
+    await trade.deleteOne();
     res.json({message: "İşlem başarıyla silindi!"})
   }catch (error){
     res.status(500).json({message: error.message})
