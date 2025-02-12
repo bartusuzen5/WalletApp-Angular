@@ -13,6 +13,7 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { CustomNumberPipe } from './pipes/custom-number.pipe';
 import { WalletChartComponent } from './components/wallet-chart/wallet-chart.component';
 import { TableChartComponent } from './components/table/table-chart/table-chart.component';
+import { SidebarComponent } from '../core/components/sidebar/sidebar.component';
 
 @NgModule({
   declarations: [],
@@ -21,6 +22,7 @@ import { TableChartComponent } from './components/table/table-chart/table-chart.
     RouterModule,
     FormsModule,
     NavbarComponent,
+    SidebarComponent,
     Currency2Pipe,
     CustomNumberPipe,
     GenericPipe,
@@ -37,6 +39,7 @@ import { TableChartComponent } from './components/table/table-chart/table-chart.
     RouterModule,
     FormsModule,
     NavbarComponent,
+    SidebarComponent,
     Currency2Pipe,
     CustomNumberPipe,
     GenericPipe,

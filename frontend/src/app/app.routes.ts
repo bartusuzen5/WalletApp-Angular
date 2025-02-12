@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { TradeComponent } from './features/trade/trade.component';
 import { authGuard } from './core/guards/auth.guard';
+import { adminGuard } from './core/guards/admin.guard';
 
 export const routes: Routes = [
     {
@@ -18,15 +19,17 @@ export const routes: Routes = [
         children: [
             {
                 path: "category",
-                canActivate: [authGuard],
+                canActivate: [adminGuard],
                 loadComponent: () => import("./features/category/category.component").then(c => c.CategoryComponent)
             },
             {
                 path: "currency",
+                canActivate: [adminGuard],
                 loadComponent: () => import("./features/currency/currency.component").then(c => c.CurrencyComponent)
             },
             {
                 path: "asset/:category",
+                canActivate: [adminGuard],
                 loadComponent: () => import("./features/asset/asset.component").then(c => c.AssetComponent)
             },
             {
