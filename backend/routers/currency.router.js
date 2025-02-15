@@ -18,7 +18,7 @@ router.post("/add", async (req, res) => {
     try{
         const model = req.body;
         const checkName = await Currency.findOne({name: model.name});
-        if(checkName != null){
+        if(checkName){
             res.status(403).json({message: "Aynı isimde para birimi mevcut!"});
         }else{
             const currency = new Currency({
@@ -57,14 +57,15 @@ router.delete("/removeById/:id", async (req, res) => {
 });
 
 
-router.post("/update", async (req, res) => {
+router.put("/update/:id", async (req, res) => {
     try{
+        const currencyId = req.params.id;
         const updateCurrency = req.body;
         const checkName = await Currency.findOne({name: updateCurrency.name});
-        if (checkName != null && checkName._id.toString() != updateCurrency._id){
+        if (checkName && checkName._id.toString() != currencyId){
             res.status(403).json({message: "Aynı isimde para birimi mevcut!"});
         } else {
-            await Currency.findByIdAndUpdate(updateCurrency._id, updateCurrency);
+            await Currency.findByIdAndUpdate(currencyId, updateCurrency);
             res.json({message: "Para birimi başarıyla güncellendi!"});
         }
     } catch (error) {

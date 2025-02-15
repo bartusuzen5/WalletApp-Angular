@@ -25,7 +25,7 @@ export class CurrencyService {
   }
 
   public update(model: CurrencyModel): Observable<any>{
-    return this._http.post<any>("currency/update", model);
+    return this._http.put<any>(`currency/update/${model._id}`, model);
   }
 
 }

@@ -43,8 +43,8 @@ export class GenericHttpService {
   };
 
 
-  public put<T>(api: string, id: string, model: any): Observable<T>{
-    return this._http.put<T>(`${this.api}/${api}/${id}`, model, { observe: 'response' }).pipe(
+  public put<T>(api: string, model: any): Observable<T>{
+    return this._http.put<T>(`${this.api}/${api}`, model, { observe: 'response' }).pipe(
       map((response) => {
         if (response) {
           return response.body;

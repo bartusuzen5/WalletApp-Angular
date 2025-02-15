@@ -21,7 +21,7 @@ export class DividendService {
   }
 
   update(model: DividendModel): Observable<any>{
-    return this._http.post<any>("dividend/update", model);
+    return this._http.put<any>(`dividend/update/${model._id}`, model);
   }
 
   removeById(model: DividendModel): Observable<any>{

@@ -87,11 +87,12 @@ router.post("/add", async (req, res) => {
     }
 });
 
-router.post("/update", async (req, res) => {
+router.put("/update/:id", async (req, res) => {
   try{
+    const tradeId = req.params.id
     const updateTrade = req.body
     delete updateTrade.asset
-    await Trade.findByIdAndUpdate(updateTrade._id, updateTrade)
+    await Trade.findByIdAndUpdate(tradeId, updateTrade)
     res.json({message: "İşlem başarıyla güncellendi!"})
   }catch (error){
     res.status(500).json({message: error.message})

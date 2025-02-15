@@ -26,7 +26,7 @@ export class AssetService {
   }
 
   update(model: AssetModel): Observable<any>{
-    return this._http.post("asset/update", model)
+    return this._http.put(`asset/update/${model._id}`, model)
   }
 
   removeById(asset: AssetModel): Observable<any>{

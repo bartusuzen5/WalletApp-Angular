@@ -1,10 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const Category = require("../models/category");
 const {v4:uuidv4} = require("uuid");
-const Currency = require("../models/currency");
 const Asset = require("../models/asset");
-const { model } = require("mongoose");
 const Trade = require("../models/trade");
 
 
@@ -64,7 +61,7 @@ router.get("/", async (req, res) => {
   
   router.post("/getByCategory", async (req, res) => {
     try {
-      let {categoryId} = req.body
+      const {categoryId} = req.body
       let assets = await Asset.aggregate([
         {
           $match: {
@@ -117,12 +114,12 @@ router.get("/", async (req, res) => {
   
   router.post("/add", async (req, res) => {
     try{
-      let model = req.body;
-      let checkName = await Asset.findOne({name: model.name});
-      let checkCode = await Asset.findOne({code: model.code});
-      if (checkName != null){
+      const model = req.body;
+      const checkName = await Asset.findOne({name: model.name});
+      const checkCode = await Asset.findOne({code: model.code});
+      if (checkName){
         res.status(403).json({message: "Aynı isimde varlık mevcut!"});
-      } else if (checkCode != null){
+      } else if (checkCode){
         res.status(403).json({message: "Aynı koda sahip varlık mevcut!"});
       } else {
         const asset = new Asset({
@@ -144,19 +141,20 @@ router.get("/", async (req, res) => {
   });
 
 
-  router.post("/update", async (req, res) => {
+  router.put("/update/:id", async (req, res) => {
     try{
+      const assetId = req.params.id
       let updateAsset = req.body;
       delete updateAsset.category;
       delete updateAsset.currency;
-      let checkName = await Asset.findOne({name: updateAsset.name});
-      let checkCode = await Asset.findOne({code: updateAsset.code});
-      if (checkName != null && checkName._id.toString() != updateAsset._id){
+      const checkName = await Asset.findOne({name: updateAsset.name});
+      const checkCode = await Asset.findOne({code: updateAsset.code});
+      if (checkName && checkName._id.toString() != assetId){
         res.status(403).json({message: "Aynı isimde varlık mevcut!"});
-      } else if (checkCode != null && checkCode._id.toString() != updateAsset._id){
+      } else if (checkCode && checkCode._id.toString() != assetId){
         res.status(403).json({message: "Aynı koda sahip varlık mevcut!"});
       } else {
-        await Asset.findByIdAndUpdate(updateAsset._id, updateAsset);
+        await Asset.findByIdAndUpdate(assetId, updateAsset);
         res.json({message: "Varlık başarıyla güncellendi!"})
       }
     } catch (error) {

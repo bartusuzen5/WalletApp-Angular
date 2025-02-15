@@ -16,7 +16,7 @@ export class WalletService {
   }
 
   public getAssetsByCategory(categoryId: string): Observable<any[]>{
-    let model = {categoryId: categoryId}
+    const model = {categoryId: categoryId}
     return this._http.post<any[]>("wallet/asset", model)
   }
 

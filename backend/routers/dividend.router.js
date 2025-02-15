@@ -82,12 +82,13 @@ router.post("/add", async (req, res) => {
     }
 });
 
-router.post("/update", async (req, res) => {
+router.put("/update/:id", async (req, res) => {
   try{
-    const updateDividend = req.body
+    const dividendId = req.params.id
+    let updateDividend = req.body
     delete updateDividend.asset
     updateDividend.yield /= 100
-    await Dividend.findByIdAndUpdate(updateDividend._id, updateDividend)
+    await Dividend.findByIdAndUpdate(dividendId, updateDividend)
     res.json({message: "Temettü başarıyla güncellendi!"})
   }catch (error){
     res.status(500).json({message: error.message})

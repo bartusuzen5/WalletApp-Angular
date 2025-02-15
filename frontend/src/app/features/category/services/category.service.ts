@@ -26,7 +26,7 @@ export class CategoryService {
   }
 
   public update(model: CategoryModel): Observable<any>{
-    return this._http.post<any>("category/update", model);
+    return this._http.put<any>(`category/update/${model._id}`, model);
   }
 
   public removeById(removeModel: CategoryModel): Observable<any>{

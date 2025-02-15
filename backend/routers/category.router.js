@@ -2,8 +2,6 @@ const express = require("express");
 const router = express.Router();
 const Category = require("../models/category");
 const {v4:uuidv4} = require("uuid");
-const Currency = require("../models/currency");
-const { model } = require("mongoose");
 const Asset = require("../models/asset");
 
 
@@ -60,9 +58,9 @@ router.post("/getById", async(req, res) => {
 
 router.post("/add", async (req, res) => {
   try{
-    let model = req.body;
-    let checkName = await Category.findOne({name: model.name});
-    if (checkName != null){
+    const model = req.body;
+    const checkName = await Category.findOne({name: model.name});
+    if (checkName){
       res.status(403).json({message: "Aynı isimde kategori mevcut!"});
     }else {
       const category = new Category({
@@ -80,16 +78,17 @@ router.post("/add", async (req, res) => {
 });
 
 
-router.post("/update", async (req, res) => {
+router.put("/update/:id", async (req, res) => {
   try{
+    const categoryId = req.params.id;
     let updateCategory = req.body;
-    let checkName = await Category.findOne({name: updateCategory.name});
-    if (checkName != null && checkName._id.toString() != updateCategory._id){
+    const checkName = await Category.findOne({name: updateCategory.name});
+    if (checkName && checkName._id.toString() != categoryId){
       res.status(403).json({message: "Aynı isimde kategori mevcut!"});
     }else {
       updateCategory.currencyId = updateCategory.currency._id;
       delete updateCategory.currency;
-      await Category.findByIdAndUpdate(updateCategory._id, updateCategory);
+      await Category.findByIdAndUpdate(categoryId, updateCategory);
       res.json({message: "Kategori başarıyla güncellendi!"});
     }
   } catch (error){

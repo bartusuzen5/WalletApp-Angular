@@ -21,7 +21,7 @@ export class TradeService {
   }
 
   public update(model: TradeModel): Observable<any>{
-    return this._http.post<any>("trade/update", model)
+    return this._http.put<any>(`trade/update/${model._id}`, model)
   }
 
   public removeById(model: TradeModel): Observable<any>{
