@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
-import { SharedModule } from '../../../shared/shared.module';
 import { CommonModule } from '@angular/common';
 import { CategoryService } from '../../../features/category/services/category.service';
 import { ApiSubscriberService } from '../../../shared/services/api-subscriber.service';
-import { Router, RouterModule } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { CategoryModel } from '../../../features/category/models/category.model';
 import { SidebarService } from './services/sidebar.service';
 import { IfAdminDirective } from '../../../shared/directives/if-admin.directive';

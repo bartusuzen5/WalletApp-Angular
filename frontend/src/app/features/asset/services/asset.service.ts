@@ -1,4 +1,4 @@
-import { Injectable, model } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { GenericHttpService } from '../../../shared/services/generic-http.service';
 import { AssetModel } from '../models/asset.model';
 import { Observable } from 'rxjs';

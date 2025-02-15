@@ -42,7 +42,7 @@ export class WalletComponent implements OnInit{
   }
 
   onSelect(selectedCategory: any){
-    let category = this.walletCategories.find(c => c.item.name === selectedCategory.name);
+    const category = this.walletCategories.find(c => c.item.name === selectedCategory.name);
     this._router.navigate(['/wallet-category', category._id])
   }
 

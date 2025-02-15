@@ -75,7 +75,6 @@ export class WalletCategoryComponent implements OnInit{
       this._wallet.getAssetsByCategory(this.categoryId),
       (response) => {
         this.walletAssets = response
-        console.log(this.walletAssets)
       }
     )
   };

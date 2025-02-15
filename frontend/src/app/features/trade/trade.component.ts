@@ -89,7 +89,7 @@ export class TradeComponent implements OnInit{
 
   add(form: NgForm){
     if(form.valid){
-      let newTrade = form.value;
+      const newTrade = form.value;
       this._apiSubscriber.Api('post',
         this._trade.add(newTrade),
         () => {

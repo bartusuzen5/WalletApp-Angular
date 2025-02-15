@@ -68,7 +68,7 @@ export class CategoryComponent implements OnInit {
 
   add(form: NgForm){
     if (form.valid){
-      let newCategory = form.value
+      const newCategory = form.value
       this._apiSubscriber.Api('post',
         this._category.add(newCategory),
         () => {
@@ -83,8 +83,8 @@ export class CategoryComponent implements OnInit {
 
   update(form: NgForm){
     if(form.valid){
-      let updateCurrencyId = form.controls["currency"].value;
-      let updateCurrency = this.currencies.find(c=> c._id = updateCurrencyId);
+      const updateCurrencyId = form.controls["currency"].value;
+      const updateCurrency = this.currencies.find(c=> c._id = updateCurrencyId);
       this.updateCategory.currency = updateCurrency;
 
       this._apiSubscriber.Api('post',

@@ -1,5 +1,4 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { AssetModel } from '../../features/asset/models/asset.model';
 
 @Pipe({
   name: 'currency2',

@@ -90,8 +90,7 @@ export class DividendComponent implements OnInit{
 
   add(form: NgForm){
     if (form.valid){
-      let newDividend = form.value
-      console.log(newDividend)
+      const newDividend = form.value
       this._apiSubscriber.Api('post',
         this._dividend.add(newDividend),
         () => {
