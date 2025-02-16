@@ -21,7 +21,6 @@ export class CurrencyComponent implements OnInit{
   search: string = "";
   addModalCloseBtn: any
   updateModalCloseBtn: any
-  test: any
 
   constructor(
     private _apiSubscriber: ApiSubscriberService,
