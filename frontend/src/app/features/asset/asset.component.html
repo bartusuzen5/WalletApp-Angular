@@ -1,16 +1,7 @@
 <app-table
-[itemHeaders]="[
-  { header: 'Ad', key: 'name' },
-  { header: 'Kod', key: 'code' },
-  { header: 'Güncel Fiyat', key: 'currentPrice' },
-  { header: 'ATH Fiyat', key: 'athPrice' },
-  { header: 'Hacim', key: 'volume' },
-  { header: 'Kategori Adı', key: 'category.name' }
-]"
+[itemHeaders]="itemHeaders"
 [header]="'Varlıklar'"
 [items]="assets"
-[addModalId]="'#addModal'"
-[updateModalId]="'#updateModal'"
 (editAction)="copyUpdateAsset($event)"
 (deleteAction)="removeById($event)">
 <ng-template #mainRowsTemplate let-item>
@@ -26,10 +17,8 @@
 
 <app-modal
 [header]="'Varlık Ekle'"
-[modal]="'addModal'"
-[modalLabel]="'addModalLabel'"
-[modalCloseBtn]="'addModalCloseBtn'">
-  <form #addForm="ngForm" autocomplete="off" (ngSubmit)="add(addForm)">
+[modalType]="'addModal'">
+  <form #addModalForm="ngForm" autocomplete="off" (ngSubmit)="add(addModalForm)">
     <div class="modal-body">
       <div class="form-group custom-form-group">
         <label for="name" class="form-label custom-form-label">İsim</label>
@@ -67,20 +56,18 @@
         </div>
       </div>
     </div>
-    <app-modal-footer
-    [isDisabled]="addForm.invalid"
-    [form]="addForm">
-    </app-modal-footer>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-danger" data-bs-dismiss="modal" aria-label="Close" (click)="addModalForm.reset()">Vazgeç</button>
+      <button type="submit" class="btn btn-outline-primary" [disabled]="addModalForm.invalid">Onayla</button>
+    </div>
   </form>
 </app-modal>
 
 
 <app-modal
 [header]="'Varlık Güncelle'"
-[modal]="'updateModal'"
-[modalLabel]="'updateModalLabel'"
-[modalCloseBtn]="'updateModalCloseBtn'">
-  <form #updateForm="ngForm" autocomplete="off" (submit)="update(updateForm)">
+[modalType]="'updateModal'">
+  <form #updateModalForm="ngForm" autocomplete="off" (ngSubmit)="update(updateModalForm)">
     <div class="modal-body">
       <div class="form-group custom-form-group">
         <label for="name" class="form-label custom-form-label">İsim</label>
@@ -112,9 +99,9 @@
         </div>
       </div>
     </div>
-    <app-modal-footer
-    [isDisabled]="updateForm.invalid"
-    [form]="updateForm">
-    </app-modal-footer>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-danger" data-bs-dismiss="modal" aria-label="Close" (click)="updateModalForm.reset()">Vazgeç</button>
+      <button type="submit" class="btn btn-outline-primary" [disabled]="updateModalForm.invalid">Onayla</button>
+    </div>
   </form>
 </app-modal>

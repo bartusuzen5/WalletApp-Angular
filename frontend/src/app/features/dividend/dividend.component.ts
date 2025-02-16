@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { SharedModule } from '../../shared/shared.module';
 import { DividendService } from './services/dividend.service';
 import { ApiSubscriberService } from '../../shared/services/api-subscriber.service';
@@ -9,7 +9,6 @@ import { AssetModel } from '../asset/models/asset.model';
 import { CategoryService } from '../category/services/category.service';
 import { AssetService } from '../asset/services/asset.service';
 import { SwalService } from '../../core/services/swal.service';
-import { GenericUtils } from '../../shared/utilities/generic.utils';
 
 @Component({
   selector: 'app-dividend',
@@ -23,8 +22,6 @@ export class DividendComponent implements OnInit{
   dividends: DividendModel[] = [];
   search: string = ''
   updateDividend: DividendModel = new DividendModel()
-  addModalCloseBtn: any
-  updateModalCloseBtn: any
 
   categories: CategoryModel[] = []
   selectedCategory: CategoryModel;
@@ -36,7 +33,16 @@ export class DividendComponent implements OnInit{
   paidInputTry: number;
   maxDate: string = new Date().toISOString().split('T')[0];
   yieldInput: number;
-  @ViewChild('addForm') addForm: NgForm;
+
+  itemHeaders = [
+    { header: 'Varlık Kodu', key: 'asset.code' },
+    { header: 'Adet Başına Ödeme', key: 'paymentPerQuantity' },
+    { header: 'Adet', key: 'quantity' },
+    { header: 'Verim', key: 'yield' },
+    { header: 'Toplam Tutar(USD)', key: 'paidUsd' },
+    { header: 'Toplam Tutar(TRY)', key: 'paidTry' },
+    { header: 'Temettü Tarihi', key: 'dividendDate' }
+  ]
 
   constructor(
     private _apiSubscriber: ApiSubscriberService,
@@ -50,12 +56,6 @@ export class DividendComponent implements OnInit{
     this.getAll();
     this.getCategories();
   };
-
-
-  ngAfterViewInit(): void {
-    this.addModalCloseBtn = document.getElementById("addModalCloseBtn");
-    this.updateModalCloseBtn = document.getElementById("updateModalCloseBtn");
-  }
 
 
   getCategories(){
@@ -95,7 +95,7 @@ export class DividendComponent implements OnInit{
         this._dividend.add(newDividend),
         () => {
           this.getAll()
-          GenericUtils.resetForm(form, this.addModalCloseBtn);
+          form.reset();
           this.selectedCategory = null;
         }
       )
@@ -109,7 +109,7 @@ export class DividendComponent implements OnInit{
         this._dividend.update(this.updateDividend),
         () => {
           this.getAll()
-          GenericUtils.resetForm(form, this.updateModalCloseBtn);
+          form.reset();
           this.selectedCategory = null;
         }
       )
@@ -126,12 +126,6 @@ export class DividendComponent implements OnInit{
         }
       )
     })
-  };
-
-
-  updateAddForm(){
-    this.addForm.reset();
-    this.getAssetsByCategory();
   };
 
   

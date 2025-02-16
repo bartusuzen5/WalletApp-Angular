@@ -1,12 +1,7 @@
 <app-table
-[itemHeaders]="[
-  { header: 'Ad', key: 'name' },
-  { header: 'Ana Para Birimi', key: 'currency.name' }
-]"
+[itemHeaders]="itemHeaders"
 [header]="'Kategoriler'"
 [items]="categories"
-[addModalId]="'#addModal'"
-[updateModalId]="'#updateModal'"
 (editAction)="copyUpdateCategory($event)"
 (deleteAction)="removeById($event)">
 <ng-template #mainRowsTemplate let-item>
@@ -18,10 +13,8 @@
 
 <app-modal
 [header]="'Kategori Ekle'"
-[modal]="'addModal'"
-[modalLabel]="'addModalLabel'"
-[modalCloseBtn]="'addModalCloseBtn'">
-  <form #addForm="ngForm" autocomplete="off" (ngSubmit)="add(addForm)">
+[modalType]="'addModal'">
+  <form #addModalForm="ngForm" autocomplete="off" (ngSubmit)="add(addModalForm)">
     <div class="modal-body">
       <div class="form-group custom-form-group">
         <label for="name" class="form-label custom-form-label">İsim</label>
@@ -35,20 +28,18 @@
         </select>
       </div>
     </div>
-    <app-modal-footer
-    [isDisabled]="addForm.invalid"
-    [form]="addForm">
-    </app-modal-footer>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-danger" data-bs-dismiss="modal" aria-label="Close" (click)="addModalForm.reset()">Vazgeç</button>
+      <button type="submit" class="btn btn-outline-primary" [disabled]="addModalForm.invalid">Onayla</button>
+    </div>
   </form>
 </app-modal>
 
 
 <app-modal
 [header]="'Kategori Güncelle'"
-[modal]="'updateModal'"
-[modalLabel]="'updateModalLabel'"
-[modalCloseBtn]="'updateModalCloseBtn'">
-  <form #updateForm="ngForm" autocomplete="off" (ngSubmit)="update(updateForm)">
+[modalType]="'updateModal'">
+  <form #updateModalForm="ngForm" autocomplete="off" (ngSubmit)="update(updateModalForm)">
     <div class="modal-body">
       <div class="form-group custom-form-group">
         <label for="name" class="form-label custom-form-label">İsim</label>
@@ -62,9 +53,9 @@
         </select>
       </div>
     </div>
-    <app-modal-footer
-    [isDisabled]="updateForm.invalid"
-    [form]="updateForm">
-    </app-modal-footer>
-  </form>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-danger" data-bs-dismiss="modal" aria-label="Close" (click)="updateModalForm.reset()">Vazgeç</button>
+      <button type="submit" class="btn btn-outline-primary" [disabled]="updateModalForm.invalid">Onayla</button>
+    </div>
+  </form>  
 </app-modal>

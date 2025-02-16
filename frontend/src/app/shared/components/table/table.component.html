@@ -4,7 +4,7 @@
 [header]="header"
 [mainRowsTemplate]="mainRowsTemplate">
 
-  <button header-content class="btn btn-primary" data-bs-toggle="modal" [attr.data-bs-target]="addModalId">
+  <button header-content class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">
     <i class="bi bi-plus-lg"></i>
   </button>
 
@@ -14,7 +14,7 @@
   <ng-template #extraRowsTemplate let-item>
     <td>{{ item.createdDateTime | date: 'dd-MM-yyyy HH:mm:ss' }}</td>
     <td style="text-align: center;">
-      <button class="btn btn-warning" data-bs-toggle="modal" [attr.data-bs-target]="updateModalId" (click)="onEdit(item)">
+      <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#updateModal" (click)="onEdit(item)">
         <i class="bi bi-pencil"></i>
       </button>
       <button class="btn btn-danger ms-2" (click)="onDelete(item)">

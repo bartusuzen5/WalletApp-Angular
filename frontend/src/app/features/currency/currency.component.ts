@@ -5,7 +5,7 @@ import { NgForm } from '@angular/forms';
 import { SharedModule } from '../../shared/shared.module';
 import { SwalService } from '../../core/services/swal.service';
 import { ApiSubscriberService } from '../../shared/services/api-subscriber.service';
-import { GenericUtils } from '../../shared/utilities/generic.utils';
+
 
 @Component({
   selector: 'app-currency',
@@ -19,8 +19,13 @@ export class CurrencyComponent implements OnInit{
   currencies: CurrencyModel[] = [];
   updateCurrency: CurrencyModel = new CurrencyModel();
   search: string = "";
-  addModalCloseBtn: any
-  updateModalCloseBtn: any
+
+  itemHeaders = [
+    { header: 'Ad', key: 'name' },
+    { header: 'Sembol', key: 'symbol' },
+    { header: 'USD Değeri', key: 'valueUsd' },
+    { header: 'TRY Değeri', key: 'valueTry' }
+  ]
 
   constructor(
     private _apiSubscriber: ApiSubscriberService,
@@ -31,12 +36,6 @@ export class CurrencyComponent implements OnInit{
   ngOnInit(): void {
     this.getAll();
   };
-
-  ngAfterViewInit(): void {
-    this.addModalCloseBtn = document.getElementById("addModalCloseBtn");
-    this.updateModalCloseBtn = document.getElementById("updateModalCloseBtn");
-  }
-
 
   getAll(){
     this._apiSubscriber.Api('get',
@@ -50,12 +49,13 @@ export class CurrencyComponent implements OnInit{
 
   add(form: NgForm){
     if(form.valid){
+      console.log(form.value)
       const newCurrency = form.value
       this._apiSubscriber.Api('post',
         this._currency.add(newCurrency),
         () => {
           this.getAll();
-          GenericUtils.resetForm(form, this.addModalCloseBtn);
+          form.reset();
         }
       )
     }
@@ -68,7 +68,7 @@ export class CurrencyComponent implements OnInit{
         this._currency.update(this.updateCurrency),
         () => {
           this.getAll();
-          GenericUtils.resetForm(form, this.updateModalCloseBtn);
+          form.reset();
         }
       )
     }

@@ -16,8 +16,6 @@ export class TableComponent{
   @Input() items: any[] = [];
   @Input() itemHeaders: { header: string, key: string }[] = [];
   @Input() header: string = '';
-  @Input() addModalId: string = 'addModalId';
-  @Input() updateModalId: string = 'updateModalId';
   @ContentChild(TemplateRef) mainRowsTemplate!: TemplateRef<any>;
 
   @Output() editAction = new EventEmitter<any>();

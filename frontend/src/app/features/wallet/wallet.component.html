@@ -7,12 +7,7 @@
 </app-wallet-chart>
 
 <app-table-chart
-[itemHeaders]="[
-{ header: 'Kategori Adı', key: 'item.name'},
-{ header: 'Mevcut Bakiye', key: selectedCurrency === '₺' ? 'currentValueTry' : 'currentValueUsd'},
-{ header: 'Kar/Zarar', key: selectedCurrency === '₺' ? 'marginTry' : 'marginUsd'},
-{ header: 'Kar/Zarar Yüzdesi', key: selectedCurrency === '₺' ? 'marginTryPerc' : 'marginUsdPerc'}
-]"
+[itemHeaders]="itemHeaders"
 [items]="walletCategories"
 [header]="'Cüzdan'"
 >

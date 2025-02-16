@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { FormsModule, NgForm } from '@angular/forms';
 
 
 @Component({
@@ -12,7 +12,5 @@ import { FormsModule } from '@angular/forms';
 })
 export class ModalComponent {
   @Input() header: string = '';
-  @Input() modal: string = '';
-  @Input() modalLabel: string = '';
-  @Input() modalCloseBtn: string = '';
+  @Input() modalType: 'addModal' | 'updateModal';
 }

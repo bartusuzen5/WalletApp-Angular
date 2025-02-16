@@ -17,19 +17,14 @@ export class WalletComponent implements OnInit{
 
   walletCategories: any[] = [];
  
-  categoryBalanceTry: any[] = []
-  categoryBalanceUsd: any[] = []
-  categoryMarginTry: any[] = []
-  categoryMarginUsd: any[] = []
-  categoryMarginTryPerc: any[] = []
-  categoryMarginUsdPerc: any[] = []
-  
-  totalBalanceTry: number = 0
-  totalBalanceUsd: number = 0
-  totalMarginUsd: number = 0
-  totalMarginTry: number = 0
-
   selectedCurrency: string = '₺'
+
+  itemHeaders = [
+    { header: 'Kategori Adı', key: 'item.name'},
+    { header: 'Mevcut Bakiye', key: this.selectedCurrency === '₺' ? 'currentValueTry' : 'currentValueUsd'},
+    { header: 'Kar/Zarar', key: this.selectedCurrency === '₺' ? 'marginTry' : 'marginUsd'},
+    { header: 'Kar/Zarar Yüzdesi', key: this.selectedCurrency === '₺' ? 'marginTryPerc' : 'marginUsdPerc'}
+  ]
 
   constructor(
     private _apiSubscriber: ApiSubscriberService,

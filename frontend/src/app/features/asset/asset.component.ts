@@ -8,7 +8,6 @@ import { ApiSubscriberService } from '../../shared/services/api-subscriber.servi
 import { NgForm } from '@angular/forms';
 import { CategoryService } from '../category/services/category.service';
 import { SwalService } from '../../core/services/swal.service';
-import { GenericUtils } from '../../shared/utilities/generic.utils';
 
 
 @Component({
@@ -23,12 +22,19 @@ export class AssetComponent implements OnInit {
   assets: AssetModel[] = [];
   search: string = "";
   updateAsset: AssetModel = new AssetModel();
-  addModalCloseBtn: any
-  updateModalCloseBtn: any
 
   categoryId: string = "";
   category: CategoryModel = new CategoryModel();
   categories: CategoryModel[] = [];
+  
+  itemHeaders = [
+  { header: 'Ad', key: 'name' },
+  { header: 'Kod', key: 'code' },
+  { header: 'Güncel Fiyat', key: 'currentPrice' },
+  { header: 'ATH Fiyat', key: 'athPrice' },
+  { header: 'Hacim', key: 'volume' },
+  { header: 'Kategori Adı', key: 'category.name' }
+  ]
 
   constructor(
     private _apiSubscriber: ApiSubscriberService,
@@ -41,12 +47,6 @@ export class AssetComponent implements OnInit {
   ngOnInit() {
     this.getCategories();
   };
-
-  ngAfterViewInit(): void {
-    this.addModalCloseBtn = document.getElementById("addModalCloseBtn");
-    this.updateModalCloseBtn = document.getElementById("updateModalCloseBtn");
-  }
-
 
   getCategories(){
     this._apiSubscriber.Api('get',
@@ -86,7 +86,7 @@ export class AssetComponent implements OnInit {
         this._asset.add(newAsset),
         () => {
           this.getAssetsByCategory();
-          GenericUtils.resetForm(form, this.addModalCloseBtn);
+          form.reset();
         }
       )
     }
@@ -99,7 +99,7 @@ export class AssetComponent implements OnInit {
         this._asset.update(this.updateAsset),
         () => {
           this.getAssetsByCategory();
-          GenericUtils.resetForm(form, this.updateModalCloseBtn);
+          form.reset();
         }
       )
     }

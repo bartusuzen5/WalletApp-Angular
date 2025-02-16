@@ -1,18 +1,7 @@
 <app-table
-[itemHeaders]="[
-  { header: 'Kategori Adı', key: 'asset.category.name' },
-  { header: 'Varlık Kodu', key: 'asset.code' },
-  { header: 'İşlem Türü', key: 'tradeType' },
-  { header: 'Fiyat', key: 'price' },
-  { header: 'Adet', key: 'quantity' },
-  { header: 'Toplam Tutar(USD)', key: 'paidUsd' },
-  { header: 'Toplam Tutar(TRY)', key: 'paidTry' },
-  { header: 'İşlem Tarihi', key: 'tradeDate' }
-]"
+[itemHeaders]="itemHeaders"
 [items]="trades"
 [header]="'İşlemler'"
-[addModalId]="'#addModal'"
-[updateModalId]="'#updateModal'"
 (editAction)="copyUpdateTrade($event)"
 (deleteAction)="removeById($event)">
 <ng-template #mainRowsTemplate let-item>
@@ -30,18 +19,16 @@
 
 <app-modal
 [header]="'İşlem Ekle'"
-[modal]="'addModal'"
-[modalLabel]="'addModalLabel'"
-[modalCloseBtn]="'addModalCloseBtn'">
+[modalType]="'addModal'">
   <div class="modal-body">
     <div class="form-group custom-form-group">
       <label for="category" class="form-label custom-form-label">Kategori</label>
-      <select class="form-select" name="category" id="category" #category [(ngModel)]="selectedCategory" (change)="updateAddForm()" [appValidation] required>
+      <select class="form-select" name="category" id="category" #category [(ngModel)]="selectedCategory" (change)="getAssetsByCategory()" [appValidation] required>
         <option *ngFor="let category of categories" [ngValue]="category">{{category.name}}</option>
       </select>
     </div>
   </div>
-  <form #addForm ="ngForm" [hidden]="!selectedCategory" autocomplete="off" (ngSubmit)="add(addForm)">
+  <form #addModalForm="ngForm" autocomplete="off" (ngSubmit)="add(addModalForm)" [hidden]="!selectedCategory">
     <div class="modal-body">
       <div class="form-group custom-form-group">
         <label for="asset" class="form-label custom-form-label">Varlık</label>
@@ -98,19 +85,18 @@
         <input class="form-control" type="date" id="tradeDate" name="tradeDate" #tradeDate ngModel [max]="maxDate" [appValidation] required>
       </div>
     </div>
-    <app-modal-footer
-    [isDisabled]="addForm.invalid"
-    [form]="addForm">
-    </app-modal-footer>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-danger" data-bs-dismiss="modal" aria-label="Close" (click)="addModalForm.reset()">Vazgeç</button>
+      <button type="submit" class="btn btn-outline-primary" [disabled]="addModalForm.invalid">Onayla</button>
+    </div>
   </form>
 </app-modal>
 
+
 <app-modal
 [header]="'İşlem Güncelle'"
-[modal]="'updateModal'"
-[modalLabel]="'updateModalLabel'"
-[modalCloseBtn]="'updateModalCloseBtn'">
-  <form #updateForm="ngForm" autocomplete="off" (ngSubmit)="update(updateForm)">
+[modalType]="'updateModal'">
+  <form #updateModalForm="ngForm" autocomplete="off" (ngSubmit)="update(updateModalForm)">
     <div class="modal-body">
       <div class="form-group custom-form-group">
         <label for="tradeType" class="form-label custom-form-label">İşlem Tipi</label>
@@ -157,9 +143,9 @@
         </div>
       </div>
     </div>
-    <app-modal-footer
-    [isDisabled]="updateForm.invalid"
-    [form]="updateForm">
-    </app-modal-footer>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-danger" data-bs-dismiss="modal" aria-label="Close" (click)="updateModalForm.reset()">Vazgeç</button>
+      <button type="submit" class="btn btn-outline-primary" [disabled]="updateModalForm.invalid">Onayla</button>
+    </div>
   </form>
 </app-modal>

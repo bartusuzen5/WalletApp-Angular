@@ -21,19 +21,15 @@ export class WalletCategoryComponent implements OnInit{
   category: CategoryModel = new CategoryModel()
   walletAssets: any[] = []
 
-  balanceTry: any[] = []
-  balanceUsd: any[] = []
-  marginTry: any[] = []
-  marginUsd: any[] = []
-  marginTryPerc: any[] = []
-  marginUsdPerc: any[] = []
-
-  totalBalanceTry: number = 0
-  totalBalanceUsd: number = 0
-  totalMarginUsd: number = 0
-  totalMarginTry: number = 0
-
   selectedCurrency: string = '₺'
+
+  itemHeaders = [
+    { header: 'Varlık Kodu', key: 'item.code'},
+    { header: 'Mevcut Bakiye', key: this.selectedCurrency === '₺' ? 'currentValueTry' : 'currentValueUsd'},
+    { header: 'Kar/Zarar', key: this.selectedCurrency === '₺' ? 'marginTry' : 'marginUsd'},
+    { header: 'Kar/Zarar Yüzdesi', key: this.selectedCurrency === '₺' ? 'marginTryPerc' : 'marginUsdPerc'},
+    { header: 'Kategori Adı', key: 'item.category.name'}
+  ]
 
   constructor(
     private _route: ActivatedRoute,

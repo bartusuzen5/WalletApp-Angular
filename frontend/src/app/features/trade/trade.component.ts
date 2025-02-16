@@ -9,7 +9,6 @@ import { AssetService } from '../asset/services/asset.service';
 import { CategoryModel } from '../category/models/category.model';
 import { CategoryService } from '../category/services/category.service';
 import { SwalService } from '../../core/services/swal.service';
-import { GenericUtils } from '../../shared/utilities/generic.utils';
 
 @Component({
   selector: 'app-trade',
@@ -22,8 +21,6 @@ export class TradeComponent implements OnInit{
 
   trades: TradeModel[] = [];
   updateTrade: TradeModel = new TradeModel()
-  addModalCloseBtn: any
-  updateModalCloseBtn: any
 
   categories: CategoryModel[] = []
   selectedCategory: CategoryModel = null
@@ -37,6 +34,17 @@ export class TradeComponent implements OnInit{
   maxDate: string = new Date().toISOString().split('T')[0];
   @ViewChild('addForm') addForm: NgForm;
 
+  itemHeaders = [
+    { header: 'Kategori Adı', key: 'asset.category.name' },
+    { header: 'Varlık Kodu', key: 'asset.code' },
+    { header: 'İşlem Türü', key: 'tradeType' },
+    { header: 'Fiyat', key: 'price' },
+    { header: 'Adet', key: 'quantity' },
+    { header: 'Toplam Tutar(USD)', key: 'paidUsd' },
+    { header: 'Toplam Tutar(TRY)', key: 'paidTry' },
+    { header: 'İşlem Tarihi', key: 'tradeDate' }
+  ]
+
   constructor(
     private _apiSubscriber: ApiSubscriberService,
     private _swal: SwalService,
@@ -49,13 +57,6 @@ export class TradeComponent implements OnInit{
     this.getAll();
     this.getCategories();
   };
-
-
-  ngAfterViewInit(): void {
-    this.addModalCloseBtn = document.getElementById("addModalCloseBtn");
-    this.updateModalCloseBtn = document.getElementById("updateModalCloseBtn");
-  }
-
 
   getCategories(){
     this._apiSubscriber.Api('get',
@@ -94,7 +95,7 @@ export class TradeComponent implements OnInit{
         this._trade.add(newTrade),
         () => {
           this.getAll();
-          GenericUtils.resetForm(form, this.addModalCloseBtn)
+          form.reset();
           this.selectedCategory = null
         }
       )
@@ -108,7 +109,7 @@ export class TradeComponent implements OnInit{
         this._trade.update(this.updateTrade),
         () => {
           this.getAll()
-          GenericUtils.resetForm(form, this.updateModalCloseBtn)
+          form.reset();
           this.selectedCategory = null
         }
       )
@@ -130,12 +131,6 @@ export class TradeComponent implements OnInit{
 
   switchTradeType(){
     this.switchValue === true ? this.switchValue = false : this.switchValue = true
-  };
-
-
-  updateAddForm(){
-    this.addForm.reset();
-    this.getAssetsByCategory();
   };
 
 

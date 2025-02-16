@@ -7,7 +7,6 @@ import { CurrencyModel } from '../currency/models/currency.model';
 import { CurrencyService } from '../currency/services/currency.service';
 import { SwalService } from '../../core/services/swal.service';
 import { ApiSubscriberService } from '../../shared/services/api-subscriber.service';
-import { GenericUtils } from '../../shared/utilities/generic.utils';
 import { SidebarService } from '../../core/components/sidebar/services/sidebar.service';
 
 @Component({
@@ -22,10 +21,13 @@ export class CategoryComponent implements OnInit {
   categories: CategoryModel[] = [];
   search: string = "";
   updateCategory: CategoryModel = new CategoryModel();
-  addModalCloseBtn: any
-  updateModalCloseBtn: any
 
   currencies: CurrencyModel[] = [];
+
+  itemHeaders = [
+  { header: 'Ad', key: 'name' },
+  { header: 'Ana Para Birimi', key: 'currency.name' }
+  ]
 
   constructor(
     private _apiSubscriber: ApiSubscriberService,
@@ -39,12 +41,6 @@ export class CategoryComponent implements OnInit {
     this.getAll();
     this.getCurrencies();
   };
-
-  ngAfterViewInit(): void {
-    this.addModalCloseBtn = document.getElementById("addModalCloseBtn");
-    this.updateModalCloseBtn = document.getElementById("updateModalCloseBtn");
-  }
-
 
   getCurrencies(){
     this._apiSubscriber.Api('get',
@@ -74,7 +70,7 @@ export class CategoryComponent implements OnInit {
         () => {
           this.getAll();
           this._sidebar.triggerUpdate();
-          GenericUtils.resetForm(form, this.addModalCloseBtn);
+          form.reset();
         }
       )
     }
@@ -92,7 +88,7 @@ export class CategoryComponent implements OnInit {
         () => {
           this.getAll();
           this._sidebar.triggerUpdate();
-          GenericUtils.resetForm(form, this.updateModalCloseBtn);
+          form.reset();
         }
       )
     }

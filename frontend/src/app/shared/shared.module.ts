@@ -7,7 +7,6 @@ import { Currency2Pipe } from './pipes/currency.pipe';
 import { TableComponent } from './components/table/table.component';
 import { ModalComponent } from './components/modal/modal.component';
 import { ValidationDirective } from './directives/form-validation.directive';
-import { ModalFooterComponent } from './components/modal-footer/modal-footer.component';
 import { CustomNumberPipe } from './pipes/custom-number.pipe';
 
 @NgModule({
@@ -21,8 +20,7 @@ import { CustomNumberPipe } from './pipes/custom-number.pipe';
     GenericPipe,
     TableComponent,
     ModalComponent,
-    ValidationDirective,
-    ModalFooterComponent
+    ValidationDirective
   ],
   exports: [
     CommonModule,
@@ -33,8 +31,7 @@ import { CustomNumberPipe } from './pipes/custom-number.pipe';
     GenericPipe,
     TableComponent,
     ModalComponent,
-    ValidationDirective,
-    ModalFooterComponent
+    ValidationDirective
   ],
   providers: [
     DatePipe
