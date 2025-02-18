@@ -72,6 +72,11 @@
         <h5 class="card-header" style="display: flex; justify-content: space-between; align-items: center;">
           Kar/Zarar {{selectedCurrency == '₺'? '₺' : '$'}}
           <div class="col-3">
+            <select class="form-select" [(ngModel)]="selectedCategoryAsset" (change)="getAssets(); getAssetChartData()">
+              <option *ngFor="let category of categories" [value]="category._id">{{ category.name }}</option>
+            </select>
+          </div>
+          <div class="col-3">
             <select class="form-select" [(ngModel)]="selectedAsset" (change)="getAssetChartData()" style="float: right;">
               <option *ngFor="let asset of assets" [value]="asset._id">{{ asset.name }}</option>
             </select>

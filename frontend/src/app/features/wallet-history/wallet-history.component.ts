@@ -30,6 +30,7 @@ export class WalletHistoryComponent implements OnInit{
   selectedCategory: string = 'all';
   assets: any[] = []
   selectedAsset: string = 'all'
+  selectedCategoryAsset: string = 'all'
 
   chartData: any[] = []
   categoryChartData: any[] = [];
@@ -166,10 +167,12 @@ export class WalletHistoryComponent implements OnInit{
     }));
   };
 
+
   getAssets() {
+    this.selectedAsset = 'all'
     const uniqueAssetsMap = new Map<string, any>();
     this.assetItems.forEach(item => {
-      if (item.asset) {
+      if (item.asset && (this.selectedCategoryAsset === 'all' || item.asset.category?._id === this.selectedCategoryAsset)) {
         uniqueAssetsMap.set(item.asset._id, item.asset);
       }
     });
@@ -194,8 +197,10 @@ export class WalletHistoryComponent implements OnInit{
         let formattedDate = this.datePipe.transform(assetItem.date, 'dd-MM-yyyy');
         let year = formattedDate?.split('-')[2];
         let margin = this.selectedCurrency == '₺' ? assetItem.marginTry : assetItem.marginUsd || 0;
-  
-        if (year === this.selectedYearAsset) {
+        let categoryMatch = this.selectedCategoryAsset === 'all' || this.selectedCategoryAsset === assetItem.asset.category?._id;;
+        let assetMatch = this.selectedAsset === 'all' || this.selectedAsset === assetItem.asset?._id;
+        
+        if (categoryMatch && assetMatch && year === this.selectedYearAsset) {
           if (!groupedData.has(assetName)) {
             groupedData.set(assetName, new Map<string, number>());
           }
