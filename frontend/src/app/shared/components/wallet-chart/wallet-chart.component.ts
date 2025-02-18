@@ -24,7 +24,8 @@ export class WalletChartComponent implements OnChanges{
   selectedCurrency: string = '₺'
 
   @Input() items: any[];
-  @Input() summaryHeader: string
+  @Input() currencyItems: any[] = [];
+  @Input() summaryHeader: string;
 
   @Output() selectFunc = new EventEmitter<any>()
   @Output() currencySwitchFunc = new EventEmitter<any>()
@@ -32,9 +33,9 @@ export class WalletChartComponent implements OnChanges{
   constructor(){}
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['items'] && changes['items'].currentValue){
+    if ((changes['items'] && changes['items'].currentValue)){
       this.loadPieChartData();
-    } 
+    }
   }
 
   handleSwitchChange(){
@@ -53,6 +54,16 @@ export class WalletChartComponent implements OnChanges{
   }
 
   loadPieChartData(){
+    this.totalMarginTry = 0
+    this.totalMarginUsd = 0
+    this.totalBalanceTry = 0
+    this.totalBalanceUsd = 0
+    this.balanceTry = []
+    this.balanceUsd = []
+    this.marginTryPerc = []
+    this.marginUsdPerc = []
+    this.marginTry = []
+    this.marginUsd = []
     this.items.forEach(item => {
       this.balanceUsd.push({
         "name": item.item.name,
@@ -82,6 +93,19 @@ export class WalletChartComponent implements OnChanges{
       this.totalBalanceTry += item.currentValueTry
       this.totalMarginUsd += item.marginUsd
       this.totalMarginTry += item.marginTry
+    });
+    
+    this.currencyItems.forEach(item => {
+      this.balanceUsd.push({
+        "name": item.item.name,
+        "value": item.currentValueUsd
+      })
+      this.balanceTry.push({
+        "name": item.item.name,
+        "value": item.currentValueTry
+      })
+      this.totalBalanceUsd += item.currentValueUsd
+      this.totalBalanceTry += item.currentValueTry
     });
     this.balanceUsd = [...this.balanceUsd]
     this.balanceTry = [...this.balanceTry]

@@ -20,7 +20,9 @@ export class WalletCategoryComponent implements OnInit{
   categoryId: string = 'all'
   category: CategoryModel = new CategoryModel()
   walletAssets: any[] = []
+  walletCurrencies: any[] = []
 
+  isLoading: boolean
   selectedCurrency: string = '₺'
 
   itemHeaders = [
@@ -35,7 +37,7 @@ export class WalletCategoryComponent implements OnInit{
     private _route: ActivatedRoute,
     private _apiSubscriber: ApiSubscriberService,
     private _wallet: WalletService,
-    private _category: CategoryService
+    private _category: CategoryService,
   ) {}
 
   ngOnInit(): void {
@@ -48,12 +50,15 @@ export class WalletCategoryComponent implements OnInit{
 
 
   getAssetCategory(){
+    this.isLoading = true
     this._route.paramMap.subscribe(params => {
       this.categoryId = params.get('category');
     });
     this.getAssetsByCategory();
     if(this.categoryId != 'all'){
       this.getCategoryById()
+    } else {
+      this.getCurrencyWallet();
     }
   };
 
@@ -62,6 +67,7 @@ export class WalletCategoryComponent implements OnInit{
       this._category.getById(this.categoryId),
       (response) => {
         this.category = response
+        this.isLoading = false
       }
     )
   };
@@ -71,6 +77,16 @@ export class WalletCategoryComponent implements OnInit{
       this._wallet.getAssetsByCategory(this.categoryId),
       (response) => {
         this.walletAssets = response
+      }
+    )
+  };
+
+  getCurrencyWallet(){
+    this._apiSubscriber.Api('get',
+      this._wallet.getAllCurrency(),
+      (response) => {
+        this.walletCurrencies = response;
+        this.isLoading = false
       }
     )
   };

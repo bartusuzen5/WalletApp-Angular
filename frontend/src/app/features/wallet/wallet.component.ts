@@ -16,7 +16,9 @@ import { TableChartComponent } from '../../shared/components/table/table-chart/t
 export class WalletComponent implements OnInit{
 
   walletCategories: any[] = [];
+  walletCurrencies: any[] = [];
  
+  isLoading: boolean
   selectedCurrency: string = '₺'
 
   itemHeaders = [
@@ -34,23 +36,35 @@ export class WalletComponent implements OnInit{
 
   ngOnInit(): void {
     this.getCategoryWallet();
+    this.getCurrencyWallet();
   }
 
   onSelect(selectedCategory: any){
     const category = this.walletCategories.find(c => c.item.name === selectedCategory.name);
     this._router.navigate(['/wallet-category', category._id])
-  }
+  };
 
   currencySwitch(currency: any){
     this.selectedCurrency = currency
-  }
+  };
 
   getCategoryWallet(){
+    this.isLoading = true
     this._apiSubscriber.Api('get',
       this._wallet.getAllCategory(),
       (response) => {
         this.walletCategories = response;
       }
     )
-  }
+  };
+
+  getCurrencyWallet(){
+    this._apiSubscriber.Api('get',
+      this._wallet.getAllCurrency(),
+      (response) => {
+        this.walletCurrencies = response;
+        this.isLoading = false
+      }
+    )
+  };
 }

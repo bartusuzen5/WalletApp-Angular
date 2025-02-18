@@ -15,6 +15,10 @@ export class WalletService {
     return this._http.get<any[]>("wallet/category")
   }
 
+  public getAllCurrency(): Observable<any[]>{
+    return this._http.get<any[]>("wallet/currency")
+  }
+
   public getAssetsByCategory(categoryId: string): Observable<any[]>{
     const model = {categoryId: categoryId}
     return this._http.post<any[]>("wallet/asset", model)

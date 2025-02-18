@@ -3,10 +3,12 @@
       <div class="col">
         <div class="card mt-2">
             <h5 class="card-header">{{summaryHeader}}
-                <div class="form-check form-switch" style="float:right;">
-                  <input class="form-check-input" type="checkbox" id="exampleSwitch" (change)="handleSwitchChange()" style="cursor: pointer;">
-                  <label class="form-check-label" for="exampleSwitch">{{selectedCurrency}}</label>
-                </div>
+              <button class="btn btn-outline-primary" style="margin-left: 50px;" [routerLink]="['/wallet']"><- Cüzdan</button>
+              <ng-content #allItems select="[all-items-content]"></ng-content>
+              <div class="form-check form-switch" style="float:right;">
+                <input class="form-check-input" type="checkbox" id="exampleSwitch" (change)="handleSwitchChange()" style="cursor: pointer;">
+                <label class="form-check-label" for="exampleSwitch">{{selectedCurrency}}</label>
+              </div>
             </h5>
           <div class="card-body">
             <div class="row">
@@ -16,9 +18,9 @@
               <div class="col">
                 <p class="card-text">Toplam Bakiye: {{(selectedCurrency === '₺' ?  totalBalanceTry : totalBalanceUsd) | customNumber | currency2: selectedCurrency}}</p>
               </div>
-              <div class="col">
-                <button class="btn btn-outline-primary" style="float: right; margin-left: 10px;" [routerLink]="['/wallet']"><- Cüzdan</button>
-                <ng-content #allItems select="[all-items-content]"></ng-content>
+              <div class="col d-flex justify-content-end">
+                <button class="btn btn-outline-primary" [routerLink]="['/wallet-currency']">Nakitleri Düzenle</button>
+                <button class="btn btn-outline-success ms-2" [routerLink]="['/history-add']">Aylık Kaydet</button>
               </div>
             </div>
           </div>
@@ -26,7 +28,7 @@
       </div>
     </div>
     <div class="row mt-2">
-      <div class="col-md-6">
+      <!-- <div class="col-md-6">
         <div class="card mt-2">
           <h5 class="card-header">Bakiye {{selectedCurrency}}</h5>
           <div class="card-body">
@@ -47,13 +49,13 @@
             </p>
           </div>
         </div>
-      </div>
-      <div class="col-md-6">
+      </div> -->
+      <div class="col-md-12">
         <div class="card mt-2">
           <h5 class="card-header">Bakiye {{selectedCurrency}}</h5>
           <div class="card-body">
             <ngx-charts-pie-grid
-            [view]="[600, 300]"
+            [view]="[1200, 300]"
             [results]="selectedCurrency === '₺' ? balanceTry : balanceUsd"
             [label]="'Değer'"
             (select)="onSelect($event)">

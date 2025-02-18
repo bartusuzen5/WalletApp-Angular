@@ -1,0 +1,52 @@
+<app-table
+[itemHeaders]="itemHeaders"
+[items]="walletCurrencies"
+[header]="'Döviz/Nakit'"
+(editAction)="copyUpdateWalletCurrency($event)">
+<ng-template #mainRowsTemplate let-item>
+  <td>{{ item.currency?.name}}</td>
+  <td>{{ item.quantity | customNumber | currency2: item.currency.symbol}}</td>
+</ng-template>
+</app-table>
+
+
+<app-modal
+[header]="'İşlem Ekle'"
+[modalType]="'addModal'">
+  <form #addModalForm="ngForm" autocomplete="off" (ngSubmit)="add(addModalForm)">
+    <div class="modal-body">
+      <div class="form-group custom-form-group">
+        <label for="currency" class="form-label custom-form-label">Döviz/Nakit</label>
+        <select class="form-select" name="currency" id="currency" #currency ngModel [appValidation] required>
+          <option *ngFor="let currency of currencies" [ngValue]="currency">{{currency.name}}</option>
+        </select>
+      </div>
+      <div class="form-group custom-form-group">
+        <label for="quantity" class="form-label custom-form-label">Adet</label>
+        <input type="number" class="form-control" name="quantity" id="quantity" #quantity ngModel [appValidation] required>
+      </div>
+    </div>  
+    <div class="modal-footer">
+      <button type="button" class="btn btn-danger" data-bs-dismiss="modal" aria-label="Close" (click)="addModalForm.reset()">Vazgeç</button>
+      <button type="submit" class="btn btn-outline-primary" [disabled]="addModalForm.invalid">Onayla</button>
+    </div>
+  </form>
+</app-modal>
+
+
+<app-modal
+[header]="'İşlem Güncelle'"
+[modalType]="'updateModal'">
+  <form #updateModalForm="ngForm" autocomplete="off" (ngSubmit)="update(updateModalForm)">
+    <div class="modal-body">
+      <div class="form-group custom-form-group">
+        <label for="quantity" class="form-label custom-form-label">Adet</label>
+        <input type="number" class="form-control" name="quantity" id="quantity" #quantity [(ngModel)]="updateWalletCurrency.quantity" [appValidation] required>
+      </div>
+    </div> 
+    <div class="modal-footer">
+      <button type="button" class="btn btn-danger" data-bs-dismiss="modal" aria-label="Close" (click)="updateModalForm.reset()">Vazgeç</button>
+      <button type="submit" class="btn btn-outline-primary" [disabled]="updateModalForm.invalid">Onayla</button>
+    </div>
+  </form>
+</app-modal>

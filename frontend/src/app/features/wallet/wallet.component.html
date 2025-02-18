@@ -1,16 +1,16 @@
-<app-wallet-chart
+<app-wallet-chart *ngIf="!isLoading"
 [summaryHeader]="'Cüzdan Özet'"
 [items]="walletCategories"
+[currencyItems]="walletCurrencies"
 (selectFunc)="onSelect($event)"
 (currencySwitchFunc)="currencySwitch($event)">
-<button all-items-content class="btn btn-outline-primary" style="float: right;" [routerLink]="['/wallet-category', 'all']">Tüm Liste</button>
+<button all-items-content class="btn btn-outline-primary ms-2" [routerLink]="['/wallet-category', 'all']">Tüm Liste</button>
 </app-wallet-chart>
 
 <app-table-chart
 [itemHeaders]="itemHeaders"
 [items]="walletCategories"
-[header]="'Cüzdan'"
->
+[header]="'Cüzdan'">
 <ng-template #mainRowsTemplate let-item>
   <td>{{item.item.name}}</td>
   <td>{{(selectedCurrency === '₺' ? item.currentValueTry : item.currentValueUsd) | customNumber | currency2: selectedCurrency}}</td>

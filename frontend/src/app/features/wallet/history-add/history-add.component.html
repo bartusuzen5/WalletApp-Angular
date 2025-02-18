@@ -1,0 +1,15 @@
+<div class="d-flex gap-2 align-items-centerr">
+
+    <select class="form-select w-auto" [(ngModel)]="selectedMonth">
+      <option *ngFor="let month of months" [value]="month.value">{{ month.name }}</option>
+    </select>
+  
+    <select class="form-select w-auto" [(ngModel)]="selectedYear">
+      <option *ngFor="let year of years" [value]="year">{{ year }}</option>
+    </select>
+  
+    <button class="btn btn-primary" (click)="selectDate()">Seç</button>
+  
+    <span class="ms-3 fw-bold">{{ lastDayOfMonth }}</span>
+  </div>
+  

@@ -1,0 +1,88 @@
+import { Component } from '@angular/core';
+import { SharedModule } from '../../../shared/shared.module';
+import { WalletCurrencyModel } from '../models/wallet-currency';
+import { CurrencyModel } from '../../currency/models/currency.model';
+import { NgForm } from '@angular/forms';
+import { ApiSubscriberService } from '../../../shared/services/api-subscriber.service';
+import { WalletCurrencyService } from '../services/wallet-currency.service';
+import { CurrencyService } from '../../currency/services/currency.service';
+import { AuthService } from '../../../core/services/auth.service';
+
+@Component({
+  selector: 'app-wallet-currency',
+  standalone: true,
+  imports: [SharedModule],
+  templateUrl: './wallet-currency.component.html',
+  styleUrl: './wallet-currency.component.css'
+})
+export class WalletCurrencyComponent {
+
+  walletCurrencies: WalletCurrencyModel[] = [];
+  updateWalletCurrency: WalletCurrencyModel = new WalletCurrencyModel()
+
+  currencies: CurrencyModel[] = []
+
+  itemHeaders = [
+    { header: 'Döviz/Nakit', key: 'currency.name' },
+    { header: 'Adet', key: 'quantity' },
+  ]
+
+  constructor(
+    private _apiSubscriber: ApiSubscriberService,
+    private _walletCurrency: WalletCurrencyService,
+    private _currency: CurrencyService,
+    private _auth: AuthService
+  ){}
+
+  ngOnInit(): void {
+    this.getAll();
+    this.getCurrencies();
+  };
+
+  getAll(){
+    this._apiSubscriber.Api('get',
+      this._walletCurrency.getAll(),
+      (response) => {
+        this.walletCurrencies = response
+      }
+    )
+  }
+
+  getCurrencies(){
+    this._apiSubscriber.Api('get',
+      this._currency.getAll(),
+      (response) => {
+        this.currencies = response
+      }
+    )
+  }
+
+
+  add(form: NgForm){
+    if(form.valid){
+      const newWalletCurrency = form.value;
+      newWalletCurrency.user = this._auth.getUser();
+      this._apiSubscriber.Api('post',
+        this._walletCurrency.add(newWalletCurrency),
+        () => {
+          this.getAll()
+        }
+      )
+    }
+  }
+
+  update(form: NgForm){
+    if(form.valid){
+      this._apiSubscriber.Api('post',
+        this._walletCurrency.add(this.updateWalletCurrency),
+        () => {
+          this.getAll()
+        }
+      )
+    }
+  }
+
+  copyUpdateWalletCurrency(walletCurrency: WalletCurrencyModel){
+      this.updateWalletCurrency = {...walletCurrency}
+    };
+}

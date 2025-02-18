@@ -8,11 +8,9 @@
     <i class="bi bi-plus-lg"></i>
   </button>
 
-  <th extra-header-content>Eklenme Tarihi</th>
   <th extra-header-content></th>
 
   <ng-template #extraRowsTemplate let-item>
-    <td>{{ item.createdDateTime | date: 'dd-MM-yyyy HH:mm:ss' }}</td>
     <td style="text-align: center;">
       <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#updateModal" (click)="onEdit(item)">
         <i class="bi bi-pencil"></i>

@@ -51,6 +51,18 @@ export const routes: Routes = [
             {
                 path: "wallet-category/:category",
                 loadComponent: () => import("./features/wallet/wallet-category/wallet-category.component").then(c => c.WalletCategoryComponent)
+            },
+            {
+                path: "wallet-currency",
+                loadComponent: () => import("./features/wallet/wallet-currency/wallet-currency.component").then(c => c.WalletCurrencyComponent)
+            },
+            {
+                path: "history-add",
+                loadComponent: () => import("./features/wallet/history-add/history-add.component").then(c => c.HistoryAddComponent)
+            },
+            {
+                path: "wallet-history",
+                loadComponent: () => import("./features/wallet-history/wallet-history.component").then(c => c.WalletHistoryComponent)
             }
         ]
     },

@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Trade = require("../models/trade");
 const {v4:uuidv4} = require("uuid");
+const WalletCurrency = require("../models/wallet-currency");
 
 
   router.post("/asset", async (req, res) => {
@@ -319,6 +320,53 @@ const {v4:uuidv4} = require("uuid");
           },
       ]);
       res.json(trades);
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  });
+
+
+  router.get("/currency", async (req, res) => {
+    try {
+      let walletCurrencies = await WalletCurrency.aggregate([
+        {
+          $lookup: {
+            from: "currencies",
+            localField: "currencyId",
+            foreignField: "_id",
+            as: "currency"
+          }
+        },
+        {
+          $unwind: {
+            path: "$currency",
+            preserveNullAndEmptyArrays: true
+          }  
+        },
+        {
+          $addFields: {
+            currentValueUsd: {
+              $sum: {
+                  $multiply: ["$quantity", "$currency.valueUsd"] },
+            },
+            currentValueTry: {
+              $sum: {
+                  $multiply: ["$quantity", "$currency.valueTry"] },
+            },
+          }
+        },
+        {
+          $project: {
+            item: "$currency",
+            currentValueUsd: 1,
+            currentValueTry: 1,
+          }
+          },
+          {
+            $sort: { currentValueUsd: -1 },
+          },
+      ]);
+      res.json(walletCurrencies);
     } catch (error) {
       res.status(500).json({ message: error.message });
     }

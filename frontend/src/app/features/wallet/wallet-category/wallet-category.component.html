@@ -1,20 +1,14 @@
-<app-wallet-chart
+<app-wallet-chart *ngIf="!isLoading"
 [summaryHeader]="(categoryId === 'all' ? 'Tüm Varlıklar' : category.name) + ' Özet'"
 [items]="walletAssets"
+[currencyItems]="walletCurrencies"
 (currencySwitchFunc)="currencySwitchFunc($event)">
 </app-wallet-chart>
 
 <app-table-chart
-[itemHeaders]="[
-{ header: 'Varlık Kodu', key: 'item.code'},
-{ header: 'Mevcut Bakiye', key: selectedCurrency === '₺' ? 'currentValueTry' : 'currentValueUsd'},
-{ header: 'Kar/Zarar', key: selectedCurrency === '₺' ? 'marginTry' : 'marginUsd'},
-{ header: 'Kar/Zarar Yüzdesi', key: selectedCurrency === '₺' ? 'marginTryPerc' : 'marginUsdPerc'},
-{ header: 'Kategori Adı', key: 'item.category.name'}
-]"
+[itemHeaders]="itemHeaders"
 [items]="walletAssets"
-[header]="categoryId === 'all' ? 'Tüm Varlıklar' : category.name"
->
+[header]="categoryId === 'all' ? 'Tüm Varlıklar' : category.name">
 <ng-template #mainRowsTemplate let-item>
     <td>{{item.item.code}}</td>
     <td>{{(selectedCurrency === '₺' ? item.currentValueTry : item.currentValueUsd) | customNumber | currency2: selectedCurrency}}</td>
