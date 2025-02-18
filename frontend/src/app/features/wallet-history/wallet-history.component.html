@@ -3,7 +3,7 @@
     <div class="col-md-12">
       <div class="card mt-2">
         <h5 class="card-header" style="display: flex; justify-content: space-between; align-items: center;">
-          Bakiye
+          Bakiye {{selectedCurrency == '₺'? '₺' : '$'}}
           <div class="form-check form-switch" style="float:right;">
             <input class="form-check-input" type="checkbox" id="exampleSwitch" (change)="handleSwitchChange()" style="cursor: pointer;">
             <label class="form-check-label" for="exampleSwitch">{{selectedCurrency}}</label>
@@ -17,16 +17,16 @@
         <div class="card-body">
           <ngx-charts-line-chart *ngIf="chartData.length > 0"
             [view]="[1300, 600]"
-            [legend]="legend"
-            [showXAxisLabel]="showXAxisLabel"
-            [showYAxisLabel]="showYAxisLabel"
-            [xAxis]="xAxis"
-            [yAxis]="yAxis"
+            [legend]="true"
+            [showXAxisLabel]="true"
+            [showYAxisLabel]="true"
+            [xAxis]="true"
+            [yAxis]="true"
             [xAxisLabel]="xAxisLabel"
             [yAxisLabel]="yAxisLabel"
-            [timeline]="timeline"
-            [results]="chartData"
-            [animations]="false">
+            [timeline]="true"
+            [animations]="false"
+            [results]="chartData">
           </ngx-charts-line-chart>
         </div>
       </div>
@@ -36,10 +36,10 @@
     <div class="col-md-12">
       <div class="card mt-2">
         <h5 class="card-header" style="display: flex; justify-content: space-between; align-items: center;">
-          Kar/Zarar
+          Kar/Zarar {{selectedCurrency == '₺'? '₺' : '$'}}
           <div class="col-3">
             <select class="form-select" [(ngModel)]="selectedCategory" (change)="getCategoryChartData()" style="float: right;">
-              <option *ngFor="let category of categories" [value]="category.id">{{ category.name }}</option>
+              <option *ngFor="let category of categories" [value]="category._id">{{ category.name }}</option>
             </select>
           </div>
           <div class="col-3">
@@ -50,15 +50,16 @@
         </h5>
         <div class="card-body">
           <ngx-charts-line-chart *ngIf="categoryChartData.length > 0"
-            [view]="[1200, 500]"
-            [legend]="legend"
-            [showXAxisLabel]="showXAxisLabel"
-            [showYAxisLabel]="showYAxisLabel"
-            [xAxis]="xAxis"
-            [yAxis]="yAxis"
+            [view]="[1300, 600]"
+            [legend]="true"
+            [showXAxisLabel]="true"
+            [showYAxisLabel]="true"
+            [xAxis]="true"
+            [yAxis]="true"
             [xAxisLabel]="xAxisLabel"
             [yAxisLabel]="yAxisLabel"
-            [timeline]="timeline"
+            [timeline]="true"
+            [animations]="false"
             [results]="categoryChartData">
           </ngx-charts-line-chart>
         </div>
@@ -69,10 +70,10 @@
     <div class="col-md-12">
       <div class="card mt-2">
         <h5 class="card-header" style="display: flex; justify-content: space-between; align-items: center;">
-          Kar/Zarar
+          Kar/Zarar {{selectedCurrency == '₺'? '₺' : '$'}}
           <div class="col-3">
             <select class="form-select" [(ngModel)]="selectedAsset" (change)="getAssetChartData()" style="float: right;">
-              <option *ngFor="let asset of assets" [value]="asset.id">{{ asset.name }}</option>
+              <option *ngFor="let asset of assets" [value]="asset._id">{{ asset.name }}</option>
             </select>
           </div>
           <div class="col-3">
@@ -83,15 +84,16 @@
         </h5>
         <div class="card-body">
           <ngx-charts-line-chart *ngIf="assetChartData.length > 0"
-            [view]="[1200, 500]"
-            [legend]="legend"
-            [showXAxisLabel]="showXAxisLabel"
-            [showYAxisLabel]="showYAxisLabel"
-            [xAxis]="xAxis"
-            [yAxis]="yAxis"
+            [view]="[1300, 600]"
+            [legend]="true"
+            [showXAxisLabel]="true"
+            [showYAxisLabel]="true"
+            [xAxis]="true"
+            [yAxis]="true"
             [xAxisLabel]="xAxisLabel"
             [yAxisLabel]="yAxisLabel"
-            [timeline]="timeline"
+            [timeline]="true"
+            [animations]="false"
             [results]="assetChartData">
           </ngx-charts-line-chart>
         </div>
