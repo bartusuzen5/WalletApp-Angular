@@ -26,10 +26,10 @@ export class RegisterComponent {
 
   register(form: NgForm){
     if(form.valid && this.isPasswordsMatch){
+      delete form.value.passwordRepeat
       this._apiSubscriber.Api("post",
         this._register.addUser(form.value),
         () => {
-          console.log("Başarılı")
           this._router.navigateByUrl("/login")
         }
       )

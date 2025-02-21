@@ -92,7 +92,6 @@ export class WalletHistoryComponent implements OnInit{
 
   getChartData() {
     let groupedData = new Map<string, number>();
-
     this.assetItems.forEach(assetItem => {
       let formattedDateAsset = this.datePipe.transform(assetItem.date, 'dd-MM-yyyy');
       let yearAsset = formattedDateAsset?.split('-')[2]

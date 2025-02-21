@@ -100,7 +100,6 @@ router.get("/", async(req, res) => {
         }
       ])
       .sort({date: 1});
-      console.log(walletHistoryAsset)
 
       res.json({walletHistoryAsset, walletHistoryCurrency});
     } catch (error) {

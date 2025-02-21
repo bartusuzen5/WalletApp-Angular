@@ -63,7 +63,11 @@ export const routes: Routes = [
             {
                 path: "wallet-history",
                 loadComponent: () => import("./features/wallet-history/wallet-history.component").then(c => c.WalletHistoryComponent)
-            }
+            },
+            {
+                path: "user-info",
+                loadComponent: () => import("./features/user-info/user-info.component").then(c => c.UserInfoComponent)
+            },
         ]
     },
     {

@@ -36,6 +36,27 @@ router.post("/register/add", async (req, res) => {
 });
 
 
+router.put("/register/update/:id", async (req, res) => {
+  try{
+    const model = req.body;
+    const id = req.params.id
+    const updateUser = await User.findById(id)
+    const checkEmail = await User.findOne({email: model.email});
+    console.log(updateUser)
+    console.log(checkEmail)
+    console.log(model)
+    if(checkEmail != null && checkEmail._id != updateUser._id){
+      res.status(403).json({message: "Emaile bağlı bir hesap mevcut!"});
+    }else{
+      await User.findByIdAndUpdate(id, model);
+      res.json({message: "Kullanıcı başarıyla güncellenmiştir!"});
+    }
+  } catch (error) {
+    res.status(500).json({message: error.message});
+  }
+});
+
+
 router.post("/login", async (req, res) => {
   try{
     const model = req.body;

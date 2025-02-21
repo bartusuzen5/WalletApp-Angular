@@ -1,0 +1,85 @@
+<div class="container" style="width: 500px;">
+  <ng-container *ngTemplateOutlet="activeTemplate"></ng-container>
+</div>
+
+<ng-template #userInfo>
+  <div class="card shadow-sm p-4 mt-4 rounded-3">
+    <h4 class="text-center mb-4">Kullanıcı Bilgileri</h4>
+    <div class="d-flex align-items-center">
+      <strong class="fs-5 w-25">İsim:</strong>
+      <div class="fst-italic fs-5">{{user.name}}</div>
+    </div>
+    <div class="d-flex align-items-center">
+      <strong class="fs-5 w-25">Soyisim:</strong>
+      <div class="fst-italic fs-5">{{user.surname}}</div>
+    </div>
+    <div class="d-flex align-items-center">
+      <strong class="fs-5 w-25">Email:</strong>
+      <div class="fst-italic fs-5">{{user.email}}</div>
+    </div>
+    <div class="d-flex justify-content-center mt-4">
+      <button class="btn btn-outline-primary w-100 me-2" (click)="copyUpdateUser(); changeTemplate(infoChange);">
+        <i class="bi bi-pencil-square"></i> Bilgileri Düzenle
+      </button>
+      <button class="btn btn-outline-secondary w-100 ms-2" (click)="copyUpdateUser(); changeTemplate(passwordChange)">
+        <i class="bi bi-key"></i> Şifre Değiştir
+      </button>
+    </div>
+  </div>
+</ng-template>
+
+
+
+
+<ng-template #infoChange>
+  <form #infoChangeForm='ngForm' autocomplete="off" (ngSubmit)="saveInfo(infoChangeForm)">
+    <div class="form-group mt-2">
+      <label for="name" class="form-label" style="font-weight: bold;">İsim</label>
+      <input type="text" class="form-control" id="name" name="name" #name [(ngModel)]="updateUser.name" [appValidation] required [minlength]="2">
+    </div>
+    <div class="form-group mt-2">
+      <label for="surname" class="form-label" style="font-weight: bold;">Soyisim</label>
+      <input type="text" class="form-control" id="surname" name="surname" #surname [(ngModel)]="updateUser.surname" [appValidation] required [minlength]="2">
+    </div>
+    <div class="form-group mt-2">
+      <label for="email" class="form-label" style="font-weight: bold;">Email</label>
+      <input type="email" class="form-control" id="email" name="email" #email [(ngModel)]="updateUser.email" [appValidation] required [email]="true">
+    </div>
+    <div class="d-flex justify-content-center mt-4">
+      <button class="btn btn-outline-primary w-100 me-2" (click)="changeTemplate(userInfo)">
+        <i class="bi bi-arrow-left"></i> Geri
+      </button>
+      <button type="submit" class="btn btn-outline-secondary w-100 ms-2">
+        Kaydet
+      </button>
+    </div>
+  </form>
+</ng-template>
+
+
+<ng-template #passwordChange>
+  <form #passwordChangeForm='ngForm' autocomplete="off" (ngSubmit)="savePassword(passwordChangeForm)">
+    <div class="form-group mt-2">
+      <label for="oldPassword" class="form-label" style="font-weight: bold;">Eski Şifre</label>
+      <input type="password" class="form-control" id="oldPassword" name="oldPassword" #oldPassword ngModel [appValidation] required>
+    </div>
+    <div class="form-group mt-2">
+      <label for="newPassword" class="form-label" style="font-weight: bold;">Yeni Şifre</label>
+      <input type="password" class="form-control" id="newPassword" name="newPassword" #newPassword ngModel [appValidation] required pattern="^(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$">
+    </div>
+    <div class="form-group mt-2">
+      <label for="newPasswordRepeat" class="form-label" style="font-weight: bold;">Yeni Şifre Tekrar</label>
+      <input type="password" class="form-control" id="newPasswordRepeat" name="newPasswordRepeat" #newPasswordRepeat ngModel (ngModelChange)="checkPwMatch($event)" [appValidation] required>
+    </div>
+    <div class="d-flex justify-content-center mt-4">
+      <button class="btn btn-outline-primary w-100 me-2" (click)="changeTemplate(userInfo)">
+        <i class="bi bi-arrow-left"></i> Geri
+      </button>
+      <button type="submit" class="btn btn-outline-secondary w-100 ms-2">
+        Kaydet
+      </button>
+    </div>
+  </form>
+</ng-template>
+
+
