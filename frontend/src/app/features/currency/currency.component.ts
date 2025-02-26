@@ -18,7 +18,6 @@ export class CurrencyComponent implements OnInit{
 
   currencies: CurrencyModel[] = [];
   updateCurrency: CurrencyModel = new CurrencyModel();
-  search: string = "";
 
   itemHeaders = [
     { header: 'Ad', key: 'name' },
@@ -37,11 +36,13 @@ export class CurrencyComponent implements OnInit{
     this.getAll();
   };
 
+
   getAll(){
     this._apiSubscriber.Api('get',
       this._currency.getAll(),
       (response) => {
         this.currencies = response;
+        console.log(this.currencies)
       }
     )
   };
@@ -49,8 +50,7 @@ export class CurrencyComponent implements OnInit{
 
   add(form: NgForm){
     if(form.valid){
-      console.log(form.value)
-      const newCurrency = form.value
+      const newCurrency: CurrencyModel = form.value
       this._apiSubscriber.Api('post',
         this._currency.add(newCurrency),
         () => {
@@ -75,10 +75,10 @@ export class CurrencyComponent implements OnInit{
   };
 
 
-  removeById(model: CurrencyModel){
-    this._swal.callSwal("Silme işlemini onaylıyor musunuz?", `${model.name}`, "Sil", ()=>{
+  removeById(currency: CurrencyModel){
+    this._swal.callSwal("Silme işlemini onaylıyor musunuz?", `${currency.name}`, "Sil", ()=>{
       this._apiSubscriber.Api('post',
-        this._currency.removeById(model),
+        this._currency.removeById(currency._id),
         () => {
           this.getAll();
         }
@@ -86,7 +86,7 @@ export class CurrencyComponent implements OnInit{
     })
   };
 
-  copyUpdateCurrency(model: CurrencyModel){
-    this.updateCurrency = {...model};
+  copyUpdateCurrency(currency: CurrencyModel){
+    this.updateCurrency = {...currency};
   };
 }

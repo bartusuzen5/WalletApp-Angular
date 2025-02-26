@@ -4,9 +4,15 @@ const Trade = require("../models/trade");
 const {v4:uuidv4} = require("uuid");
 
 
-router.get("/", async (req, res) => {
+router.get("/:id", async (req, res) => {
     try {
+      const userId = req.params.id
       let trades = await Trade.aggregate([
+        {
+          $match: {
+            userId: userId,
+          },
+        },
         {
           $lookup: {
             from: "assets",
@@ -65,21 +71,23 @@ router.get("/", async (req, res) => {
   });
 
 
-router.post("/add", async (req, res) => {
+router.post("/add/:id", async (req, res) => {
     try{
-        const model = req.body;
-        const trade = new Trade({
+        const trade = req.body;
+        const userId = req.params.id
+        const newTrade = new Trade({
             _id: uuidv4(),
-            assetId: model.asset._id,
-            tradeType: model.tradeType,
-            price: model.price,
-            quantity: model.quantity,
-            paidUsd: model.paidUsd,
-            paidTry: model.paidTry,
-            tradeDate: new Date(model.tradeDate),
+            userId: userId,
+            assetId: trade.asset._id,
+            tradeType: trade.tradeType,
+            price: trade.price,
+            quantity: trade.quantity,
+            paidUsd: trade.paidUsd,
+            paidTry: trade.paidTry,
+            tradeDate: new Date(trade.tradeDate),
             createdDateTime: new Date()
         });
-            await trade.save();
+            await newTrade.save();
             res.json({message: "İşlem başarıyla eklendi!"});
 
     }catch (error) {

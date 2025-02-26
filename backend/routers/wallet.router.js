@@ -1,18 +1,26 @@
 const express = require("express");
 const router = express.Router();
 const Trade = require("../models/trade");
-const {v4:uuidv4} = require("uuid");
 const WalletCurrency = require("../models/wallet-currency");
 
 
-  router.post("/asset", async (req, res) => {
+  router.post("/asset/:id", async (req, res) => {
       try {
-        let {categoryId} = req.body
+        let categoryId = req.body
+        let userId = req.params.id
         let matchStage = {};
         if (categoryId !== "all") {
           matchStage = { "asset.categoryId" : categoryId };
         }
         let trades = await Trade.aggregate([
+        {
+          $match: matchStage
+        },
+        {
+          $match: {
+            userId: userId,
+          },
+        },
         {
           $lookup: {
             from: "assets",
@@ -54,9 +62,6 @@ const WalletCurrency = require("../models/wallet-currency");
               path: "$asset.category.currency",
               preserveNullAndEmptyArrays: true,
           },
-        },
-        {
-          $match: matchStage
         },
         {
           $group: {
@@ -163,9 +168,15 @@ const WalletCurrency = require("../models/wallet-currency");
   });
 
 
-  router.get("/category", async (req, res) => {
+  router.get("/category/:id", async (req, res) => {
     try {
+      const userId = req.params.id
       let trades = await Trade.aggregate([
+        {
+          $match: {
+            userId: userId,
+          },
+        },
         {
           $lookup: {
             from: "assets",
@@ -326,9 +337,15 @@ const WalletCurrency = require("../models/wallet-currency");
   });
 
 
-  router.get("/currency", async (req, res) => {
+  router.get("/currency/:id", async (req, res) => {
     try {
+      const userId = req.params.id
       let walletCurrencies = await WalletCurrency.aggregate([
+        {
+          $match: {
+            userId: userId,
+          },
+        },
         {
           $lookup: {
             from: "currencies",
@@ -361,7 +378,7 @@ const WalletCurrency = require("../models/wallet-currency");
             currentValueUsd: 1,
             currentValueTry: 1,
           }
-          },
+        },
           {
             $sort: { currentValueUsd: -1 },
           },

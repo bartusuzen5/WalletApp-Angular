@@ -70,12 +70,9 @@ export class UserInfoComponent implements OnInit,AfterViewInit{
     if(form.valid){
       if (!this.isPasswordsMatch){
         this._toastr.info('Şifreler eşleşmiyor!')
-      } else if(form.value.oldPassword != this.user.password){
-        this._toastr.info('Eski şifre hatalı')
       } else {
-        this.updateUser.password = form.value.newPassword
         this._apiSubscriber.Api('post',
-          this._register.updateUser(this.updateUser),
+          this._register.updateUserPassword(form.value.oldPassword, form.value.newPassword, this.updateUser),
           () => {
             this.logout()
           }
@@ -86,12 +83,12 @@ export class UserInfoComponent implements OnInit,AfterViewInit{
 
   logout(){
     localStorage.removeItem('token')
-    localStorage.removeItem('user')
     this._router.navigateByUrl("/login")
   }
 
   checkPwMatch(passwordRepeat: any){
     if(passwordRepeat != this.newPassword.nativeElement.value){
+      console.log(this.isPasswordsMatch)
       this.isPasswordsMatch = false
     } else {
       this.isPasswordsMatch = true

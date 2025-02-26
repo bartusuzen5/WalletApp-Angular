@@ -16,18 +16,17 @@ export class CurrencyService {
     return this._http.get<CurrencyModel[]>("currency");
   }
 
-  public add(model: CurrencyModel): Observable<any>{
-    return this._http.post<any>("currency/add", model);
+  public add(currency: CurrencyModel): Observable<any>{
+    return this._http.post<any>("currency/add", currency);
   }
 
-  public removeById(model: CurrencyModel): Observable<any>{
-    return this._http.delete<any>("currency/removeById", model._id);
+  public update(currency: CurrencyModel): Observable<any>{
+    return this._http.put<any>(`currency/update/${currency._id}`, currency);
   }
 
-  public update(model: CurrencyModel): Observable<any>{
-    return this._http.put<any>(`currency/update/${model._id}`, model);
+  public removeById(currencyId: string): Observable<any>{
+    return this._http.delete<any>("currency/removeById", currencyId);
   }
-
 }
 
 

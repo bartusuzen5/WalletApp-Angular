@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { SharedModule } from '../../../shared/shared.module';
-import { WalletCurrencyModel } from '../models/wallet-currency';
+import { WalletUserCurrencyModel } from '../models/wallet-user-currency';
 import { CurrencyModel } from '../../currency/models/currency.model';
 import { NgForm } from '@angular/forms';
 import { ApiSubscriberService } from '../../../shared/services/api-subscriber.service';
@@ -17,8 +17,8 @@ import { AuthService } from '../../../core/services/auth.service';
 })
 export class WalletCurrencyComponent {
 
-  walletCurrencies: WalletCurrencyModel[] = [];
-  updateWalletCurrency: WalletCurrencyModel = new WalletCurrencyModel()
+  walletCurrencies: WalletUserCurrencyModel[] = [];
+  updateWalletCurrency: WalletUserCurrencyModel = new WalletUserCurrencyModel()
 
   currencies: CurrencyModel[] = []
 
@@ -41,12 +41,12 @@ export class WalletCurrencyComponent {
 
   getAll(){
     this._apiSubscriber.Api('get',
-      this._walletCurrency.getAll(),
+      this._walletCurrency.getAll(this._auth.getUser()._id),
       (response) => {
         this.walletCurrencies = response
       }
     )
-  }
+  };
 
   getCurrencies(){
     this._apiSubscriber.Api('get',
@@ -55,7 +55,7 @@ export class WalletCurrencyComponent {
         this.currencies = response
       }
     )
-  }
+  };
 
 
   add(form: NgForm){
@@ -69,20 +69,22 @@ export class WalletCurrencyComponent {
         }
       )
     }
-  }
+  };
+
 
   update(form: NgForm){
     if(form.valid){
       this._apiSubscriber.Api('post',
-        this._walletCurrency.add(this.updateWalletCurrency),
+        this._walletCurrency.update(this.updateWalletCurrency),
         () => {
           this.getAll()
         }
       )
     }
-  }
+  };
 
-  copyUpdateWalletCurrency(walletCurrency: WalletCurrencyModel){
+
+  copyUpdateWalletCurrency(walletCurrency: WalletUserCurrencyModel){
       this.updateWalletCurrency = {...walletCurrency}
     };
 }

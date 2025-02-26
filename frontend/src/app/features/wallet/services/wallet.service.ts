@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { GenericHttpService } from '../../../shared/services/generic-http.service';
 import { Observable } from 'rxjs';
+import { WalletCategoryModel } from '../models/wallet-category';
+import { WalletCurrencyModel } from '../models/wallet-currency';
+import { WalletAssetModel } from '../models/wallet-asset';
 
 @Injectable({
   providedIn: 'root'
@@ -11,17 +14,16 @@ export class WalletService {
     private _http: GenericHttpService
   ) { }
 
-  public getAllCategory(): Observable<any[]>{
-    return this._http.get<any[]>("wallet/category")
+  public getAllCategory(userId: string): Observable<WalletCategoryModel[]>{
+    return this._http.get<WalletCategoryModel[]>(`wallet/category/${userId}`)
   }
 
-  public getAllCurrency(): Observable<any[]>{
-    return this._http.get<any[]>("wallet/currency")
+  public getAllCurrency(userId: string): Observable<WalletCurrencyModel[]>{
+    return this._http.get<WalletCurrencyModel[]>(`wallet/currency/${userId}`)
   }
 
-  public getAssetsByCategory(categoryId: string): Observable<any[]>{
-    const model = {categoryId: categoryId}
-    return this._http.post<any[]>("wallet/asset", model)
+  public getAssetsByCategory(userId: string, categoryId: string): Observable<WalletAssetModel[]>{
+    return this._http.post<WalletAssetModel[]>(`wallet/asset/${userId}`, categoryId)
   }
 
 

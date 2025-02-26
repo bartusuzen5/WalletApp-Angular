@@ -40,13 +40,13 @@ router.post("/add", async (req, res) => {
 
 router.delete("/removeById/:id", async (req, res) => {
     try {
-        const id = req.params.id;
-        const currency = await Currency.findById(id);
+        const currencyId = req.params.id;
+        const currency = await Currency.findById(currencyId);
         if (!currency) {
             return res.status(404).json({ message: "Para birimi bulunamadı" });
         }
         await Category.updateMany(
-            { currencyId: id},
+            { currencyId: currencyId},
             { $set: {currencyId: null}}
         );
         await currency.deleteOne();

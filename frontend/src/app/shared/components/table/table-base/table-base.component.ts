@@ -4,6 +4,7 @@ import { GenericPipe } from '../../../pipes/generic.pipe';
 import { FormsModule } from '@angular/forms';
 import { PaginationComponent } from '../../pagination/pagination.component';
 import { PaginationUtils } from '../../../utilities/pagination.utils';
+import { ExcelUtils } from '../../../utilities/excel.utils';
 
 @Component({
   selector: 'app-table-base',
@@ -93,4 +94,8 @@ export class TableBaseComponent implements OnInit, OnChanges{
   updatePaginatedData(){
     this.paginatedItems = PaginationUtils.updatePaginatedData(this.currentPage, this.itemsPerPage, this.filteredItems)
   };
+
+  exportToExcel(){
+    ExcelUtils.exportToExcel(this.filteredItems)
+  }
 }

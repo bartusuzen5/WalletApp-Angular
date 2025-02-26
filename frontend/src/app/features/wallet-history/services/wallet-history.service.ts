@@ -11,7 +11,7 @@ export class WalletHistoryService {
     private _http: GenericHttpService
   ) { }
 
-  public getAll(): Observable<any[]>{
-    return this._http.get<any[]>("wallet-history")
+  public getAll(userId: string): Observable<any[]>{
+    return this._http.get<any[]>(`wallet-history/${userId}`)
   }
 }

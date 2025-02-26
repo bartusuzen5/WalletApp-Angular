@@ -30,7 +30,6 @@ export class NavbarComponent implements OnInit{
 
   logout(){
     localStorage.removeItem('token')
-    localStorage.removeItem('user')
     this._router.navigateByUrl("/login")
   }
 

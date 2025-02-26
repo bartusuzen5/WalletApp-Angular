@@ -2,6 +2,11 @@ const mongoose = require("mongoose");
 
 const tradeSchema = new mongoose.Schema({
     _id: String,
+    userId: {
+        type: String,
+        required: true,
+        ref: "User"
+    },
     assetId: {
         type: String,
         required: true,

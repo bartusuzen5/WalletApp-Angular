@@ -16,20 +16,20 @@ export class CategoryService {
     return this._http.get<CategoryModel[]>("category");
   }
 
-  public getById(categoryId: String): Observable<CategoryModel>{
-    let model = {categoryId: categoryId};
-    return this._http.post("category/getById", model);
+  public getById(categoryId: string): Observable<CategoryModel>{
+    const model = {categoryId: categoryId};
+    return this._http.post<CategoryModel>("category/getById", model);
   }
 
-  public add(model: CategoryModel): Observable<any>{
-    return this._http.post<any>("category/add", model);
+  public add(category: CategoryModel): Observable<any>{
+    return this._http.post<any>("category/add", category);
   }
 
-  public update(model: CategoryModel): Observable<any>{
-    return this._http.put<any>(`category/update/${model._id}`, model);
+  public update(category: CategoryModel): Observable<any>{
+    return this._http.put<any>(`category/update/${category._id}`, category);
   }
 
-  public removeById(removeModel: CategoryModel): Observable<any>{
-    return this._http.delete<any>("category/removeById", removeModel._id);
+  public removeById(categoryId: string): Observable<any>{
+    return this._http.delete<any>("category/removeById", categoryId);
   }
 }

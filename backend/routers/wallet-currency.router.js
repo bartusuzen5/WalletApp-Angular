@@ -4,9 +4,15 @@ const WalletCurrency = require("../models/wallet-currency");
 const {v4:uuidv4} = require("uuid");
 
 
-router.get("/", async(req, res) => {
+router.get("/:id", async(req, res) => {
     try{
+    userId = req.params.id
     let walletCurrencies = await WalletCurrency.aggregate([
+        {
+            $match: {
+              userId: userId,
+            },
+        },
         {
         $lookup: {
             from: "currencies",
@@ -53,15 +59,11 @@ router.get("/", async(req, res) => {
 router.post("/add", async (req, res) => {
     try{
         const model = req.body;
-        const walletCurrencyUpdate = await WalletCurrency.findById(model._id);
         const existingWalletCurrency = await WalletCurrency.findOne({
             userId: model.user._id,
             currencyId: model.currency._id
         });
-        if(walletCurrencyUpdate){
-            await WalletCurrency.findByIdAndUpdate(model._id, model)
-            res.json({message: "Döviz/Nakit başarıyla güncellendi!"});
-        }else if (existingWalletCurrency){
+        if (existingWalletCurrency){
             return res.status(400).json({ message: "Bu kullanıcı için bu varlık zaten mevcut." });
         } else {
             const walletCurrencyNew = new WalletCurrency({
@@ -73,6 +75,21 @@ router.post("/add", async (req, res) => {
             });
             await walletCurrencyNew.save();
             res.json({message: "Döviz/Nakit başarıyla eklendi!"});
+        }
+    } catch (error) {
+        res.status(500).json({message: error.message});
+    }
+});
+
+
+router.put("/update/:id", async (req, res) => {
+    try{
+        const model = req.body;
+        const id = req.params.id;
+        const walletCurrencyUpdate = await WalletCurrency.findById(id);
+        if(walletCurrencyUpdate){
+            await WalletCurrency.findByIdAndUpdate(id, model)
+            res.json({message: "Döviz/Nakit başarıyla güncellendi!"});
         }
     } catch (error) {
         res.status(500).json({message: error.message});

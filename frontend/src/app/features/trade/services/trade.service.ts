@@ -12,19 +12,19 @@ export class TradeService {
     private _http: GenericHttpService
   ) { }
 
-  public getAll(): Observable<TradeModel[]>{
-    return this._http.get<TradeModel[]>("trade")
+  public getAll(userId: string): Observable<TradeModel[]>{
+    return this._http.get<TradeModel[]>(`trade/${userId}`)
   }
 
-  public add(model: TradeModel): Observable<any>{
-    return this._http.post<any>("trade/add", model)
+  public add(userId: string, trade: TradeModel): Observable<any>{
+    return this._http.post<any>(`trade/add/${userId}`, trade)
   }
 
-  public update(model: TradeModel): Observable<any>{
-    return this._http.put<any>(`trade/update/${model._id}`, model)
+  public update(trade: TradeModel): Observable<any>{
+    return this._http.put<any>(`trade/update/${trade._id}`, trade)
   }
 
-  public removeById(model: TradeModel): Observable<any>{
-    return this._http.delete<any>("trade/removeById", model._id)
+  public removeById(tradeId: string): Observable<any>{
+    return this._http.delete<any>("trade/removeById", tradeId)
   }
 }

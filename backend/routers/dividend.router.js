@@ -4,9 +4,15 @@ const Dividend = require("../models/dividend");
 const {v4:uuidv4} = require("uuid");
 
 
-router.get("/", async (req, res) => {
+router.get("/:id", async (req, res) => {
     try {
+      const userId = req.params.id
       let dividends = await Dividend.aggregate([
+        {
+          $match: {
+            userId: userId,
+          },
+        },
         {
           $lookup: {
             from: "assets",
@@ -60,21 +66,23 @@ router.get("/", async (req, res) => {
   });
 
 
-router.post("/add", async (req, res) => {
+router.post("/add/:id", async (req, res) => {
     try{
-        const model = req.body;
-        const dividend = new Dividend({
+        const dividend = req.body;
+        const userId = req.params.id
+        const newDividend = new Dividend({
             _id: uuidv4(),
-            assetId: model.asset._id,
-            paymentPerQuantity: model.paymentPerQuantity,
-            quantity: model.quantity,
-            yield: model.yield / 100,
-            paidUsd: model.paidUsd,
-            paidTry: model.paidTry,
-            dividendDate: new Date(model.dividendDate),
+            userId: userId,
+            assetId: dividend.asset._id,
+            paymentPerQuantity: dividend.paymentPerQuantity,
+            quantity: dividend.quantity,
+            yield: dividend.yield / 100,
+            paidUsd: dividend.paidUsd,
+            paidTry: dividend.paidTry,
+            dividendDate: new Date(dividend.dividendDate),
             createdDateTime: new Date()
         });
-            await dividend.save();
+            await newDividend.save();
             res.json({message: "Temettü başarıyla eklendi!"});
 
     }catch (error) {

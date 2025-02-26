@@ -7,6 +7,9 @@ import { WalletService } from '../services/wallet.service';
 import { CategoryService } from '../../category/services/category.service';
 import { WalletChartComponent } from '../../../shared/components/wallet-chart/wallet-chart.component';
 import { TableChartComponent } from '../../../shared/components/table/table-chart/table-chart.component';
+import { WalletCurrencyModel } from '../models/wallet-currency';
+import { WalletAssetModel } from '../models/wallet-asset';
+import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
   selector: 'app-wallet-category',
@@ -19,8 +22,8 @@ export class WalletCategoryComponent implements OnInit{
 
   categoryId: string = 'all'
   category: CategoryModel = new CategoryModel()
-  walletAssets: any[] = []
-  walletCurrencies: any[] = []
+  walletAssets: WalletAssetModel[] = []
+  walletCurrencies: WalletCurrencyModel[] = []
 
   isLoading: boolean
   selectedCurrency: string = '₺'
@@ -38,6 +41,7 @@ export class WalletCategoryComponent implements OnInit{
     private _apiSubscriber: ApiSubscriberService,
     private _wallet: WalletService,
     private _category: CategoryService,
+    private _auth: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -74,16 +78,17 @@ export class WalletCategoryComponent implements OnInit{
 
   getAssetsByCategory(){
     this._apiSubscriber.Api('get',
-      this._wallet.getAssetsByCategory(this.categoryId),
+      this._wallet.getAssetsByCategory(this._auth.getUser()._id, this.categoryId),
       (response) => {
         this.walletAssets = response
+        console.log(this.walletAssets)
       }
     )
   };
 
   getCurrencyWallet(){
     this._apiSubscriber.Api('get',
-      this._wallet.getAllCurrency(),
+      this._wallet.getAllCurrency(this._auth.getUser()._id),
       (response) => {
         this.walletCurrencies = response;
         this.isLoading = false

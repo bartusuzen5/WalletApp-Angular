@@ -20,7 +20,6 @@ import { SwalService } from '../../core/services/swal.service';
 
 export class AssetComponent implements OnInit {
   assets: AssetModel[] = [];
-  search: string = "";
   updateAsset: AssetModel = new AssetModel();
 
   categoryId: string = "";
@@ -47,6 +46,7 @@ export class AssetComponent implements OnInit {
   ngOnInit() {
     this.getCategories();
   };
+
 
   getCategories(){
     this._apiSubscriber.Api('get',
@@ -109,7 +109,7 @@ export class AssetComponent implements OnInit {
   removeById(asset: AssetModel){
     this._swal.callSwal("Silme işlemini onaylıyor musunuz?", `${asset.name}`, "Sil", ()=>{
       this._apiSubscriber.Api('post',
-        this._asset.removeById(asset),
+        this._asset.removeById(asset._id),
         () => {
           this.getAssetsByCategory()
         }

@@ -9,6 +9,7 @@ import { AssetModel } from '../asset/models/asset.model';
 import { CategoryService } from '../category/services/category.service';
 import { AssetService } from '../asset/services/asset.service';
 import { SwalService } from '../../core/services/swal.service';
+import { AuthService } from '../../core/services/auth.service';
 
 @Component({
   selector: 'app-dividend',
@@ -20,7 +21,6 @@ import { SwalService } from '../../core/services/swal.service';
 export class DividendComponent implements OnInit{
 
   dividends: DividendModel[] = [];
-  search: string = ''
   updateDividend: DividendModel = new DividendModel()
 
   categories: CategoryModel[] = []
@@ -49,7 +49,8 @@ export class DividendComponent implements OnInit{
     private _swal: SwalService,
     private _dividend: DividendService,
     private _category: CategoryService,
-    private _asset: AssetService
+    private _asset: AssetService,
+    private _auth: AuthService
   ){}
 
   ngOnInit(): void {
@@ -80,7 +81,7 @@ export class DividendComponent implements OnInit{
 
   getAll(){
     this._apiSubscriber.Api('get',
-      this._dividend.getAll(),
+      this._dividend.getAll(this._auth.getUser()._id),
       (response) => {
         this.dividends = response
       }
@@ -92,7 +93,7 @@ export class DividendComponent implements OnInit{
     if (form.valid){
       const newDividend = form.value
       this._apiSubscriber.Api('post',
-        this._dividend.add(newDividend),
+        this._dividend.add(this._auth.getUser()._id, newDividend),
         () => {
           this.getAll()
           form.reset();
@@ -120,7 +121,7 @@ export class DividendComponent implements OnInit{
   removeById(dividend: DividendModel){
     this._swal.callSwal("Silme işlemini onaylıyor musunuz?", "Temettü", "Sil", () => {
       this._apiSubscriber.Api('post',
-        this._dividend.removeById(dividend),
+        this._dividend.removeById(dividend._id),
         () => {
           this.getAll()
         }

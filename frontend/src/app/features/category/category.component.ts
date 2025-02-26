@@ -19,7 +19,6 @@ import { SidebarService } from '../../core/components/sidebar/services/sidebar.s
 export class CategoryComponent implements OnInit {
 
   categories: CategoryModel[] = [];
-  search: string = "";
   updateCategory: CategoryModel = new CategoryModel();
 
   currencies: CurrencyModel[] = [];
@@ -41,6 +40,7 @@ export class CategoryComponent implements OnInit {
     this.getAll();
     this.getCurrencies();
   };
+
 
   getCurrencies(){
     this._apiSubscriber.Api('get',
@@ -94,10 +94,10 @@ export class CategoryComponent implements OnInit {
     }
   };
 
-  removeById(model: CategoryModel){
-    this._swal.callSwal("Silme işlemini onaylıyor musunuz?", `${model.name}`, "Sil", ()=>{
+  removeById(category: CategoryModel){
+    this._swal.callSwal("Silme işlemini onaylıyor musunuz?", `${category.name}`, "Sil", ()=>{
       this._apiSubscriber.Api('post',
-        this._category.removeById(model),
+        this._category.removeById(category._id),
         () => {
           this.getAll();
           this._sidebar.triggerUpdate();
@@ -108,5 +108,7 @@ export class CategoryComponent implements OnInit {
 
   copyUpdateCategory(category: CategoryModel){
     this.updateCategory = {...category};
+    console.log(this.updateCategory.currency)
+    console.log(this.currencies[1])
   };
 }

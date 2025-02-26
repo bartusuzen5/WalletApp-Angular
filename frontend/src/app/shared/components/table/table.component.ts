@@ -1,13 +1,11 @@
 import { Component, ContentChild, EventEmitter, Input, Output, TemplateRef } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import { TableBaseComponent } from './table-base/table-base.component';
 
 
 @Component({
   selector: 'app-table',
   standalone: true,
-  imports: [CommonModule, FormsModule, TableBaseComponent],
+  imports: [TableBaseComponent],
   templateUrl: './table.component.html',
   styleUrl: './table.component.css'
 })

@@ -1,9 +1,10 @@
-import { Component, Output } from '@angular/core';
+import { Component } from '@angular/core';
 import { SharedModule } from '../../../shared/shared.module';
 import { SwalService } from '../../../core/services/swal.service';
 import { ApiSubscriberService } from '../../../shared/services/api-subscriber.service';
 import { AuthService } from '../../../core/services/auth.service';
 import { HistoryAddService } from '../services/history-add.service';
+import { WalletHistoryAddModel } from '../models/wallet-history-add';
 
 
 @Component({
@@ -45,19 +46,20 @@ export class HistoryAddComponent {
   
     updateLastDay() {
       const year = this.selectedYear;
-      const month = parseInt(this.selectedMonth, 10); // Ayı sayısal olarak al
-      const lastDay = new Date(year, month, 0).getDate(); // O ayın son gününü al
+      const month = parseInt(this.selectedMonth, 10);
+      const lastDay = new Date(year, month, 0).getDate();
       this.lastDayOfMonth = `${year}-${this.selectedMonth}-${lastDay}`;
     }
   
     selectDate() {
       this.updateLastDay()
       const formattedDate = new Date(`${this.lastDayOfMonth}T00:00:00Z`);
-      const user = this._auth.getUser()
-      const model = {formattedDate, user}
+      let walletHistory = new WalletHistoryAddModel()
+      walletHistory.date = formattedDate
+      walletHistory.user = this._auth.getUser()
       this._swal.callSwal("Ekleme işlemini onaylıyor musunuz?", `${this.lastDayOfMonth}`, "Ekle", ()=>{
         this._apiSubscriber.Api('post',
-          this._historyAdd.add(model),
+          this._historyAdd.add(walletHistory),
           () => {}
         )
       })

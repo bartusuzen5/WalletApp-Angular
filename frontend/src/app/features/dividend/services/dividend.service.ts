@@ -12,19 +12,19 @@ export class DividendService {
     private _http: GenericHttpService
   ) { }
 
-  getAll(): Observable<DividendModel[]>{
-    return this._http.get<DividendModel[]>("dividend");
+  public getAll(userId: string): Observable<DividendModel[]>{
+    return this._http.get<DividendModel[]>(`dividend/${userId}`);
   }
 
-  add(model: DividendModel): Observable<any>{
-    return this._http.post<any>("dividend/add", model)
+  public add(userId: string, dividend: DividendModel): Observable<any>{
+    return this._http.post<any>(`dividend/add/${userId}`, dividend)
   }
 
-  update(model: DividendModel): Observable<any>{
-    return this._http.put<any>(`dividend/update/${model._id}`, model);
+  public update(dividend: DividendModel): Observable<any>{
+    return this._http.put<any>(`dividend/update/${dividend._id}`, dividend);
   }
 
-  removeById(model: DividendModel): Observable<any>{
-    return this._http.delete<any>("dividend/removeById", model._id)
+  public removeById(dividendId: string): Observable<any>{
+    return this._http.delete<any>("dividend/removeById", dividendId)
   }
 }

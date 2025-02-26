@@ -5,6 +5,7 @@ import { LoginService } from '../services/login.service';
 import { ApiSubscriberService } from '../../../../shared/services/api-subscriber.service';
 import { Router } from '@angular/router';
 import { UserBaseComponent } from '../user-base/user-base.component';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -18,7 +19,8 @@ export class LoginComponent {
   constructor(
     private _apiSubscriber: ApiSubscriberService,
     private _login: LoginService,
-    private _router: Router
+    private _router: Router,
+    private _auth: AuthService
   ){}
 
 
@@ -28,7 +30,7 @@ export class LoginComponent {
         this._login.getUser(form.value),
         (response) => {
           localStorage.setItem("token", response.token)
-          localStorage.setItem("user", JSON.stringify(response.user))
+          this._auth.loadUserFromToken();
           this._router.navigateByUrl("/wallet")
         }
       )

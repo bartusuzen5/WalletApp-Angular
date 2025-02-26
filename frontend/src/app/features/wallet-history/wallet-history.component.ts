@@ -1,11 +1,12 @@
-import { Component, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { SharedModule } from '../../shared/shared.module';
-import { SwalService } from '../../core/services/swal.service';
 import { ApiSubscriberService } from '../../shared/services/api-subscriber.service';
-import { AuthService } from '../../core/services/auth.service';
 import { WalletHistoryService } from './services/wallet-history.service';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { DatePipe } from '@angular/common';
+import { WalletHistoryAssetModel } from './models/wallet-history-asset';
+import { WalletHistoryCurrencyModel } from './models/wallet-history-currency';
+import { AuthService } from '../../core/services/auth.service';
 
 @Component({
   selector: 'app-wallet-history',
@@ -24,8 +25,8 @@ export class WalletHistoryComponent implements OnInit{
   selectedYearAsset: string
   selectedYearCategory: string
 
-  assetItems: any[] = []
-  currencyItems: any[] = []
+  assetItems: WalletHistoryAssetModel[] = []
+  currencyItems: WalletHistoryCurrencyModel[] = []
   categories: any[] = []
   selectedCategory: string = 'all';
   assets: any[] = []
@@ -41,7 +42,8 @@ export class WalletHistoryComponent implements OnInit{
   constructor(
     private _apiSubscriber: ApiSubscriberService,
     private _walletHistory: WalletHistoryService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private _auth: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -65,7 +67,7 @@ export class WalletHistoryComponent implements OnInit{
 
   getAll(){
     this._apiSubscriber.Api('get',
-      this._walletHistory.getAll(),
+      this._walletHistory.getAll(this._auth.getUser()._id),
       (response) => {
         this.assetItems = response.walletHistoryAsset
         this.currencyItems = response.walletHistoryCurrency

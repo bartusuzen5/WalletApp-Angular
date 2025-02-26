@@ -7,9 +7,15 @@ const Trade = require("../models/trade");
 const WalletCurrency = require("../models/wallet-currency");
 
 
-router.get("/", async(req, res) => {
+router.get("/:id", async(req, res) => {
   try{
+    const userId = req.params.id
       let walletHistoryAsset = await WalletHistoryAsset.aggregate([
+        {
+          $match: {
+            userId: userId,
+          },
+        },
         {
           $lookup: {
             from: "assets",
@@ -64,8 +70,13 @@ router.get("/", async(req, res) => {
 
       let walletHistoryCurrency = await WalletHistoryCurrency.aggregate([
         {
+          $match: {
+            userId: userId,
+          },
+        },
+        {
           $lookup: {
-            from: "currency",
+            from: "currencies",
             localField: "currencyId",
             foreignField: "_id",
             as: "currency",
@@ -93,7 +104,7 @@ router.get("/", async(req, res) => {
         },
         {
           $project: {
-            assetId: 0,
+            currencyId: 0,
             userId: 0,
             user: 0
           }

@@ -61,7 +61,7 @@ router.get("/", async (req, res) => {
   
   router.post("/getByCategory", async (req, res) => {
     try {
-      const {categoryId} = req.body
+      const categoryId = req.body.categoryId
       let assets = await Asset.aggregate([
         {
           $match: {

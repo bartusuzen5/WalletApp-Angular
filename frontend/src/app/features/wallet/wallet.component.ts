@@ -5,6 +5,9 @@ import { WalletService } from './services/wallet.service';
 import { Router } from '@angular/router';
 import { WalletChartComponent } from '../../shared/components/wallet-chart/wallet-chart.component';
 import { TableChartComponent } from '../../shared/components/table/table-chart/table-chart.component';
+import { WalletCategoryModel } from './models/wallet-category';
+import { WalletCurrencyModel } from './models/wallet-currency';
+import { AuthService } from '../../core/services/auth.service';
 
 @Component({
   selector: 'app-wallet',
@@ -15,8 +18,8 @@ import { TableChartComponent } from '../../shared/components/table/table-chart/t
 })
 export class WalletComponent implements OnInit{
 
-  walletCategories: any[] = [];
-  walletCurrencies: any[] = [];
+  walletCategories: WalletCategoryModel[] = [];
+  walletCurrencies: WalletCurrencyModel[] = [];
  
   isLoading: boolean
   selectedCurrency: string = '₺'
@@ -31,7 +34,8 @@ export class WalletComponent implements OnInit{
   constructor(
     private _apiSubscriber: ApiSubscriberService,
     private _router: Router,
-    private _wallet: WalletService
+    private _wallet: WalletService,
+    private _auth: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -51,7 +55,7 @@ export class WalletComponent implements OnInit{
   getCategoryWallet(){
     this.isLoading = true
     this._apiSubscriber.Api('get',
-      this._wallet.getAllCategory(),
+      this._wallet.getAllCategory(this._auth.getUser()._id),
       (response) => {
         this.walletCategories = response;
       }
@@ -60,7 +64,7 @@ export class WalletComponent implements OnInit{
 
   getCurrencyWallet(){
     this._apiSubscriber.Api('get',
-      this._wallet.getAllCurrency(),
+      this._wallet.getAllCurrency(this._auth.getUser()._id),
       (response) => {
         this.walletCurrencies = response;
         this.isLoading = false

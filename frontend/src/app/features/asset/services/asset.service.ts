@@ -12,24 +12,23 @@ export class AssetService {
     private _http: GenericHttpService
   ) { }
 
-  getAll(): Observable<AssetModel[]>{
+  public getAll(): Observable<AssetModel[]>{
     return this._http.get<AssetModel[]>("asset");
   }
 
-  getAssetsByCategory(categoryId: string): Observable<AssetModel[]>{
-    let model = {categoryId: categoryId}
-    return this._http.post<AssetModel[]>("asset/getByCategory", model);
+  public getAssetsByCategory(categoryId: string): Observable<AssetModel[]>{
+    return this._http.post<AssetModel[]>("asset/getByCategory", {categoryId});
   }
 
-  add(model: AssetModel): Observable<any>{
-    return this._http.post<any>("asset/add", model)
+  public add(asset: AssetModel): Observable<any>{
+    return this._http.post<any>("asset/add", asset)
   }
 
-  update(model: AssetModel): Observable<any>{
-    return this._http.put(`asset/update/${model._id}`, model)
+  public update(asset: AssetModel): Observable<any>{
+    return this._http.put(`asset/update/${asset._id}`, asset)
   }
 
-  removeById(asset: AssetModel): Observable<any>{
-    return this._http.delete("asset/removeById", asset._id)
+  public removeById(assetId: string): Observable<any>{
+    return this._http.delete("asset/removeById", assetId)
   }
 }

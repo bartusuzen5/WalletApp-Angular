@@ -9,6 +9,7 @@ import { AssetService } from '../asset/services/asset.service';
 import { CategoryModel } from '../category/models/category.model';
 import { CategoryService } from '../category/services/category.service';
 import { SwalService } from '../../core/services/swal.service';
+import { AuthService } from '../../core/services/auth.service';
 
 @Component({
   selector: 'app-trade',
@@ -50,7 +51,8 @@ export class TradeComponent implements OnInit{
     private _swal: SwalService,
     private _trade: TradeService,
     private _asset: AssetService,
-    private _category: CategoryService
+    private _category: CategoryService,
+    private _auth: AuthService
   ){}
 
   ngOnInit(): void {
@@ -80,7 +82,7 @@ export class TradeComponent implements OnInit{
 
   getAll(){
     this._apiSubscriber.Api('get',
-      this._trade.getAll(),
+      this._trade.getAll(this._auth.getUser()._id),
       (response) => {
         this.trades = response
       }
@@ -92,7 +94,7 @@ export class TradeComponent implements OnInit{
     if(form.valid){
       const newTrade = form.value;
       this._apiSubscriber.Api('post',
-        this._trade.add(newTrade),
+        this._trade.add(this._auth.getUser()._id, newTrade),
         () => {
           this.getAll();
           form.reset();
@@ -120,7 +122,7 @@ export class TradeComponent implements OnInit{
   removeById(trade: TradeModel){
     this._swal.callSwal("Silme işlemini onaylıyor musunuz?", "İşlem", "Sil", () => {
       this._apiSubscriber.Api('post',
-        this._trade.removeById(trade),
+        this._trade.removeById(trade._id),
         () => {
           this.getAll()
         }

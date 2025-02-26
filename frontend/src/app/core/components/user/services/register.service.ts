@@ -13,11 +13,15 @@ export class RegisterService {
     private _http: GenericHttpService
   ){}
 
-  public addUser(newUser: RegisterModel): Observable<any>{
-    return this._http.post<any>('user/register/add', newUser)
+  public addUser(registerUser: RegisterModel): Observable<any>{
+    return this._http.post<any>('user/register/add', registerUser)
   };
 
   public updateUser(updateUser: UserModel): Observable<any>{
-    return this._http.put<any>(`user/register/update/${updateUser._id}`, updateUser)
+    return this._http.put<any>(`user/register/updateUser/${updateUser._id}`, updateUser)
+  }
+
+  public updateUserPassword(oldPassword: string, newPassword: string, updateUser: UserModel): Observable<any>{
+    return this._http.put<any>(`user/register/updatePassword/${updateUser._id}`, {oldPassword, newPassword})
   }
 }
