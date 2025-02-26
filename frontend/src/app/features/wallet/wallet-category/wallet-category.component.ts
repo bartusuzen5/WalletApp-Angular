@@ -1,20 +1,20 @@
 import { Component, OnInit } from '@angular/core';
-import { SharedModule } from '../../../shared/shared.module';
 import { ActivatedRoute } from '@angular/router';
 import { CategoryModel } from '../../category/models/category.model';
 import { ApiSubscriberService } from '../../../shared/services/api-subscriber.service';
 import { WalletService } from '../services/wallet.service';
 import { CategoryService } from '../../category/services/category.service';
-import { WalletChartComponent } from '../../../shared/components/wallet-chart/wallet-chart.component';
-import { TableChartComponent } from '../../../shared/components/table/table-chart/table-chart.component';
 import { WalletCurrencyModel } from '../models/wallet-currency';
 import { WalletAssetModel } from '../models/wallet-asset';
 import { AuthService } from '../../../core/services/auth.service';
+import { ChartModule } from '../../../shared/modules/chart/chart.module';
+import { SharedModule } from '../../../shared/modules/shared.module';
+import { FeatureModule } from '../../../shared/modules/feature/feature.module';
 
 @Component({
   selector: 'app-wallet-category',
   standalone: true,
-  imports: [SharedModule, WalletChartComponent, TableChartComponent],
+  imports: [FeatureModule, ChartModule],
   templateUrl: './wallet-category.component.html',
   styleUrl: './wallet-category.component.css'
 })

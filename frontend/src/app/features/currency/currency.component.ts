@@ -2,15 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { CurrencyService } from './services/currency.service';
 import { CurrencyModel } from './models/currency.model';
 import { NgForm } from '@angular/forms';
-import { SharedModule } from '../../shared/shared.module';
 import { SwalService } from '../../core/services/swal.service';
 import { ApiSubscriberService } from '../../shared/services/api-subscriber.service';
+import { FeatureModule } from '../../shared/modules/feature/feature.module';
 
 
 @Component({
   selector: 'app-currency',
   standalone: true,
-  imports: [SharedModule],
+  imports: [FeatureModule],
   templateUrl: './currency.component.html',
   styleUrl: './currency.component.css'
 })

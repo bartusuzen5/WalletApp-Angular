@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { SharedModule } from '../../shared/shared.module';
 import { CategoryService } from './services/category.service';
 import { CategoryModel } from './models/category.model';
 import { NgForm } from '@angular/forms';
@@ -8,11 +7,12 @@ import { CurrencyService } from '../currency/services/currency.service';
 import { SwalService } from '../../core/services/swal.service';
 import { ApiSubscriberService } from '../../shared/services/api-subscriber.service';
 import { SidebarService } from '../../core/components/sidebar/services/sidebar.service';
+import { FeatureModule } from '../../shared/modules/feature/feature.module';
 
 @Component({
   selector: 'app-category',
   standalone: true,
-  imports: [SharedModule],
+  imports: [FeatureModule],
   templateUrl: './category.component.html',
   styleUrl: './category.component.css'
 })

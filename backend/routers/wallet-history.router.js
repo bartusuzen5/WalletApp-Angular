@@ -191,7 +191,7 @@ router.post("/add", async (req, res) => {
           marginTry: 1,
         },
       },
-      { $sort: { currentValueUsd: -1 } },
+      { $sort: { currentValueTry: -1 } },
     ]);
     
      const historyRecordsAsset = trades.map((trade) => ({
@@ -234,10 +234,10 @@ router.post("/add", async (req, res) => {
         $project: {
             currencyId: 0,
             userId: 0
-        }
-        }
-    ])
-    .sort({name: 1});
+          }
+        },
+        { $sort: { currentValueTry: -1 } },
+      ])
 
     const historyRecordsCurrency = walletCurrencies.map((walletCurrency) => ({
       _id: uuidv4(),

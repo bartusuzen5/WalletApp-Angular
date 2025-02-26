@@ -1,6 +1,4 @@
 import { Component, ContentChild, Input, TemplateRef } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import { TableBaseComponent } from '../table-base/table-base.component';
 
 
@@ -8,7 +6,7 @@ import { TableBaseComponent } from '../table-base/table-base.component';
 @Component({
   selector: 'app-table-chart',
   standalone: true,
-  imports: [CommonModule, FormsModule, TableBaseComponent],
+  imports: [TableBaseComponent],
   templateUrl: './table-chart.component.html',
   styleUrl: './table-chart.component.css'
 })

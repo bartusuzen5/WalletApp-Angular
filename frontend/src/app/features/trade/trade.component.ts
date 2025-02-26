@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { TradeService } from './services/trade.service';
 import { ApiSubscriberService } from '../../shared/services/api-subscriber.service';
-import { SharedModule } from '../../shared/shared.module';
 import { TradeModel } from './models/trade.model';
 import { NgForm } from '@angular/forms';
 import { AssetModel } from '../asset/models/asset.model';
@@ -10,11 +9,12 @@ import { CategoryModel } from '../category/models/category.model';
 import { CategoryService } from '../category/services/category.service';
 import { SwalService } from '../../core/services/swal.service';
 import { AuthService } from '../../core/services/auth.service';
+import { FeatureModule } from '../../shared/modules/feature/feature.module';
 
 @Component({
   selector: 'app-trade',
   standalone: true,
-  imports: [SharedModule],
+  imports: [FeatureModule],
   templateUrl: './trade.component.html',
   styleUrl: './trade.component.css'
 })

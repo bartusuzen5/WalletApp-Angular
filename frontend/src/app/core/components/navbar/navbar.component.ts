@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { SharedModule } from '../../../shared/shared.module';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { UserModel } from '../user/models/user.model';
+import { SharedModule } from '../../../shared/modules/shared.module';
 
 @Component({
   selector: 'app-navbar',

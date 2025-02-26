@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { SharedModule } from '../../../shared/shared.module';
 import { WalletUserCurrencyModel } from '../models/wallet-user-currency';
 import { CurrencyModel } from '../../currency/models/currency.model';
 import { NgForm } from '@angular/forms';
@@ -7,11 +6,12 @@ import { ApiSubscriberService } from '../../../shared/services/api-subscriber.se
 import { WalletCurrencyService } from '../services/wallet-currency.service';
 import { CurrencyService } from '../../currency/services/currency.service';
 import { AuthService } from '../../../core/services/auth.service';
+import { FeatureModule } from '../../../shared/modules/feature/feature.module';
 
 @Component({
   selector: 'app-wallet-currency',
   standalone: true,
-  imports: [SharedModule],
+  imports: [FeatureModule],
   templateUrl: './wallet-currency.component.html',
   styleUrl: './wallet-currency.component.css'
 })

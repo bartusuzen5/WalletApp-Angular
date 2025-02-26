@@ -1,18 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-import { SharedModule } from '../../shared/shared.module';
 import { ApiSubscriberService } from '../../shared/services/api-subscriber.service';
 import { WalletService } from './services/wallet.service';
 import { Router } from '@angular/router';
-import { WalletChartComponent } from '../../shared/components/wallet-chart/wallet-chart.component';
-import { TableChartComponent } from '../../shared/components/table/table-chart/table-chart.component';
 import { WalletCategoryModel } from './models/wallet-category';
 import { WalletCurrencyModel } from './models/wallet-currency';
 import { AuthService } from '../../core/services/auth.service';
+import { ChartModule } from '../../shared/modules/chart/chart.module';
+import { SharedModule } from '../../shared/modules/shared.module';
+import { PipeModule } from '../../shared/modules/pipe/pipe.module';
 
 @Component({
   selector: 'app-wallet',
   standalone: true,
-  imports: [SharedModule, WalletChartComponent, TableChartComponent],
+  imports: [SharedModule, PipeModule, ChartModule],
   templateUrl: './wallet.component.html',
   styleUrl: './wallet.component.css'
 })

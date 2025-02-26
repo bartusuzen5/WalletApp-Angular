@@ -156,10 +156,10 @@ const WalletCurrency = require("../models/wallet-currency");
             marginUsdPerc: 1,
             marginTryPerc: 1
           }
-          },
-          {
-            $sort: { currentValueUsd: -1 },
-          },
+        },
+        {
+          $sort: { currentValueTry: -1 },
+        },
       ]);
       res.json(trades);
     } catch (error) {
@@ -327,7 +327,7 @@ const WalletCurrency = require("../models/wallet-currency");
           }
           },
           {
-            $sort: { currentValueUsd: -1 },
+            $sort: { currentValueTry: -1 },
           },
       ]);
       res.json(trades);
@@ -380,7 +380,7 @@ const WalletCurrency = require("../models/wallet-currency");
           }
         },
           {
-            $sort: { currentValueUsd: -1 },
+            $sort: { currentValueTry: -1 },
           },
       ]);
       res.json(walletCurrencies);

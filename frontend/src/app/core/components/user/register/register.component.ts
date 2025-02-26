@@ -1,15 +1,16 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
-import { SharedModule } from '../../../../shared/shared.module';
 import { NgForm } from '@angular/forms';
 import { ApiSubscriberService } from '../../../../shared/services/api-subscriber.service';
 import { RegisterService } from '../services/register.service';
 import { Router } from '@angular/router';
 import { UserBaseComponent } from '../user-base/user-base.component';
+import { SharedModule } from '../../../../shared/modules/shared.module';
+import { ValidationDirective } from '../../../../shared/directives/form-validation.directive';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [SharedModule, UserBaseComponent],
+  imports: [SharedModule, UserBaseComponent, ValidationDirective],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
 })

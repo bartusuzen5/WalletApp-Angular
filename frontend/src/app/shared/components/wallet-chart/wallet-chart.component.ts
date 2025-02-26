@@ -1,11 +1,12 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
-import { SharedModule } from '../../shared.module';
+import { SharedModule } from '../../modules/shared.module';
+import { PipeModule } from '../../modules/pipe/pipe.module';
 
 @Component({
   selector: 'app-wallet-chart',
   standalone: true,
-  imports: [SharedModule, NgxChartsModule],
+  imports: [SharedModule, PipeModule, NgxChartsModule],
   templateUrl: './wallet-chart.component.html',
   styleUrl: './wallet-chart.component.css',
 })

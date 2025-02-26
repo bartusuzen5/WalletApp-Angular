@@ -1,15 +1,14 @@
 import { Component, ContentChild, Input, OnChanges, OnInit, SimpleChanges, TemplateRef } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { GenericPipe } from '../../../pipes/generic.pipe';
-import { FormsModule } from '@angular/forms';
 import { PaginationComponent } from '../../pagination/pagination.component';
 import { PaginationUtils } from '../../../utilities/pagination.utils';
 import { ExcelUtils } from '../../../utilities/excel.utils';
+import { SharedModule } from '../../../modules/shared.module';
 
 @Component({
   selector: 'app-table-base',
   standalone: true,
-  imports: [CommonModule, FormsModule, PaginationComponent],
+  imports: [SharedModule, PaginationComponent],
   templateUrl: './table-base.component.html',
   styleUrl: './table-base.component.css'
 })

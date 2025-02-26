@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { SharedModule } from '../../shared/shared.module';
 import { ApiSubscriberService } from '../../shared/services/api-subscriber.service';
 import { WalletHistoryService } from './services/wallet-history.service';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
@@ -7,6 +6,7 @@ import { DatePipe } from '@angular/common';
 import { WalletHistoryAssetModel } from './models/wallet-history-asset';
 import { WalletHistoryCurrencyModel } from './models/wallet-history-currency';
 import { AuthService } from '../../core/services/auth.service';
+import { SharedModule } from '../../shared/modules/shared.module';
 
 @Component({
   selector: 'app-wallet-history',

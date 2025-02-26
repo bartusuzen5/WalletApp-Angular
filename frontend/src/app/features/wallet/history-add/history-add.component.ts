@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { SharedModule } from '../../../shared/shared.module';
 import { SwalService } from '../../../core/services/swal.service';
 import { ApiSubscriberService } from '../../../shared/services/api-subscriber.service';
 import { AuthService } from '../../../core/services/auth.service';
 import { HistoryAddService } from '../services/history-add.service';
 import { WalletHistoryAddModel } from '../models/wallet-history-add';
+import { SharedModule } from '../../../shared/modules/shared.module';
 
 
 @Component({

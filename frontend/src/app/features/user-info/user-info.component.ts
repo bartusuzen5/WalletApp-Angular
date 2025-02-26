@@ -1,5 +1,4 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { SharedModule } from '../../shared/shared.module';
 import { NgForm } from '@angular/forms';
 import { UserModel } from '../../core/components/user/models/user.model';
 import { AuthService } from '../../core/services/auth.service';
@@ -7,11 +6,13 @@ import { ToastrService } from 'ngx-toastr';
 import { RegisterService } from '../../core/components/user/services/register.service';
 import { ApiSubscriberService } from '../../shared/services/api-subscriber.service';
 import { Router } from '@angular/router';
+import { SharedModule } from '../../shared/modules/shared.module';
+import { ValidationDirective } from '../../shared/directives/form-validation.directive';
 
 @Component({
   selector: 'app-user-info',
   standalone: true,
-  imports: [SharedModule],
+  imports: [SharedModule, ValidationDirective],
   templateUrl: './user-info.component.html',
   styleUrl: './user-info.component.css'
 })

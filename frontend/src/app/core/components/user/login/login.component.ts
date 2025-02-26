@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-import { SharedModule } from '../../../../shared/shared.module';
 import { NgForm } from '@angular/forms';
 import { LoginService } from '../services/login.service';
 import { ApiSubscriberService } from '../../../../shared/services/api-subscriber.service';
 import { Router } from '@angular/router';
 import { UserBaseComponent } from '../user-base/user-base.component';
 import { AuthService } from '../../../services/auth.service';
+import { SharedModule } from '../../../../shared/modules/shared.module';
 
 @Component({
   selector: 'app-login',

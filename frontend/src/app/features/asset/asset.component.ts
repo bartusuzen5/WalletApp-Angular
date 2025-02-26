@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { SharedModule } from '../../shared/shared.module';
 import { ActivatedRoute } from '@angular/router';
 import { AssetModel } from './models/asset.model';
 import { CategoryModel } from '../category/models/category.model';
@@ -8,12 +7,13 @@ import { ApiSubscriberService } from '../../shared/services/api-subscriber.servi
 import { NgForm } from '@angular/forms';
 import { CategoryService } from '../category/services/category.service';
 import { SwalService } from '../../core/services/swal.service';
+import { FeatureModule } from '../../shared/modules/feature/feature.module';
 
 
 @Component({
   selector: 'app-asset',
   standalone: true,
-  imports: [SharedModule],
+  imports: [FeatureModule],
   templateUrl: './asset.component.html',
   styleUrl: './asset.component.css'
 })

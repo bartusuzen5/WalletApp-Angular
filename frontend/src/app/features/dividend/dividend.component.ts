@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { SharedModule } from '../../shared/shared.module';
 import { DividendService } from './services/dividend.service';
 import { ApiSubscriberService } from '../../shared/services/api-subscriber.service';
 import { DividendModel } from './models/dividend.model';
@@ -10,11 +9,12 @@ import { CategoryService } from '../category/services/category.service';
 import { AssetService } from '../asset/services/asset.service';
 import { SwalService } from '../../core/services/swal.service';
 import { AuthService } from '../../core/services/auth.service';
+import { FeatureModule } from '../../shared/modules/feature/feature.module';
 
 @Component({
   selector: 'app-dividend',
   standalone: true,
-  imports: [SharedModule],
+  imports: [FeatureModule],
   templateUrl: './dividend.component.html',
   styleUrl: './dividend.component.css'
 })
